@@ -1,4 +1,4 @@
-import { FC, ReactElement } from "react";
+import React, { FC, ReactElement } from "react";
 import LightSwitch from "./lightswitch/LightSwitch";
 import DarknessOverlay from "./DarknessOverlay";
 // import LightSwitchImage from "../../assets/lightswitch.png";
