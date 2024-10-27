@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 #container {
-  width: 90vw;
+  width: 100vw;
   height: 90vh;
   position: relative;
   perspective: 1200px;
@@ -87,7 +87,7 @@
   height: 40px;
   z-index: 3;
   margin-left: 400px;
-  margin-top: 150px;
+  margin-top: 230px;
   cursor: pointer;
 }
 
@@ -165,14 +165,14 @@
   position: absolute;
   width: 400px;
   height: 200px;
-  margin-left: calc((-8% + 70px) * 4);
+  margin-left: calc((-7.2% + 70px) * 4);
   top: 50vh;
   background-image: url("../../assets/computerdesk.png");
   /* background-color: blue; */
   background-size: 50%;
   background-repeat: no-repeat;
   z-index: 4;
-  transform: translateZ(500px) rotateY(calc(20deg * 2));
+  transform: translateZ(500px) rotateY(calc(17deg * 2));
 }
 
 #computer-desk:hover {
@@ -198,7 +198,7 @@
   position: absolute;
   width: 150px;
   height: 190px;
-  margin-right: calc((-9%) * 4);
+  margin-right: calc((-8%) * 4);
   top: 56vh;
   background-image: url("../../assets/phonenightstand.png");
   /* background-color: blue; */
@@ -216,14 +216,14 @@
   position: absolute;
   width: 240px;
   height: 240px;
-  margin-left: 47%;
+  margin-left: 41%;
   margin-top: calc(8vh * 2);
   background-image: url("../../assets/guitar.png");
   /* background-color: blue; */
   background-size: 30%;
   background-repeat: no-repeat;
   z-index: 4;
-  transform: translateZ(650px) rotateY(calc(20deg * 2));
+  transform: translateZ(680px) rotateY(calc(2.1 * -33deg));
 }
 
 #guitar:hover {

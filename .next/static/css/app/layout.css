@@ -575,7 +575,7 @@ video {
 }
 
 #container {
-  width: 90vw;
+  width: 100vw;
   height: 90vh;
   position: relative;
   perspective: 1200px;
@@ -659,7 +659,7 @@ video {
   height: 40px;
   z-index: 3;
   margin-left: 400px;
-  margin-top: 150px;
+  margin-top: 230px;
   cursor: pointer;
 }
 
@@ -737,14 +737,14 @@ video {
   position: absolute;
   width: 400px;
   height: 200px;
-  margin-left: calc((-8% + 70px) * 4);
+  margin-left: calc((-7.2% + 70px) * 4);
   top: 50vh;
   background-image: url(/_next/static/media/computerdesk.9962786c.png);
   /* background-color: blue; */
   background-size: 50%;
   background-repeat: no-repeat;
   z-index: 4;
-  transform: translateZ(500px) rotateY(calc(20deg * 2));
+  transform: translateZ(500px) rotateY(calc(17deg * 2));
 }
 
 #computer-desk:hover {
@@ -770,7 +770,7 @@ video {
   position: absolute;
   width: 150px;
   height: 190px;
-  margin-right: calc((-9%) * 4);
+  margin-right: calc((-8%) * 4);
   top: 56vh;
   background-image: url(/_next/static/media/phonenightstand.b48e9619.png);
   /* background-color: blue; */
@@ -788,14 +788,14 @@ video {
   position: absolute;
   width: 240px;
   height: 240px;
-  margin-left: 47%;
+  margin-left: 41%;
   margin-top: calc(8vh * 2);
   background-image: url(/_next/static/media/guitar.6fae94ef.png);
   /* background-color: blue; */
   background-size: 30%;
   background-repeat: no-repeat;
   z-index: 4;
-  transform: translateZ(650px) rotateY(calc(20deg * 2));
+  transform: translateZ(680px) rotateY(calc(2.1 * -33deg));
 }
 
 #guitar:hover {
@@ -1487,50 +1487,6 @@ video {
   display: flex;
 }
 
-.h-24 {
-  height: 6rem;
-}
-
-.h-\[100\] {
-  height: 100;
-}
-
-.h-\[90\] {
-  height: 90;
-}
-
-.h-\[90px\] {
-  height: 90px;
-}
-
-.h-\[200px\] {
-  height: 200px;
-}
-
-.w-24 {
-  width: 6rem;
-}
-
-.w-\[100\] {
-  width: 100;
-}
-
-.w-\[900\] {
-  width: 900;
-}
-
-.w-\[90\] {
-  width: 90;
-}
-
-.w-\[90px\] {
-  width: 90px;
-}
-
-.w-\[200px\] {
-  width: 200px;
-}
-
 .flex-shrink-0 {
   flex-shrink: 0;
 }
@@ -1568,19 +1524,6 @@ video {
 
 .justify-center {
   justify-content: center;
-}
-
-.gap-0 {
-  gap: 0px;
-}
-
-.gap-2 {
-  gap: 0.5rem;
-}
-
-.bg-blue-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(147 197 253 / var(--tw-bg-opacity));
 }
 
 .ring {
