@@ -1,6 +1,6 @@
 import exp from "constants";
 import React, { FC, ReactElement } from "react";
-// import ComputerDesktop from "./ComputerDesktop";
+import ComputerDesktop from "./ComputerDesktop";
 
 const DesktopScene: FC = (): ReactElement => {
   return (
@@ -9,7 +9,7 @@ const DesktopScene: FC = (): ReactElement => {
         <div className="monitor-container flex flex-col">
           <div className="monitor">
             {/* <img src="Desk/monitor.png" alt="" /> */}
-            {/* <ComputerDesktop /> */}
+            <ComputerDesktop />
           </div>
         </div>
         <div className="keyboard-and-mouse flex flex-row">

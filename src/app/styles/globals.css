@@ -553,21 +553,28 @@ body {
 .computer-desktop {
   border-radius: 20px;
   position: relative;
-  top: -9.3%;
+  top: -12.3%;
   width: 71%;
-  height: 51.8%;
+  height: 48.8%;
   background-color: rgb(174, 161, 218);
 }
 
 .computer-header {
+  position: relative;
   width: 100%;
   height: 20px;
   background-color: rgb(219, 219, 219);
-  display: flex;
-  /* justify-content: space-between; */
-
+  color: black;
+  justify-content: left;
+  gap: 10px;
+  font-size: 20px;
   align-items: center;
   padding: 0 20px;
+  border-radius: 20px;
+}
+
+.computer-header span {
+  font: black;
 }
 
 .apple-logo {
