@@ -373,3 +373,164 @@
   background-image: url("../../assets/Wall.jpg");
   background-size: cover;
 }
+.monitor-container {
+  /* background-color: red; */
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 1000px;
+  /* top: -400px; */
+  /* left: 60px; */
+
+  /* transform-origin: 50% 80% 600px; */
+  transform: perspective(700px) rotateX(-30deg) translateY(-600px)
+    translateX(100px) translateZ(-400px);
+  transform-style: flat;
+}
+
+.monitor {
+  background-image: url("../../../public/Desk/monitor.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  /* background-color: blue; */
+  position: relative;
+  /* top: 100px; */
+  /* width: 100%; */
+  width: 1000px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 2;
+  transform-style: flat;
+}
+
+.monitor img {
+  /* position: absolute; */
+  height: 100%;
+  /* z-index: 2; */
+  /* object-fit: contain; */
+  /* transform-style: flat; */
+}
+
+.keyboard-and-mouse {
+  position: relative;
+  top: -700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.keyboard {
+  width: 600px;
+  position: relative;
+  /* height: 100px */
+  z-index: 2;
+  overflow: hidden;
+  /* background-color: blue; */
+}
+
+.mouse {
+  width: 500px;
+  position: relative;
+  top: -40px;
+  left: -100px;
+  z-index: 2;
+  rotate: 20deg;
+  overflow: hidden;
+}
+
+.desktop-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  top: -100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* transform-origin: 50% 80% 600px; */
+  /* transform-style: preserve-3d; */
+}
+
+.desk {
+  background-image: url("../../../public/Desk/desk.png");
+  background-size: fill;
+  position: absolute;
+  top: 40px;
+  left: -300px;
+  width: 130vw;
+  height: 600px;
+  border-radius: 10px;
+  transform: perspective(900px) translateY(300px) translateZ(-200px)
+    rotateX(55deg);
+}
+
+.profile-background {
+  width: 100%;
+  height: 100vh;
+  background-image: url("../../assets/Wall.jpg");
+  background-size: cover;
+  overflow: hidden;
+}
+
+.computer-desktop {
+  border-radius: 20px;
+  position: relative;
+  top: -9.3%;
+  width: 71%;
+  height: 51.8%;
+  background-color: rgb(174, 161, 218);
+}
+
+.computer-header {
+  width: 100%;
+  height: 20px;
+  background-color: rgb(219, 219, 219);
+  display: flex;
+  /* justify-content: space-between; */
+
+  align-items: center;
+  padding: 0 20px;
+}
+
+.apple-logo {
+  width: 30px;
+  height: 90%;
+  /* background-color: red; */
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/8/84/Apple_Computer_Logo_rainbow.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.gallery-background {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.paintings-container {
+  width: 350vw;
+  height: 150vh;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  gap: 20px;
+  position: relative;
+  /* overflow: hidden; */
+  /* background-color: red; */
+  background-image: url("../../assets/Wall.jpg");
+  background-size: cover;
+}
+
+.test-div {
+  width: 3300px;
+  height: 400px;
+  background-color: blue;
+}
