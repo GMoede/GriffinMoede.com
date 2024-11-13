@@ -1,6 +1,7 @@
 import React, { FC, ReactElement } from "react";
 import LightSwitch from "./lightswitch/LightSwitch";
 import DarknessOverlay from "./DarknessOverlay";
+import Link from 'next/link';
 // import LightSwitchImage from "../../assets/lightswitch.png";
 
 const Room: FC = (): ReactElement => {
@@ -16,9 +17,13 @@ const Room: FC = (): ReactElement => {
           <div id="guitar-main"></div>
 
           <figure className="n"></figure>
+          <div className="fill" id="borderimg1">
+            <div id="testpainting"></div>
+          </div>
           <figure className="e"></figure>
           <figure className="w">
             <LightSwitch />
+            <Link href="/gallery">
             <div id="paintings">
               <div id="painting-4"></div>
               <div className="flex flex-col">
@@ -27,6 +32,7 @@ const Room: FC = (): ReactElement => {
               </div>
               <div id="painting-3"></div>
             </div>
+            </Link>
             {/* <div id="computer-desk-2"></div> */}
           </figure>
           <figure className="b"></figure>

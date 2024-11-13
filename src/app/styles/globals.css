@@ -253,6 +253,52 @@
   gap: 5px;
 }
 
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+
+  display: flex;
+  justify-content: space-between;
+  padding: 48px;
+}
+
+@media (max-width: 600px) {
+  body {
+    font-size: 24px;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  section div.world {
+    grid-gap: 32px;
+  }
+
+  section img {
+    width: 300px;
+  }
+}
+
+header a {
+  color: #ffffff;
+  text-decoration: none;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+body {
+  font-family: Necto Mono;
+  font-size: 32px;
+  line-height: 1.5;
+
+  background-color: #111118;
+  color: #ffffff;
+}
+
 #paintings:hover {
   cursor: pointer;
 }
@@ -291,6 +337,32 @@
   background-image: url("../../assets/painting_4.png");
   background-size: 100%;
   background-repeat: no-repeat;
+}
+
+.fill {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.fill img {
+  flex-shrink: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+#borderimg1 {
+  border: 13px solid transparent;
+  border-image: url("../../assets/pixil-frame-0.png") 16 round;
+  position: relative;
+}
+
+#testpainting {
+  position: relative;
+  width: 250px;
+  min-height: 100%;
+  content: url("../../../public/Desk/desk.png");
 }
 
 #overlay-dark {
@@ -378,7 +450,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  height: 1000px;
+  height: 1200px;
   /* top: -400px; */
   /* left: 60px; */
 
@@ -396,7 +468,7 @@
   position: relative;
   /* top: 100px; */
   /* width: 100%; */
-  width: 1000px;
+  width: 1100px;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -416,7 +488,8 @@
 
 .keyboard-and-mouse {
   position: relative;
-  top: -700px;
+  top: -868px;
+  left: 260px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -530,7 +603,7 @@
 }
 
 .test-div {
-  width: 3300px;
+  width: 3500px;
   height: 400px;
   background-color: blue;
 }
