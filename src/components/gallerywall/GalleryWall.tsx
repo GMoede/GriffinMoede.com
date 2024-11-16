@@ -6,6 +6,14 @@ import Link from 'next/link'
 import './GalleryWall.module.css'
 
 const GalleryWall: FC = (): ReactElement => {
+  const images: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  const imageElements: any = [];
+  images.forEach((img) => {
+    var image = <Image src={`/galleryImages/galleryimage${img}.jpg`} alt={img} width={500}
+      height={500} />;
+      imageElements.push(image);
+  });
+
   return (
     <div>
       <Head>
@@ -15,47 +23,20 @@ const GalleryWall: FC = (): ReactElement => {
         <title>Basic Goods</title>
         <Link rel="stylesheet" href="/GalleryWall.module.css" />
       </Head>
-        <div>
+      <div>
         <header>
           <h1>Basic Goods</h1>
           <a href="#">Buy now</a>
         </header>
         <section className="panner">
           <div className="world">
-            <Image src="/galleryImages/galleryimage1.jpg" alt="Gallery image" width={500}
-              height={500} />
-            <Image src="/galleryImages/galleryimage2.jpg" alt="Gallery image" width={500}
-              height={500} />
-            <Image src="/galleryImages/galleryimage3.jpg" alt="Gallery image" width={500}
-              height={500} />
-            <Image src="/galleryImages/galleryimage4.jpg" alt="Gallery image" width={500}
-              height={500} />
-            <Image src="/galleryImages/galleryimage5.jpg" alt="Gallery image" width={500}
-              height={500} />
-            <Image src="/galleryImages/galleryimage6.jpg" alt="Gallery image" width={500}
-              height={500} />
-            <Image src="/galleryImages/galleryimage7.jpg" alt="Gallery image" width={500}
-              height={500} />
-            <Image src="/galleryImages/galleryimage8.jpg" alt="Gallery image" width={500}
-              height={500} />
-            <Image src="/galleryImages/galleryimage9.jpg" alt="Gallery image" width={500}
-              height={500} />
-            <Image src="/galleryImages/galleryimage10.jpg" alt="Gallery image" width={500}
-              height={500} />
-            <Image src="/galleryImages/galleryimage11.jpg" alt="Gallery image" width={500}
-              height={500} />
-            <Image src="/galleryImages/galleryimage12.jpg" alt="Gallery image" width={500}
-              height={500} />
+            {imageElements}
           </div>
         </section>
-        </div>
-
-      {/* <script src="/superhi.js"></script> */}
-
-
+      </div>
 
       <Script src="/static/pan.js"></Script>
-      </div>
+    </div>
   );
 };
 

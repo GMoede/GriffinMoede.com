@@ -33,10 +33,11 @@ const animate = function () {
   
   panTag.style.left = (-1 * currentX) + "px"
   panTag.style.top = (-1 * currentY) + "px"
+  panTag.style.position = "relative"
+  panTag.style.transform = "rotate(45deg)";
  
   requestAnimationFrame(animate)
 }
-
 
 animate()
 
