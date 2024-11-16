@@ -446,36 +446,41 @@ body {
   background-size: cover;
 }
 .monitor-container {
-  /* background-color: red; */
+  /* background-color: blue; */
   position: relative;
   display: flex;
-  align-items: center;
-  height: 1200px;
-  /* top: -400px; */
+  flex-direction: row;
+  /* align-items: center; */
+  justify-content: center;
+  height: 1000px;
+  width: 80%;
+  min-width: 600px;
+  /* top: -100px; */
   /* left: 60px; */
 
   /* transform-origin: 50% 80% 600px; */
-  transform: perspective(700px) rotateX(-30deg) translateY(-600px)
+  /* transform: perspective(700px) rotateX(-30deg) translateY(-600px)
     translateX(100px) translateZ(-400px);
-  transform-style: flat;
+  transform-style: flat; */
 }
 
 .monitor {
   background-image: url("../../../public/Desk/monitor.png");
   background-size: contain;
   background-repeat: no-repeat;
-  /* background-color: blue; */
+  /* background-color: purple; */
   position: relative;
   /* top: 100px; */
   /* width: 100%; */
-  width: 1100px;
-  height: 100%;
+  width: 600px;
+  height: 600px;
+  /* left: 50%; */
   display: flex;
+
   justify-content: center;
   align-items: center;
 
   z-index: 2;
-  transform-style: flat;
 }
 
 .monitor img {
@@ -488,18 +493,19 @@ body {
 
 .keyboard-and-mouse {
   position: relative;
-  top: -868px;
-  left: 260px;
+  top: 30%;
+  left: 0%;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
   z-index: 2;
   overflow: hidden;
+  /* background-color: red; */
 }
 
 .keyboard {
-  width: 600px;
+  width: 700px;
   position: relative;
   /* height: 100px */
   z-index: 2;
@@ -508,7 +514,7 @@ body {
 }
 
 .mouse {
-  width: 500px;
+  width: 600px;
   position: relative;
   top: -40px;
   left: -100px;
@@ -521,10 +527,10 @@ body {
   width: 100%;
   height: 100%;
   position: relative;
-  top: -100px;
+  top: 0px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   /* transform-origin: 50% 80% 600px; */
   /* transform-style: preserve-3d; */
 }
@@ -533,12 +539,12 @@ body {
   background-image: url("../../../public/Desk/desk.png");
   background-size: fill;
   position: absolute;
-  top: 40px;
+  top: 0px;
   left: -300px;
-  width: 130vw;
-  height: 600px;
+  width: 150vw;
+  height: 1000px;
   border-radius: 10px;
-  transform: perspective(900px) translateY(300px) translateZ(-200px)
+  transform: perspective(900px) translateY(190px) translateZ(-200px)
     rotateX(55deg);
 }
 
@@ -553,24 +559,39 @@ body {
 .computer-desktop {
   border-radius: 20px;
   position: relative;
-  top: -12.3%;
+  top: -9.3%;
   width: 71%;
-  height: 48.8%;
+  height: 52.8%;
   background-color: rgb(174, 161, 218);
+  overflow: hidden;
 }
 
 .computer-header {
   position: relative;
   width: 100%;
-  height: 20px;
+  height: 15px;
   background-color: rgb(219, 219, 219);
   color: black;
-  justify-content: left;
-  gap: 10px;
-  font-size: 20px;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
   align-items: center;
   padding: 0 20px;
-  border-radius: 20px;
+  /* border-radius: 20px; */
+}
+
+.computer-header-left {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 8px;
+}
+
+.computer-header-right {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 8px;
 }
 
 .computer-header span {
@@ -578,10 +599,23 @@ body {
 }
 
 .apple-logo {
-  width: 30px;
-  height: 90%;
+  width: 10px;
+  /* height: 90%; */
+  height: 10px;
   /* background-color: red; */
   background-image: url("https://upload.wikimedia.org/wikipedia/commons/8/84/Apple_Computer_Logo_rainbow.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.finder-logo {
+  position: relative;
+  width: 15px;
+  /* height: 90%; */
+  height: 15px;
+  right: -7px;
+  /* background-color: red; */
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/71/Finder_icon_macOS_Yosemite.png");
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -613,4 +647,36 @@ body {
   width: 3500px;
   height: 400px;
   background-color: blue;
+}
+
+.image1 {
+  position: relative;
+
+  height: 100px !important;
+  background-color: red;
+  /* border-radius: 100%; */
+  /* background-image: url("../../../public/galleryImages/galleryimage1.jpg");
+  background-size: contain;
+  background-repeat: no-repeat; */
+  /* padding: 10px;
+  margin: 10px; */
+}
+
+.icon1 {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background-color: red;
+}
+
+.icons {
+  /* background-color: blue; */
+  width: 100%;
+  height: 200px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
