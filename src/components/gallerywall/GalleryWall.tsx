@@ -1,106 +1,96 @@
-import React, { FC, ReactElement } from "react";
-import Head from "next/head";
+import React, { FC, ReactElement, useRef } from "react";
 import Image from "next/image";
-import Script from "next/script";
-import Link from "next/link";
 import "./GalleryWall.module.css";
+import {
+  sortPaintings,
+  getContainerDimensions,
+  placePaintings,
+} from "../../functions/arrangePaintings";
+
+interface painting {
+  width: number;
+  height: number;
+  x?: number;
+  y?: number;
+}
 
 const GalleryWall: FC = (): ReactElement => {
+  // This will contain all the references to each image element
+  const imageRefs = useRef<HTMLImageElement[] | null>([]);
+
+  // creating all the image routes
+  // const imgRoutes = [];
+  // for (let i = 1; i <= 12; i++) {
+  //   imgRoutes.push(`/galleryImages/galleryimage${i}.jpg`);
+  // }
+  const testPaintingss: painting[] = [
+    { width: 1000, height: 1000 },
+    { width: 2000, height: 1100 },
+    { width: 500, height: 900 },
+    { width: 770, height: 800 },
+    { width: 1250, height: 1200 },
+    { width: 1100, height: 1200 },
+    { width: 3000, height: 980 },
+    { width: 1000, height: 830 },
+    { width: 900, height: 1040 },
+    { width: 800, height: 500 },
+    { width: 450, height: 2000 },
+    { width: 900, height: 1800 },
+  ];
+  const testPaintings = testPaintingss.map((painting) => {
+    return {
+      width: painting.width / 5,
+      height: painting.height / 5,
+    };
+  });
+
+  const sortedPaintings = sortPaintings(testPaintings);
+  const containerDimensions = getContainerDimensions(sortedPaintings);
+
+  // console.log("sortedPaintings before", sortedPaintings);
+  placePaintings(sortedPaintings, containerDimensions.width);
+
+  // creating all the image elements
+  const images = sortedPaintings.map((img, index) => {
+    return (
+      // <Image
+      //   src={imgRoute}
+      //   alt="Gallery image"
+      //   width={500}
+      //   height={500}
+      //   className="picture"
+      //   key={index}
+      //   style={{
+      //     // top: "1000px",
+      //     position: "absolute",
+      //     top: index === 0 ? "1000px" : "0px",
+      //   }}
+      //   //This line will assign a ref and add it to the imageRefs array
+      //   ref={(el) => {
+      //     imageRefs.current[index] = el;
+      //   }}
+      // />
+      <div
+        className="picture"
+        style={{
+          height: img.height,
+          width: img.width,
+          top: img.y,
+          left: img.x,
+        }}
+      ></div>
+    );
+  });
+
   return (
-    <div>
-      <Head>
-        <meta name="generator" content="SuperHi" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Basic Goods</title>
-        <Link rel="stylesheet" href="/GalleryWall.module.css" />
-      </Head>
-      <div>
-        <header>
-          <h1>Basic Goods</h1>
-          <a href="#">Buy now</a>
-        </header>
-        <section className="panner">
-          <div className="world">
-            <Image
-              src="/galleryImages/galleryimage1.jpg"
-              alt="Gallery image"
-              width={500}
-              height={500}
-            />
-            <Image
-              src="/galleryImages/galleryimage2.jpg"
-              alt="Gallery image"
-              width={500}
-              height={500}
-            />
-            <Image
-              src="/galleryImages/galleryimage3.jpg"
-              alt="Gallery image"
-              width={500}
-              height={500}
-            />
-            <Image
-              src="/galleryImages/galleryimage4.jpg"
-              alt="Gallery image"
-              width={500}
-              height={500}
-            />
-            <Image
-              src="/galleryImages/galleryimage5.jpg"
-              alt="Gallery image"
-              width={500}
-              height={500}
-            />
-            <Image
-              src="/galleryImages/galleryimage6.jpg"
-              alt="Gallery image"
-              width={500}
-              height={500}
-            />
-            <Image
-              src="/galleryImages/galleryimage7.jpg"
-              alt="Gallery image"
-              width={500}
-              height={500}
-            />
-            <Image
-              src="/galleryImages/galleryimage8.jpg"
-              alt="Gallery image"
-              width={500}
-              height={500}
-            />
-            <Image
-              src="/galleryImages/galleryimage9.jpg"
-              alt="Gallery image"
-              width={500}
-              height={500}
-            />
-            <Image
-              src="/galleryImages/galleryimage10.jpg"
-              alt="Gallery image"
-              width={500}
-              height={500}
-            />
-            <Image
-              src="/galleryImages/galleryimage11.jpg"
-              alt="Gallery image"
-              width={500}
-              height={500}
-            />
-            <Image
-              src="/galleryImages/galleryimage12.jpg"
-              alt="Gallery image"
-              width={500}
-              height={500}
-            />
-          </div>
-        </section>
-      </div>
-
-      {/* <script src="/superhi.js"></script> */}
-
-      <Script src="/static/pan.js"></Script>
+    <div
+      className="test-div"
+      style={{
+        width: containerDimensions.width,
+        height: containerDimensions.height,
+      }}
+    >
+      {images}
     </div>
   );
 };

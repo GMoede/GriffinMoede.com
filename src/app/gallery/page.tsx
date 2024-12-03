@@ -1,6 +1,7 @@
 "use client";
 
-import React, { FC, ReactElement, use, useEffect, useState } from "react";
+import React, { FC, ReactElement, useRef, useEffect, useState } from "react";
+import GalleryWall from "../../components/gallerywall/GalleryWall";
 
 const GalleryPage: FC = (): ReactElement => {
   const [mousePosition, setMousePosition] = useState<{ x: number; y: number }>({
@@ -15,6 +16,8 @@ const GalleryPage: FC = (): ReactElement => {
 
   const moveMouse = (e: React.MouseEvent): void => {
     const paintingsContainer = document.querySelector(".paintings-container");
+
+    const containerRect = paintingsContainer.getBoundingClientRect();
 
     // size of our paintings container
     const paintingsContainerWidth = paintingsContainer.clientWidth;
@@ -36,10 +39,26 @@ const GalleryPage: FC = (): ReactElement => {
 
     // length of paintings container to scroll proportional to mouse's
     // distance from center
-    const aimX = paintingsContainerWidth * proportionalMousePosition.x;
-    const aimY = paintingsContainerHeight * proportionalMousePosition.y;
+    let aimX = paintingsContainerWidth * proportionalMousePosition.x;
+    let aimY = paintingsContainerHeight * proportionalMousePosition.y;
 
-    // set the current scroll position
+    // if the aim is outside the container, don't scroll
+    if (aimX < (containerRect.width / 2 - window.innerWidth / 2) * -1) {
+      aimX = currentScroll.x;
+    }
+
+    if (aimY < (containerRect.height / 2 - window.innerHeight / 2) * -1) {
+      aimY = currentScroll.y;
+    }
+
+    if (aimX > containerRect.width / 2 - window.innerWidth / 2) {
+      aimX = currentScroll.x;
+    }
+
+    if (aimY > containerRect.height / 2 - window.innerHeight / 2) {
+      aimY = currentScroll.y;
+    }
+
     setCurrentScroll({
       x: aimX,
       y: aimY,
@@ -55,8 +74,7 @@ const GalleryPage: FC = (): ReactElement => {
         }}
         className="paintings-container"
       >
-        <div>hello</div>
-        <div className="test-div"></div>
+        <GalleryWall />
       </div>
     </div>
   );
