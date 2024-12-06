@@ -14,6 +14,13 @@
   align-items: center;
 }
 
+.overflow-blocker {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
 #room {
   width: 100%;
   height: 100%;
@@ -84,8 +91,10 @@
   background-size: cover;
   background-color: beige;
   width: 30px;
+  position: relative;
   height: 40px;
-  z-index: 3;
+  z-index: 1;
+  left: 200px;
   margin-left: 400px;
   margin-top: 230px;
   cursor: pointer;
@@ -343,13 +352,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden
+  overflow: hidden;
 }
 
 .fill img {
   flex-shrink: 0;
   min-width: 100%;
-  min-height: 100%
+  min-height: 100%;
 }
 
 #borderimg1 {
@@ -362,7 +371,7 @@ body {
   position: relative;
   width: 250px;
   min-height: 100%;
-  content: url("../../assets/Desk/desk.png");
+  content: url("../../../public/Desk/desk.png");
 }
 
 #overlay-dark {
@@ -372,13 +381,12 @@ body {
   height: 100vh;
   display: flex;
   justify-content: center;
-  background: radial-gradient(ellipse closest-side at 15% 60%,
-      /* Light at bottom-right corner */
-      rgba(255, 255, 255, 0) 0%,
-      /* Transparent in the corner */
-      rgba(0, 0, 0, 0.83) 80%
+  background: radial-gradient(
+    ellipse closest-side at 15% 60%,
+    /* Light at bottom-right corner */ rgba(255, 255, 255, 0) 0%,
+    /* Transparent in the corner */ rgba(0, 0, 0, 0.83) 80%
       /* rgba(0, 0, 0, 1) 50%  */
-    );
+  );
   align-items: center;
   pointer-events: none;
   z-index: 1;
@@ -409,9 +417,14 @@ body {
 
 .soundcloud-widget {
   width: 100%;
-  /* margin-top: 230px;
-  margin-left: 180px; */
-  /* background-color: aqua; */
+  height: 90%;
+  padding: 20px;
+  border-radius: 40px;
+}
+
+.soundcloud-widget-container {
+  height: 100vh;
+  width: 100%;
 }
 
 .soundcloud-icon {
@@ -439,10 +452,349 @@ body {
   background-repeat: no-repeat;
 }
 
+.guitar-closeup {
+  height: 1200px;
+}
+
 .music-room {
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: flex;
   background-image: url("../../assets/Wall.jpg");
   background-size: cover;
+}
+.monitor-container {
+  /* background-color: blue; */
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  /* align-items: center; */
+  justify-content: center;
+  height: 1000px;
+  width: 80%;
+  min-width: 600px;
+  /* top: -100px; */
+  /* left: 60px; */
+
+  /* transform-origin: 50% 80% 600px; */
+  /* transform: perspective(700px) rotateX(-30deg) translateY(-600px)
+    translateX(100px) translateZ(-400px);
+  transform-style: flat; */
+}
+
+.monitor {
+  background-image: url("../../../public/Desk/monitor.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  /* background-color: purple; */
+  position: relative;
+  /* top: 100px; */
+  /* width: 100%; */
+  width: 600px;
+  height: 600px;
+  /* left: 50%; */
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  z-index: 2;
+}
+
+.monitor-closeup {
+  background-image: url("../../../public/Desk/monitor.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative;
+  top: -100px;
+  min-width: 1200px;
+  min-height: 1200px;
+  width: 1200px;
+  height: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.monitor img {
+  /* position: absolute; */
+  height: 100%;
+  /* z-index: 2; */
+  /* object-fit: contain; */
+  /* transform-style: flat; */
+}
+
+.keyboard-and-mouse {
+  position: relative;
+  top: 30%;
+  left: 0%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  z-index: 2;
+  overflow: hidden;
+  /* background-color: red; */
+}
+
+.keyboard {
+  width: 700px;
+  position: relative;
+  /* height: 100px */
+  z-index: 2;
+  overflow: hidden;
+  /* background-color: blue; */
+}
+
+.mouse {
+  width: 600px;
+  position: relative;
+  top: -40px;
+  left: -100px;
+  z-index: 2;
+  rotate: 20deg;
+  overflow: hidden;
+}
+
+.desktop-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  top: 0px;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  /* transform-origin: 50% 80% 600px; */
+  /* transform-style: preserve-3d; */
+}
+
+.desk {
+  background-image: url("../../../public/Desk/desk.png");
+  background-size: fill;
+  position: absolute;
+  top: 0px;
+  left: -300px;
+  width: 150vw;
+  height: 1000px;
+  border-radius: 10px;
+  transform: perspective(900px) translateY(190px) translateZ(-200px)
+    rotateX(55deg);
+}
+.desk-closeup {
+  background-image: url("../../../public/Desk/desk.png");
+  background-size: fill;
+  position: absolute;
+  top: 0px;
+  left: -300px;
+  width: 150vw;
+  height: 1000px;
+  border-radius: 10px;
+  transform: perspective(900px) translateY(300px) translateZ(-200px)
+    rotateX(55deg);
+}
+
+.profile-background {
+  width: 100%;
+  height: 100vh;
+  background-image: url("../../assets/Wall.jpg");
+  background-size: cover;
+  overflow: hidden;
+}
+
+.computer-desktop {
+  border-radius: 20px;
+  position: relative;
+  top: -9.3%;
+  width: 71%;
+  height: 52.8%;
+  background-color: rgb(174, 161, 218);
+  overflow: hidden;
+}
+
+.computer-header {
+  position: relative;
+  width: 100%;
+  height: 4%;
+  background-color: rgb(219, 219, 219);
+  color: black;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  align-items: center;
+  padding: 0 20px;
+  /* border-radius: 20px; */
+}
+
+.computer-header-closeup {
+  position: relative;
+  width: 100%;
+  height: 4%;
+  background-color: rgb(219, 219, 219);
+  color: black;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  align-items: center;
+  padding: 0 20px;
+  /* border-radius: 20px; */
+}
+
+.computer-header-left {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 8px;
+}
+
+.computer-header-right {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 8px;
+}
+
+.computer-header span {
+  font: black;
+  font-size: 1em;
+}
+
+.computer-header-closeup span {
+  font: black;
+  font-size: 1.5em;
+}
+
+.apple-logo {
+  width: 10px;
+  /* height: 90%; */
+  height: 10px;
+  /* background-color: red; */
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/8/84/Apple_Computer_Logo_rainbow.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.finder-logo {
+  position: relative;
+  width: 15px;
+  /* height: 90%; */
+  height: 15px;
+  right: -7px;
+  /* background-color: red; */
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/71/Finder_icon_macOS_Yosemite.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.documents-page {
+  background-image: url("../../assets/Wall.jpg");
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+}
+
+.desktop-closeup-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.documents-container {
+  width: 90%;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffffc6;
+}
+
+.document-window {
+  height: 90%;
+  width: 90%;
+  padding: 20px;
+  color: black;
+  background-color: white;
+}
+
+.gallery-background {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.paintings-container {
+  min-height: 100vh;
+  width: 1000vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  /* overflow: hidden; */
+  /* background-color: red; */
+  background-image: url("../../assets/Wall.jpg");
+  background-size: cover;
+}
+
+.test-div {
+  position: relative;
+  padding: 40px;
+  margin: 100px;
+  /* min-width: 2000px; */
+  /* min-height: 1000px; */
+  background-color: blue;
+  display: inline-block;
+}
+
+.test-div-2 {
+  width: 5000px;
+  height: 500px;
+  background-color: red;
+}
+
+.image1 {
+  position: relative;
+
+  height: 100px !important;
+  background-color: red;
+  /* border-radius: 100%; */
+  /* background-image: url("../../../public/galleryImages/galleryimage1.jpg");
+  background-size: contain;
+  background-repeat: no-repeat; */
+  /* padding: 10px;
+  margin: 10px; */
+}
+
+.icon1 {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background-color: red;
+}
+
+.icons {
+  /* background-color: blue; */
+  width: 100%;
+  height: 200px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.picture {
+  position: absolute;
+  background-color: black;
+  padding: 10px;
+  /* margin: 10px; */
+  border: red 1px solid;
 }
