@@ -1,10 +1,13 @@
 "use client";
 
 import React, { FC, ReactElement, useRef, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import DesktopHeader from "./DesktopHeader";
 
 const ComputerDesktop: FC = (): ReactElement => {
   const desktopRef = useRef<HTMLDivElement>(null);
   const [currentTime, setCurrentTime] = useState<string>("");
+  const router = useRouter();
   useEffect(() => {
     const intervalId = setInterval(() => {
       const newDate = new Intl.DateTimeFormat("en-US", {
@@ -77,25 +80,15 @@ const ComputerDesktop: FC = (): ReactElement => {
     desktopRef.current.addEventListener("mouseup", dropIcon);
   };
 
-  // const dragIconDrop = (e: React.MouseEvent): void => {};
+  // TO DO: give a type to e that includes id
+  const openDocument = (e: any): void => {
+    console.log(e.target.id);
+    router.push(`/profile/documents/${e.target.id}`);
+  };
 
   return (
     <div className="computer-desktop" ref={desktopRef}>
-      <header className="computer-header">
-        <div className="computer-header-left">
-          <div className="apple-logo"></div>
-          <span>File</span>
-          <span>Edit</span>
-          <span>View</span>
-          <span>Special</span>
-          <span>Help</span>
-        </div>
-        <div className="computer-header-right">
-          <span>{currentTime}</span>
-          <div className="finder-logo"></div>
-          <span>Finder</span>
-        </div>
-      </header>
+      <DesktopHeader currentTime={currentTime} closeup={false} />
       <div className="icons">
         <img
           className="image1"
@@ -103,7 +96,9 @@ const ComputerDesktop: FC = (): ReactElement => {
           alt=""
           draggable="false"
           height="40"
+          id="resume"
           onMouseDown={dragIconStart}
+          onDoubleClick={openDocument}
         />
       </div>
     </div>

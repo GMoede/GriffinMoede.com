@@ -5,6 +5,7 @@ import {
   sortPaintings,
   getContainerDimensions,
   placePaintings,
+  getMaxHeight,
 } from "../../functions/arrangePaintings";
 
 interface painting {
@@ -34,13 +35,17 @@ const GalleryWall: FC = (): ReactElement => {
     { width: 1000, height: 830 },
     { width: 900, height: 1040 },
     { width: 800, height: 500 },
-    { width: 450, height: 2000 },
-    { width: 900, height: 1800 },
+    { width: 450, height: 1000 },
+    { width: 900, height: 1100 },
+    { width: 1000, height: 1000 },
+    { width: 1000, height: 1100 },
+    { width: 500, height: 900 },
+    { width: 770, height: 800 },
   ];
   const testPaintings = testPaintingss.map((painting) => {
     return {
-      width: painting.width / 5,
-      height: painting.height / 5,
+      width: painting.width / 2,
+      height: painting.height / 2,
     };
   });
 
@@ -49,6 +54,7 @@ const GalleryWall: FC = (): ReactElement => {
 
   // console.log("sortedPaintings before", sortedPaintings);
   placePaintings(sortedPaintings, containerDimensions.width);
+  const maxHeight = getMaxHeight(sortedPaintings);
 
   // creating all the image elements
   const images = sortedPaintings.map((img, index) => {
@@ -87,7 +93,7 @@ const GalleryWall: FC = (): ReactElement => {
       className="test-div"
       style={{
         width: containerDimensions.width,
-        height: containerDimensions.height,
+        height: maxHeight,
       }}
     >
       {images}

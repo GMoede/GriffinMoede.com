@@ -14,6 +14,13 @@
   align-items: center;
 }
 
+.overflow-blocker {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
 #room {
   width: 100%;
   height: 100%;
@@ -84,8 +91,10 @@
   background-size: cover;
   background-color: beige;
   width: 30px;
+  position: relative;
   height: 40px;
-  z-index: 3;
+  z-index: 1;
+  left: 200px;
   margin-left: 400px;
   margin-top: 230px;
   cursor: pointer;
@@ -408,9 +417,14 @@ body {
 
 .soundcloud-widget {
   width: 100%;
-  /* margin-top: 230px;
-  margin-left: 180px; */
-  /* background-color: aqua; */
+  height: 90%;
+  padding: 20px;
+  border-radius: 40px;
+}
+
+.soundcloud-widget-container {
+  height: 100vh;
+  width: 100%;
 }
 
 .soundcloud-icon {
@@ -438,9 +452,13 @@ body {
   background-repeat: no-repeat;
 }
 
+.guitar-closeup {
+  height: 1200px;
+}
+
 .music-room {
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: flex;
   background-image: url("../../assets/Wall.jpg");
   background-size: cover;
@@ -481,6 +499,21 @@ body {
   align-items: center;
 
   z-index: 2;
+}
+
+.monitor-closeup {
+  background-image: url("../../../public/Desk/monitor.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative;
+  top: -100px;
+  min-width: 1200px;
+  min-height: 1200px;
+  width: 1200px;
+  height: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .monitor img {
@@ -547,6 +580,18 @@ body {
   transform: perspective(900px) translateY(190px) translateZ(-200px)
     rotateX(55deg);
 }
+.desk-closeup {
+  background-image: url("../../../public/Desk/desk.png");
+  background-size: fill;
+  position: absolute;
+  top: 0px;
+  left: -300px;
+  width: 150vw;
+  height: 1000px;
+  border-radius: 10px;
+  transform: perspective(900px) translateY(300px) translateZ(-200px)
+    rotateX(55deg);
+}
 
 .profile-background {
   width: 100%;
@@ -569,11 +614,25 @@ body {
 .computer-header {
   position: relative;
   width: 100%;
-  height: 15px;
+  height: 4%;
   background-color: rgb(219, 219, 219);
   color: black;
   justify-content: space-between;
   gap: 8px;
+  font-size: 12px;
+  align-items: center;
+  padding: 0 20px;
+  /* border-radius: 20px; */
+}
+
+.computer-header-closeup {
+  position: relative;
+  width: 100%;
+  height: 4%;
+  background-color: rgb(219, 219, 219);
+  color: black;
+  justify-content: space-between;
+  gap: 12px;
   font-size: 12px;
   align-items: center;
   padding: 0 20px;
@@ -596,6 +655,12 @@ body {
 
 .computer-header span {
   font: black;
+  font-size: 1em;
+}
+
+.computer-header-closeup span {
+  font: black;
+  font-size: 1.5em;
 }
 
 .apple-logo {
@@ -618,6 +683,41 @@ body {
   background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/71/Finder_icon_macOS_Yosemite.png");
   background-size: contain;
   background-repeat: no-repeat;
+}
+
+.documents-page {
+  background-image: url("../../assets/Wall.jpg");
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+}
+
+.desktop-closeup-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.documents-container {
+  width: 90%;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffffc6;
+}
+
+.document-window {
+  height: 90%;
+  width: 90%;
+  padding: 20px;
+  color: black;
+  background-color: white;
 }
 
 .gallery-background {
@@ -647,8 +747,8 @@ body {
   position: relative;
   padding: 40px;
   margin: 100px;
-  min-width: 2000px;
-  min-height: 1000px;
+  /* min-width: 2000px; */
+  /* min-height: 1000px; */
   background-color: blue;
   display: inline-block;
 }
@@ -695,5 +795,6 @@ body {
   position: absolute;
   background-color: black;
   padding: 10px;
+  /* margin: 10px; */
   border: red 1px solid;
 }
