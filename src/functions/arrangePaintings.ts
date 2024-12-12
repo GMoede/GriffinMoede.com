@@ -3,8 +3,8 @@
 interface painting {
   width: number;
   height: number;
-  x?: number;
-  y?: number;
+  left?: number;
+  top?: number;
 }
 
 type floor = { x: number; y: number; length: number }[];
@@ -88,8 +88,9 @@ export const placePaintings = (
         }
       }
 
-      currentPainting.x = currentX;
-      currentPainting.y = currentY;
+      // assign x and y values to the current painting
+      currentPainting.left = currentX;
+      currentPainting.top = currentY;
 
       // add painting to the new floor
       const newFloorSection = {
@@ -134,8 +135,9 @@ export const placePaintings = (
           }
         }
       }
-      currentPainting.x = currentX;
-      currentPainting.y = currentY;
+      //add x and y values to the current painting
+      currentPainting.left = currentX;
+      currentPainting.top = currentY;
 
       // add painting to the new floor
       const newFloorSection = {
@@ -200,12 +202,12 @@ export const placePaintings = (
   );
 };
 
-export const getMaxHeight = (paintings: painting[]): number => {
+export const getMaxHeight = (paintings: any[]): number => {
   let maxHeight = 0;
 
   paintings.forEach((painting) => {
-    if (painting.height + painting.y > maxHeight) {
-      maxHeight = painting.height + painting.y;
+    if (painting.height + painting.left > maxHeight) {
+      maxHeight = painting.height + painting.top;
     }
   });
 
