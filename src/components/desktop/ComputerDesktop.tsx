@@ -22,6 +22,7 @@ const ComputerDesktop: FC = (): ReactElement => {
   }, []);
 
   const dragIconStart = (e: React.MouseEvent): void => {
+    if (!desktopRef.current) return;
     const icon = e.target as HTMLImageElement;
     const containerRect = desktopRef.current.getBoundingClientRect();
     const iconRect = icon.getBoundingClientRect();
@@ -73,6 +74,7 @@ const ComputerDesktop: FC = (): ReactElement => {
     desktopRef.current.addEventListener("mousemove", dragIcon);
 
     const dropIcon = (e: any): void => {
+      if (!desktopRef.current) return;
       desktopRef.current.removeEventListener("mousemove", dragIcon);
       desktopRef.current.removeEventListener("mouseup", dropIcon);
     };
