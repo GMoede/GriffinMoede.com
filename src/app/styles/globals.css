@@ -527,7 +527,7 @@ body {
 .keyboard-and-mouse {
   position: relative;
   top: 30%;
-  left: 0%;
+  left: 5%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -550,7 +550,7 @@ body {
   width: 600px;
   position: relative;
   top: -40px;
-  left: -100px;
+  left: -350px;
   z-index: 2;
   rotate: 20deg;
   overflow: hidden;
