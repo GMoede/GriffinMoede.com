@@ -5,6 +5,7 @@ interface painting {
   height: number;
   left?: number;
   top?: number;
+  style?: any;
 }
 
 type floor = { x: number; y: number; length: number }[];
@@ -49,6 +50,8 @@ export const placePaintings = (
 ) => {
   // exit condition. all paintings have been placed
   if (startingIndex >= sortedPaintings.length) {
+    console.log("all paintings placed");
+    console.log("sorted paintings", sortedPaintings);
     return;
   }
 
@@ -161,6 +164,7 @@ export const placePaintings = (
   if (reverse) {
     // our currentX is left off outside the left boundary, so we need to
     //shift currentX back to the last placed painting
+    console.log(sortedPaintings[currentIndex]);
     currentX += sortedPaintings[currentIndex].width;
 
     //iterate through the old floor BACKWARDS, adding the partial section from wehere the last

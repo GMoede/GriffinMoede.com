@@ -1,4 +1,5 @@
 import React, { FC, ReactElement } from "react";
+import Phone from "../../components/phone/phone";
 
 const Page: FC = (): ReactElement => {
   return (
@@ -8,6 +9,9 @@ const Page: FC = (): ReactElement => {
       </div>
       <div>
         <h2>email: griffinmoede@gmail.com</h2>
+      </div>
+      <div>
+        <Phone />
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import React, { FC, ReactElement, useRef, useEffect, useState } from "react";
-import Image from "next/image";
-import "./GalleryWall.module.css";
+// import "./GalleryWall.module.css";
 import {
   sortPaintings,
   getContainerDimensions,
@@ -8,18 +7,13 @@ import {
   getMaxHeight,
 } from "../../functions/arrangePaintings";
 
-interface painting {
-  width: number;
-  height: number;
-  x?: number;
-  y?: number;
-}
-
 const GalleryWall: FC = (): ReactElement => {
   // This will contain all the references to each image element
   const imageRefs = useRef<HTMLImageElement[]>([]);
+
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const [rerender, setRerender] = useState<boolean>(false);
 
   useEffect(() => {
     // the original pictures were huge and also don't have an actual assigned width and hegiht
@@ -30,94 +24,56 @@ const GalleryWall: FC = (): ReactElement => {
       img.height = scaledHeight;
       img.width = scaledWidth;
     });
+
+    console.log("containerRef", containerRef.current);
+
+    // sort the paintings by height
     const sortedPaintings = sortPaintings(imageRefs.current);
 
+    // get the estimated dimensions of the container
     const containerDimensions = getContainerDimensions(sortedPaintings);
 
+    //this will give each painting a top and left value, based on the algorithm
     placePaintings(sortedPaintings, containerDimensions.width);
 
+    // assign the top and left value to the actual styling of each picture
     sortedPaintings.forEach((painting, index) => {
+      console.log(
+        "painting style.top and left",
+        painting.style.top,
+        painting.style.left
+      );
       painting.style.top = `${painting.top}px`;
       painting.style.left = `${painting.left}px`;
     });
 
+    console.log("sortedPaintings", sortedPaintings);
+    console.log(
+      "random painting top and left",
+      sortedPaintings[3].top,
+      sortedPaintings[3].left
+    );
+    // find the height that fits all the paintings
     const maxHeight = getMaxHeight(sortedPaintings);
 
-    containerRef.current.style.height = `${maxHeight}px`;
-    containerRef.current.style.width = `${containerDimensions.width}px`;
+    // set the height and width of the container
+    // I'm not sure why there is an error without the if statement...
+    // it's something to do with containerRef.current being possibly null
+    // but I'm not sure sure exactly how to remedy this, so this is my workaround
+    if (containerRef.current) {
+      containerRef.current.style.height = `${maxHeight}px`;
+      containerRef.current.style.width = `${containerDimensions.width}px`;
+    }
 
-    setIsLoading(false);
-  }, []);
+    console.log("container dimensions", containerDimensions.width, maxHeight);
+    console.log("useEffect has run");
+  }, [imageRefs, containerRef]);
 
   // creating all the image routes
   const imgRoutes: string[] = [];
   for (let i = 1; i <= 12; i++) {
     imgRoutes.push(`/galleryImages/galleryimage${i}.jpg`);
   }
-
-  const testPaintingss: painting[] = [
-    { width: 1000, height: 1000 },
-    { width: 2000, height: 1100 },
-    { width: 500, height: 900 },
-    { width: 770, height: 800 },
-    { width: 1250, height: 1200 },
-    { width: 1100, height: 1200 },
-    { width: 3000, height: 980 },
-    { width: 1000, height: 830 },
-    { width: 900, height: 1040 },
-    { width: 800, height: 500 },
-    { width: 450, height: 1000 },
-    { width: 900, height: 1100 },
-    { width: 1000, height: 1000 },
-    { width: 1000, height: 1100 },
-    { width: 500, height: 900 },
-    { width: 770, height: 800 },
-  ];
-  const testPaintings = testPaintingss.map((painting) => {
-    return {
-      width: painting.width / 2,
-      height: painting.height / 2,
-    };
-  });
-
-  const sortedPaintings = sortPaintings(testPaintings);
-  const containerDimensions = getContainerDimensions(sortedPaintings);
-
-  // console.log("sortedPaintings before", sortedPaintings);
-  placePaintings(sortedPaintings, containerDimensions.width);
-  const maxHeight = getMaxHeight(sortedPaintings);
-
-  // creating all the image elements
-  // const images = sortedPaintings.map((img, index) => {
-  //   return (
-  //     // <Image
-  //     //   src={imgRoute}
-  //     //   alt="Gallery image"
-  //     //   width={500}
-  //     //   height={500}
-  //     //   className="picture"
-  //     //   key={index}
-  //     //   style={{
-  //     //     // top: "1000px",
-  //     //     position: "absolute",
-  //     //     top: index === 0 ? "1000px" : "0px",
-  //     //   }}
-  //     //   //This line will assign a ref and add it to the imageRefs array
-  //     //   ref={(el) => {
-  //     //     imageRefs.current[index] = el;
-  //     //   }}
-  //     // />
-  //     <div
-  //       className="picture"
-  //       style={{
-  //         height: img.height,
-  //         width: img.width,
-  //         top: img.y,
-  //         left: img.x,
-  //       }}
-  //     ></div>
-  //   );
-  // });
 
   const images = imgRoutes.map((img, index) => {
     return (
@@ -126,11 +82,8 @@ const GalleryWall: FC = (): ReactElement => {
         alt="Gallery image"
         className="picture"
         key={index}
-        style={{
-          // top: "1000px",
-          position: "absolute",
-        }}
         //This line will assign a ref and add it to the imageRefs array
+        // the ref will allow us to reference the elements in the useEffect
         ref={(el) => {
           imageRefs.current[index] = el ? el : imageRefs.current[index];
         }}
@@ -139,14 +92,7 @@ const GalleryWall: FC = (): ReactElement => {
   });
 
   return (
-    <div
-      className="test-div"
-      style={{
-        width: containerDimensions.width,
-        height: 5000,
-      }}
-      ref={containerRef}
-    >
+    <div className="test-div" ref={containerRef}>
       {images}
     </div>
   );

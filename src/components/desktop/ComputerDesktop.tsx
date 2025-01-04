@@ -23,15 +23,23 @@ const ComputerDesktop: FC = (): ReactElement => {
 
   const dragIconStart = (e: React.MouseEvent): void => {
     if (!desktopRef.current) return;
-    const icon = e.target as HTMLImageElement;
+    const icon = e.currentTarget as HTMLImageElement;
     const containerRect = desktopRef.current.getBoundingClientRect();
     const iconRect = icon.getBoundingClientRect();
+
+    // set the initial position of the icon
+    icon.style.left = window.getComputedStyle(icon).left;
+    icon.style.top = window.getComputedStyle(icon).top;
 
     const dragIcon = (e: any): void => {
       e.preventDefault();
 
-      const currentLeft = parseInt(icon.style.left.slice(0, -2));
-      const currentTop = parseInt(icon.style.top.slice(0, -2));
+      const currentLeft = parseInt(
+        window.getComputedStyle(icon).left.slice(0, -2)
+      );
+      const currentTop = parseInt(
+        window.getComputedStyle(icon).top.slice(0, -2)
+      );
 
       !currentLeft ? (icon.style.left = 0 + "px") : null;
       !currentTop ? (icon.style.top = 0 + "px") : null;
@@ -84,24 +92,28 @@ const ComputerDesktop: FC = (): ReactElement => {
 
   // TO DO: give a type to e that includes id
   const openDocument = (e: any): void => {
-    console.log(e.target.id);
-    router.push(`/profile/documents/${e.target.id}`);
+    router.push(`/profile/documents/${e.currentTarget.id}`);
   };
 
   return (
     <div className="computer-desktop" ref={desktopRef}>
       <DesktopHeader currentTime={currentTime} closeup={false} />
       <div className="icons">
-        <img
-          className="image1"
-          src="/galleryImages/galleryimage1.jpg"
-          alt=""
-          draggable="false"
-          height="40"
-          id="resume"
+        <div
+          className="icon-container"
           onMouseDown={dragIconStart}
           onDoubleClick={openDocument}
-        />
+          id="resume"
+          // style={{ top: "0px", left: "100px" }}
+        >
+          <img
+            className="icon"
+            src="/Icon_pdf_file.svg.png"
+            alt=""
+            draggable="false"
+          />
+          <div className="icon-label">My Resume</div>
+        </div>
       </div>
     </div>
   );
