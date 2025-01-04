@@ -4,11 +4,6 @@ import React, { FC, ReactElement, useRef, useEffect, useState } from "react";
 import GalleryWall from "../../components/gallerywall/GalleryWall";
 
 const GalleryPage: FC = (): ReactElement => {
-  const [mousePosition, setMousePosition] = useState<{ x: number; y: number }>({
-    x: window.innerWidth / 2,
-    y: window.innerHeight / 2,
-  });
-
   const [currentScroll, setCurrentScroll] = useState<{ x: number; y: number }>({
     x: 0,
     y: 0,
@@ -16,6 +11,7 @@ const GalleryPage: FC = (): ReactElement => {
 
   const moveMouse = (e: React.MouseEvent): void => {
     const paintingsContainer = document.querySelector(".paintings-container");
+    if (!paintingsContainer) return;
 
     const containerRect = paintingsContainer.getBoundingClientRect();
 
