@@ -92,7 +92,7 @@ const ComputerDesktop: FC = (): ReactElement => {
 
   // TO DO: give a type to e that includes id
   const openDocument = (e: any): void => {
-    router.push(`/profile/documents/${e.currentTarget.id}`);
+    router.push(`/profile/documents`);
   };
 
   return (
