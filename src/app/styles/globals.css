@@ -827,6 +827,7 @@ body {
   /* width: 60vw; */
   height: 900px;
   position: absolute;
+  image-rendering: pixelated;
   /* background-color: blue; */
 }
 
@@ -835,6 +836,7 @@ body {
   height: 800px;
   position: absolute;
   transform: rotateZ(-25deg);
+  image-rendering: pixelated;
   /* background-color: blue; */
 }
 
@@ -843,11 +845,13 @@ body {
   height: 800px;
   left: 80%;
   top: 30%;
+  image-rendering: pixelated;
 }
 
 .phone {
   width: 600px;
   height: 100%;
+  image-rendering: pixelated;
   /* min-width: 400px;
   max-width: 600px; */
   /* background-color: white; */
