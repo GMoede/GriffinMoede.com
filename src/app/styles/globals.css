@@ -363,6 +363,9 @@ body {
 }
 
 #borderimg1 {
+}
+
+.borderImg {
   border: 13px solid transparent;
   border-image: url("../../assets/pixil-frame-0.png") 16 round;
   position: relative;
@@ -810,7 +813,11 @@ body {
   background-color: black;
   /* padding: 10px; */
   /* margin: 10px; */
-  border: red 1px solid;
+  /* border: red 1px solid; */
+
+  border: 13px solid transparent;
+  border-image: url("../../assets/pixil-frame-0.png") 16 round;
+  /* position: relative; */
 }
 
 .phone-container {

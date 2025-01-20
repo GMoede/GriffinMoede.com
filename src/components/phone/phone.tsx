@@ -37,9 +37,11 @@ const Phone: FC = (): ReactElement => {
     //this comes in the form of a base64 string
     const response = await fetch("/api/photos");
     const data = await response.json();
+    const url = data.url;
+    console.log("url", url);
 
     //convert the base64 string to an image
-    const imgURL = `data:image/png;base64,${data.imgbase64}`;
+    const imgURL = url;
     setImgTest(imgURL);
     setHolding(!holding);
   };
