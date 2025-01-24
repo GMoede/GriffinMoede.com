@@ -8,7 +8,7 @@ const Phone: FC = (): ReactElement => {
   const mousePosition = useRef({ x: 0, y: 0 });
 
   const setHandPosition = (Xposition: number, Yposition: number) => {
-    const newLeft = holding ? Xposition - 670 : Xposition - 140;
+    const newLeft = holding ? Xposition - 600 : Xposition - 140;
     const newTop = holding ? Yposition + 130 : Yposition - 140;
 
     Hand.current.style.left = `${newLeft}px`;
@@ -33,16 +33,6 @@ const Phone: FC = (): ReactElement => {
     : "/pixel_phone.png";
 
   const grabPhone = async (e: React.MouseEvent) => {
-    // fetch the image from the server,
-    // this comes in the form of a base64 string
-    // const response = await fetch("/api/photos");
-    // const data = await response.json();
-    // const url = data.url;
-    // console.log("url", url);
-
-    // convert the base64 string to an image
-    // const imgURL = url;
-    // setImgTest(imgURL);
     setHolding(!holding);
   };
 
@@ -57,10 +47,20 @@ const Phone: FC = (): ReactElement => {
 
   return (
     <div className="phone-container" onMouseMove={moveHand}>
+      <div className="contact-header">
+        <h1>Like what you see? Give me a ring! (email)</h1>
+        <h1>griffinmoede@gmail.com</h1>
+      </div>
       <img src={handSource} alt="" ref={Hand} className={handClass} />
 
       <img className="phone" src={phoneSource} alt="" />
       <div className="phone-click-box" onClick={grabPhone}></div>
+      <img
+        className="nightstand"
+        src="NightstandWithPhone/Nightstand.png"
+        alt=""
+      />
+
       {holding && (
         <img src="/arm_holding_pixellated.png" className="phone-held"></img>
       )}
