@@ -471,11 +471,71 @@ body {
 
 .music-room {
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   display: flex;
+  flex-direction: row;
   background-image: url("../../assets/Wall.jpg");
   background-size: cover;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
+
+.headphones {
+  z-index: 3;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.hook {
+  z-index: 4;
+  background-color: black;
+  border-radius: 100%;
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  top: 5%;
+  left: 10%;
+}
+
+.take-off-headphones {
+  height: 200px;
+  width: 500px;
+  position: absolute;
+  top: 80%;
+  left: 80%;
+  z-index: 3;
+  background-color: red;
+}
+
+.ipod {
+  position: relative;
+  left: 30%;
+  height: 100%;
+  width: 100%;
+}
+
+.ipod-case {
+  user-select: none;
+  -webkit-user-drag: none;
+  /* width: 100vw; */
+  height: 100vh;
+  min-width: 1000px;
+  /* max-width: 600px; */
+  min-height: 1000px;
+  /* max-height: 600px; */
+}
+
+.ipod-screen {
+  overflow: scroll;
+  width: 250px;
+  /* max-width: 200px; */
+  height: 20vh;
+  min-height: 200px;
+  position: absolute;
+  top: 83px;
+  left: 100px;
+}
+
 .monitor-container {
   position: relative;
   display: flex;
@@ -628,6 +688,7 @@ body {
   background-image: url("../../assets/Wall.jpg");
   background-size: fill;
   overflow: hidden;
+  z-index: 1;
 }
 
 .computer-desktop {
@@ -849,10 +910,15 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: none;
-  background-color: red;
-  max-height: 600px;
-  min-height: 500px;
+  /* cursor: none; */
+  position: relative;
+  height: 100%;
+}
+
+.nightstand {
+  position: relative;
+  width: 900px;
+  top: 450px;
 }
 
 .hand-reaching {
@@ -861,6 +927,7 @@ body {
   position: absolute;
   image-rendering: pixelated;
   /* background-color: blue; */
+  z-index: 3;
 }
 
 .hand-pointing {
@@ -869,7 +936,7 @@ body {
   position: absolute;
   transform: rotateZ(-25deg);
   image-rendering: pixelated;
-  /* background-color: blue; */
+  z-index: 10;
 }
 
 .phone-held {
@@ -882,16 +949,15 @@ body {
 
 .phone {
   width: 600px;
-  height: 100%;
-  image-rendering: pixelated;
-  /* min-width: 400px;
-  max-width: 600px; */
-  /* background-color: white; */
+  height: 500px;
+  z-index: 2;
+  position: absolute;
+  top: 80px;
 }
 
 .phone-click-box {
   width: 40%;
-  height: 10vw;
+  height: 180px;
   max-height: 150px;
   max-width: 400px;
   /* background-color: blue; */
@@ -899,4 +965,19 @@ body {
   z-index: 3;
   top: 55px;
   left: 40%;
+}
+
+.contact-header {
+  position: absolute;
+  top: 100px;
+  left: 40px;
+  width: 20%;
+  height: 50px;
+  /* background-color: rgb(174, 161, 218); */
+}
+
+.contact-header h1 {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: white;
 }
