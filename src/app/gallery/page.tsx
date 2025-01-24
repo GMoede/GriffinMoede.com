@@ -2,6 +2,7 @@
 
 import React, { FC, ReactElement, useRef, useEffect, useState } from "react";
 import GalleryWall from "../../components/gallerywall/GalleryWall";
+import BackButton from "../../components/BackButton";
 
 const GalleryPage: FC = (): ReactElement => {
   const [currentScroll, setCurrentScroll] = useState<{ x: number; y: number }>({
@@ -63,6 +64,7 @@ const GalleryPage: FC = (): ReactElement => {
 
   return (
     <div onMouseMove={moveMouse} className="gallery-background">
+      <BackButton />
       <div
         style={{
           top: `${currentScroll.y * -1}px`,

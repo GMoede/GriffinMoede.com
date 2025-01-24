@@ -1,45 +1,10 @@
 "use client";
-import React, { FC, ReactElement, useState, useContext } from "react";
-import Screw from "./Screw";
-import Toggle from "./Toggle";
-import { useLights } from "../../contexts/LightsContext";
+import React, { FC, ReactElement, useState } from "react";
 
 const LightSwitch: FC = (): ReactElement => {
-  const { areLightsOn, changeLights } = useLights();
+  const [isOn, setIsOn] = useState(false);
 
-  return (
-    <div
-      id="light-switch"
-      className="flex flex-col items-center justify-center"
-    >
-      <div
-        id="plate"
-        className="flex flex-col items-center justify-center"
-        onClick={() => {
-          changeLights();
-        }}
-      >
-        <Screw position="top" />
-        <div
-          id="switch-box"
-          className="flex flex-col items-center justify-center"
-        >
-          <div id="toggle-box">
-            {areLightsOn ? (
-              <>
-                <Toggle isOn={true}></Toggle>
-              </>
-            ) : (
-              <>
-                <Toggle isOn={false}></Toggle>
-              </>
-            )}
-          </div>
-        </div>
-        <Screw position="bottom" />
-      </div>
-    </div>
-  );
+  return <></>;
 };
 
 export default LightSwitch;

@@ -1,6 +1,6 @@
 "use client";
 import React, { FC, ReactElement, useEffect } from "react";
-// import guitar from "/guitar.png";
+import BackButton from "../../components/BackButton";
 
 const Page: FC = (): ReactElement => {
   // useEffect(() => {
@@ -13,6 +13,7 @@ const Page: FC = (): ReactElement => {
   // };
   return (
     <div className="flex flex-row music-room">
+      <BackButton />
       <img src={"/guitar.png"} alt="" className="guitar-closeup" />
       {/* <img src={soundcloudIcon.src} className="soundcloud-icon" alt="" /> */}
       <div className="soundcloud-widget-container">

@@ -18,12 +18,13 @@ export const sortPaintings = (paintings: painting[]): painting[] => {
 
 export const getContainerDimensions = (
   Paintings: painting[],
-  aspectRatio: number = 2 / 1
+  aspectRatio: number = 2 / 1,
+  margin: number = 30
 ) => {
   let totalArea = 0;
 
   Paintings.forEach((painting) => {
-    totalArea += painting.width * painting.height;
+    totalArea += (painting.width + margin) * (painting.height + margin);
   });
 
   // this is the width of a rectangle with a area equal to the total area
@@ -46,12 +47,11 @@ export const placePaintings = (
   floorLength: number,
   floor: floor = [{ x: 0, y: 0, length: floorLength }],
   startingIndex: number = 0,
-  reverse: boolean = false
+  reverse: boolean = false,
+  margin: number = 40
 ) => {
   // exit condition. all paintings have been placed
   if (startingIndex >= sortedPaintings.length) {
-    console.log("all paintings placed");
-    console.log("sorted paintings", sortedPaintings);
     return;
   }
 
@@ -68,6 +68,8 @@ export const placePaintings = (
     while (currentX >= 0) {
       let currentY;
       const currentPainting = sortedPaintings[currentIndex];
+      const currentPaintingWidth = currentPainting.width + margin;
+      const currentPaintingHeight = currentPainting.height + margin;
 
       // find the y value for the current X value
       for (let i = 0; i < floor.length; i++) {
@@ -75,7 +77,7 @@ export const placePaintings = (
         // check if current x is within this section
         if (currentX >= section.x && currentX < section.x + section.length) {
           // check if painting fits in the section or if it extends past it
-          if (currentPainting.width > section.length - (currentX - section.x)) {
+          if (currentPaintingWidth > section.length - (currentX - section.x)) {
             // if it doesn't fit, check if it would overlap the next section
             if (section.y < floor[i + 1]?.y) {
               currentY = floor[i + 1].y;
@@ -98,8 +100,8 @@ export const placePaintings = (
       // add painting to the new floor
       const newFloorSection = {
         x: currentX,
-        y: currentY + currentPainting.height,
-        length: currentPainting.width,
+        y: currentY + currentPaintingHeight,
+        length: currentPaintingWidth,
       };
 
       newFloor.unshift(newFloorSection);
@@ -108,7 +110,7 @@ export const placePaintings = (
       if (currentIndex >= sortedPaintings.length) {
         break;
       }
-      currentX -= sortedPaintings[currentIndex].width;
+      currentX -= sortedPaintings[currentIndex].width + margin;
     }
   } else {
     // interate through paintings, assigning each an x and y value
@@ -116,6 +118,8 @@ export const placePaintings = (
     while (currentX + sortedPaintings[currentIndex].width <= floorLength) {
       let currentY;
       const currentPainting = sortedPaintings[currentIndex];
+      const currentPaintingWidth = currentPainting.width + margin;
+      const currentPaintingHeight = currentPainting.height + margin;
 
       // find the y value for the current X value
       for (let i = 0; i < floor.length; i++) {
@@ -123,7 +127,7 @@ export const placePaintings = (
         // check if current x is within the section
         if (currentX >= section.x && currentX < section.x + section.length) {
           // check if painting fits in the section
-          if (currentPainting.width > section.length - (currentX - section.x)) {
+          if (currentPaintingWidth > section.length - (currentX - section.x)) {
             // if it doesn't fit, check if it would overlap the next section
             if (section.y < floor[i + 1]?.y) {
               currentY = floor[i + 1].y;
@@ -145,14 +149,14 @@ export const placePaintings = (
       // add painting to the new floor
       const newFloorSection = {
         x: currentX,
-        y: currentY + currentPainting.height,
-        length: currentPainting.width,
+        y: currentY + currentPaintingHeight,
+        length: currentPaintingWidth,
       };
 
       newFloor.push(newFloorSection);
 
       // iterate to the next painting
-      currentX += currentPainting.width;
+      currentX += currentPaintingWidth;
       currentIndex++;
       if (currentIndex >= sortedPaintings.length) {
         break;
@@ -164,8 +168,8 @@ export const placePaintings = (
   if (reverse) {
     // our currentX is left off outside the left boundary, so we need to
     //shift currentX back to the last placed painting
-    console.log(sortedPaintings[currentIndex]);
-    currentX += sortedPaintings[currentIndex].width;
+
+    currentX += sortedPaintings[currentIndex - 1].width;
 
     //iterate through the old floor BACKWARDS, adding the partial section from wehere the last
     // painting was placed to the end of that section

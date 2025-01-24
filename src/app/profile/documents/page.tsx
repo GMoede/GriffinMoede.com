@@ -3,6 +3,7 @@
 import React, { FC, ReactElement, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import DesktopHeader from "../../../components/desktop/DesktopHeader";
+import BackButton from "../../../components/BackButton";
 
 const Document: FC = (): ReactElement => {
   const params = useParams();
@@ -16,6 +17,7 @@ const Document: FC = (): ReactElement => {
 
   return (
     <div className="overflow-blocker">
+      <BackButton />
       <div className="documents-page">
         <div className="desk-closeup"></div>
         <div className="monitor-closeup">
