@@ -5,7 +5,6 @@ import React, { FC, ReactElement, useRef, useState, useEffect } from "react";
 const Phone: FC = (): ReactElement => {
   const Hand = useRef<HTMLImageElement>(null);
   const [holding, setHolding] = useState(false);
-  const [imgTest, setImgTest] = useState("");
   const mousePosition = useRef({ x: 0, y: 0 });
 
   const setHandPosition = (Xposition: number, Yposition: number) => {
@@ -14,6 +13,7 @@ const Phone: FC = (): ReactElement => {
 
     Hand.current.style.left = `${newLeft}px`;
     Hand.current.style.top = `${newTop}px`;
+    console.log("moved");
   };
 
   useEffect(() => {
@@ -33,16 +33,16 @@ const Phone: FC = (): ReactElement => {
     : "/pixel_phone.png";
 
   const grabPhone = async (e: React.MouseEvent) => {
-    //fetch the image from the server,
-    //this comes in the form of a base64 string
-    const response = await fetch("/api/photos");
-    const data = await response.json();
-    const url = data.url;
-    console.log("url", url);
+    // fetch the image from the server,
+    // this comes in the form of a base64 string
+    // const response = await fetch("/api/photos");
+    // const data = await response.json();
+    // const url = data.url;
+    // console.log("url", url);
 
-    //convert the base64 string to an image
-    const imgURL = url;
-    setImgTest(imgURL);
+    // convert the base64 string to an image
+    // const imgURL = url;
+    // setImgTest(imgURL);
     setHolding(!holding);
   };
 
@@ -64,8 +64,6 @@ const Phone: FC = (): ReactElement => {
       {holding && (
         <img src="/arm_holding_pixellated.png" className="phone-held"></img>
       )}
-
-      <img src={imgTest} alt="" />
     </div>
   );
 };

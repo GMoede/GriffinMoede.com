@@ -1,8 +1,6 @@
 "use client";
 
-import React, { FC, ReactElement } from "react";
-import LightSwitch from "./lightswitch/LightSwitch";
-import DarknessOverlay from "./DarknessOverlay";
+import React, { FC, ReactElement, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 // import LightSwitchImage from "../../assets/lightswitch.png";
@@ -14,11 +12,11 @@ const Room: FC = (): ReactElement => {
     router.push(path);
   };
 
+  const [areLightsOn, setAreLightsOn] = useState(false);
+
   return (
     <div className="flex flex-row">
-      <DarknessOverlay>
-        <div></div>
-      </DarknessOverlay>
+      <div className={areLightsOn ? "" : "overlay-dark"}></div>
       <section id="container">
         <div id="room">
           <div
@@ -42,11 +40,17 @@ const Room: FC = (): ReactElement => {
 
           <figure className="n"></figure>
           <div className="fill" id="borderimg1">
-            <div id="testpainting"></div>
+            {/* <div id="testpainting"></div> */}
           </div>
           <figure className="e"></figure>
           <figure className="w">
-            <LightSwitch />
+            <div
+              className={areLightsOn ? "light-switch on" : "light-switch"}
+              onClick={() => {
+                setAreLightsOn(!areLightsOn);
+              }}
+            ></div>
+
             <Link href="/gallery">
               <div id="paintings">
                 <div id="painting-4"></div>
@@ -60,7 +64,9 @@ const Room: FC = (): ReactElement => {
             {/* <div id="computer-desk-2"></div> */}
           </figure>
           <figure className="b"></figure>
-          <figure className="t"></figure>
+          <figure className="t">
+            <img className="ceiling-light" src="/MainRoom/CielingLamp.png" />
+          </figure>
         </div>
       </section>
       {/* <div className="wall flex-grow-0 flex-shrink-0"></div> */}

@@ -84,6 +84,16 @@
   background-image: url("../../assets/Ceiling.jpg");
   background-size: cover;
   background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ceiling-light {
+  width: 20%;
+  min-width: 100px;
+  height: 20%;
+  transform: rotate(180deg);
 }
 
 .light-switch {
@@ -95,13 +105,14 @@
   height: 40px;
   z-index: 1;
   left: 200px;
-  margin-left: 400px;
+  margin-left: 200px;
   margin-top: 230px;
   cursor: pointer;
+  transform: rotateY(180deg) rotate(180deg);
 }
 
 .light-switch.on {
-  transform: rotateY(180deg) rotate(180deg);
+  transform: rotateY(360deg) rotate(360deg);
 }
 
 .light-switch:hover {
@@ -362,9 +373,6 @@ body {
   min-height: 100%;
 }
 
-#borderimg1 {
-}
-
 .borderImg {
   border: 13px solid transparent;
   border-image: url("../../assets/pixil-frame-0.png") 16 round;
@@ -378,7 +386,7 @@ body {
   content: url("../../../public/Desk/desk.png");
 }
 
-#overlay-dark {
+.overlay-dark {
   position: absolute;
   left: 0;
   width: 100vw;
@@ -388,9 +396,10 @@ body {
   background: radial-gradient(
     ellipse closest-side at 15% 60%,
     /* Light at bottom-right corner */ rgba(255, 255, 255, 0) 0%,
-    /* Transparent in the corner */ rgba(0, 0, 0, 0.83) 80%
+    /* Transparent in the corner */ rgba(0, 0, 0, 0.903) 80%
       /* rgba(0, 0, 0, 1) 50%  */
   );
+
   align-items: center;
   pointer-events: none;
   z-index: 1;
@@ -399,8 +408,8 @@ body {
 #overlay-dim {
   position: absolute;
   right: 0;
-  width: 200px;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.5);
@@ -468,15 +477,14 @@ body {
   background-size: cover;
 }
 .monitor-container {
-  /* background-color: blue; */
   position: relative;
   display: flex;
   flex-direction: row;
   /* align-items: center; */
   justify-content: center;
-  height: 1000px;
+  height: 1200px;
   width: 80%;
-  min-width: 600px;
+  min-width: 800px;
   /* top: -100px; */
   /* left: 60px; */
 
@@ -492,11 +500,12 @@ body {
   background-repeat: no-repeat;
   /* background-color: purple; */
   position: relative;
-  /* top: 100px; */
+  top: -80px;
   /* width: 100%; */
-  width: 600px;
-  height: 600px;
-  /* left: 50%; */
+  width: 800px;
+  height: 800px;
+  left: 10%;
+  right: 15%;
   display: flex;
 
   justify-content: center;
@@ -529,34 +538,40 @@ body {
 }
 
 .keyboard-and-mouse {
-  position: relative;
-  top: 30%;
-  left: 5%;
+  position: absolute;
+  top: 630px;
+  left: calc(55% - 300px);
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
   z-index: 2;
   overflow: hidden;
+  width: 1000px;
   /* background-color: red; */
 }
 
 .keyboard {
   width: 700px;
   position: relative;
-  /* height: 100px */
+  top: -10px;
   z-index: 2;
   overflow: hidden;
-  /* background-color: blue; */
+  clip-path: inset(40px 0 0 0);
+}
+
+.mouse-container {
+  background-color: black;
 }
 
 .mouse {
   width: 600px;
   position: relative;
-  top: -40px;
-  left: -350px;
+  top: -99px;
+  left: -200px;
   z-index: 2;
   rotate: 20deg;
+  clip-path: inset(50px 0 0 270px);
   overflow: hidden;
 }
 
@@ -564,6 +579,7 @@ body {
   width: 100%;
   height: 100%;
   position: relative;
+  /* left: 15%; */
   top: 0px;
   display: flex;
   justify-content: center;
@@ -577,15 +593,15 @@ body {
   background-size: fill;
   position: absolute;
   top: 0px;
-  left: -300px;
-  width: 150vw;
+  /* left: -10px; */
+  width: 2500px;
   height: 1000px;
   border-radius: 10px;
   transform: perspective(900px) translateY(190px) translateZ(-200px)
     rotateX(55deg);
 }
 .desk-closeup {
-  background-image: url("../../../public/Desk/desk.png");
+  /* background-image: url("../../../public/Desk/desk.png"); */
   background-size: fill;
   position: absolute;
   top: 0px;
@@ -594,14 +610,23 @@ body {
   height: 1000px;
   border-radius: 10px;
   transform: perspective(900px) translateY(300px) translateZ(-200px)
-    rotateX(55deg);
+    rotateX(55sdeg);
+}
+
+.desk-lamp {
+  transform: rotateY(180deg);
+  z-index: 2;
+  height: 450px;
+  position: absolute;
+  top: 170px;
+  left: calc(40% - 700px);
 }
 
 .profile-background {
   width: 100%;
   height: 100vh;
   background-image: url("../../assets/Wall.jpg");
-  background-size: cover;
+  background-size: fill;
   overflow: hidden;
 }
 
