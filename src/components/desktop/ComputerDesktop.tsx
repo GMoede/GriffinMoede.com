@@ -3,6 +3,7 @@
 import React, { FC, ReactElement, useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import DesktopHeader from "./DesktopHeader";
+import "../../app/styles/components/desktop.css";
 
 const ComputerDesktop: FC = (): ReactElement => {
   const desktopRef = useRef<HTMLDivElement>(null);

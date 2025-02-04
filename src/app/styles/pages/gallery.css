@@ -1,0 +1,29 @@
+.gallery-background {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.paintings-container {
+  min-height: 100vh;
+  width: 1000vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+
+  background-image: url("../../../assets/Wall.jpg");
+  background-size: cover;
+}
+
+.picture {
+  position: absolute;
+  background-color: black;
+
+  border: 13px solid transparent;
+  border-image: url("../../../assets/pixil-frame-0.png") 16 round;
+}

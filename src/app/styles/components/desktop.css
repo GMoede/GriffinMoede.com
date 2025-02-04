@@ -1,0 +1,313 @@
+.monitor-container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  /* align-items: center; */
+  justify-content: center;
+  height: 1200px;
+  width: 80%;
+  min-width: 800px;
+  /* top: -100px; */
+  /* left: 60px; */
+
+  /* transform-origin: 50% 80% 600px; */
+  /* transform: perspective(700px) rotateX(-30deg) translateY(-600px)
+    translateX(100px) translateZ(-400px);
+  transform-style: flat; */
+}
+
+.monitor {
+  background-image: url("../../../../public/Desk/monitor.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  /* background-color: purple; */
+  position: relative;
+  top: -80px;
+  /* width: 100%; */
+  width: 800px;
+  height: 800px;
+  left: 10%;
+  right: 15%;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  z-index: 2;
+}
+
+.monitor-closeup {
+  background-image: url("../../../../public/Desk/monitor.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative;
+  top: -100px;
+  min-width: 1200px;
+  min-height: 1200px;
+  width: 1200px;
+  height: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.monitor img {
+  /* position: absolute; */
+  height: 100%;
+  /* z-index: 2; */
+  /* object-fit: contain; */
+  /* transform-style: flat; */
+}
+
+.keyboard-and-mouse {
+  position: absolute;
+  top: 630px;
+  left: calc(55% - 300px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  z-index: 2;
+  overflow: hidden;
+  width: 1000px;
+  /* background-color: red; */
+}
+
+.keyboard {
+  width: 700px;
+  position: relative;
+  top: -10px;
+  z-index: 2;
+  overflow: hidden;
+  clip-path: inset(40px 0 0 0);
+}
+
+.mouse-container {
+  background-color: black;
+}
+
+.mouse {
+  width: 600px;
+  position: relative;
+  top: -99px;
+  left: -200px;
+  z-index: 2;
+  rotate: 20deg;
+  clip-path: inset(50px 0 0 270px);
+  overflow: hidden;
+}
+
+.desktop-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  /* left: 15%; */
+  top: 0px;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  /* transform-origin: 50% 80% 600px; */
+  /* transform-style: preserve-3d; */
+}
+
+.desk {
+  background-image: url("../../../../public/Desk/desk.png");
+  background-size: fill;
+  position: absolute;
+  top: 0px;
+  /* left: -10px; */
+  width: 2500px;
+  height: 1000px;
+  border-radius: 10px;
+  transform: perspective(900px) translateY(190px) translateZ(-200px)
+    rotateX(55deg);
+}
+.desk-closeup {
+  /* background-image: url("../../../public/Desk/desk.png"); */
+  background-size: fill;
+  position: absolute;
+  top: 0px;
+  left: -300px;
+  width: 150vw;
+  height: 1000px;
+  border-radius: 10px;
+  transform: perspective(900px) translateY(300px) translateZ(-200px)
+    rotateX(55sdeg);
+}
+
+.desk-lamp {
+  transform: rotateY(180deg);
+  z-index: 2;
+  height: 450px;
+  position: absolute;
+  top: 170px;
+  left: calc(40% - 700px);
+}
+
+.profile-background {
+  width: 100%;
+  height: 100vh;
+  background-image: url("../../../assets/Wall.jpg");
+  background-size: fill;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.computer-desktop {
+  border-radius: 20px;
+  position: relative;
+  top: -9.3%;
+  width: 71%;
+  height: 52.8%;
+  background-color: rgb(174, 161, 218);
+  overflow: hidden;
+}
+
+.computer-header {
+  position: relative;
+  width: 100%;
+  height: 4%;
+  background-color: rgb(219, 219, 219);
+  color: black;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  align-items: center;
+  padding: 0 20px;
+  /* border-radius: 20px; */
+}
+
+.computer-header-closeup {
+  position: relative;
+  width: 100%;
+  height: 4%;
+  background-color: rgb(219, 219, 219);
+  color: black;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  align-items: center;
+  padding: 0 20px;
+  /* border-radius: 20px; */
+}
+
+.computer-header-left {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 8px;
+}
+
+.computer-header-right {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 8px;
+}
+
+.computer-header span {
+  font: black;
+  font-size: 1em;
+}
+
+.computer-header-closeup span {
+  font: black;
+  font-size: 1.5em;
+}
+
+.apple-logo {
+  width: 10px;
+  /* height: 90%; */
+  height: 10px;
+  /* background-color: red; */
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/8/84/Apple_Computer_Logo_rainbow.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.finder-logo {
+  position: relative;
+  width: 15px;
+  /* height: 90%; */
+  height: 15px;
+  right: -7px;
+  /* background-color: red; */
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/71/Finder_icon_macOS_Yosemite.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.documents-page {
+  background-image: url("../../../assets/Wall.jpg");
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+}
+
+.desktop-closeup-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.documents-container {
+  width: 90%;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffffc6;
+}
+
+.document-window {
+  height: 90%;
+  width: 90%;
+  padding: 20px;
+  color: black;
+  background-color: white;
+}
+
+.icon {
+  position: relative;
+  height: 40px !important;
+}
+
+.icon-container {
+  /* background-color: blue; */
+  width: 80px;
+  height: 60px;
+  left: 330px;
+  top: 20px;
+  position: relative;
+  display: flex;
+  gap: 3px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-label {
+  font-size: 10px;
+  color: black;
+  background-color: rgb(234, 234, 234);
+  line-height: 1;
+  text-align: center;
+}
+
+.icon1 {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background-color: red;
+}
+
+.icons {
+  /* background-color: blue; */
+  width: 100%;
+  height: 200px;
+}
