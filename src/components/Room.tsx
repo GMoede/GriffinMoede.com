@@ -3,8 +3,7 @@
 import React, { FC, ReactElement, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-// import LightSwitchImage from "../../assets/lightswitch.png";
-
+import "../app/styles/components/room.css";
 const Room: FC = (): ReactElement => {
   const router = useRouter();
 
@@ -17,7 +16,7 @@ const Room: FC = (): ReactElement => {
   return (
     <div className="flex flex-row">
       <div className={areLightsOn ? "" : "overlay-dark"}></div>
-      <section id="container">
+      <section id="room-container">
         <div id="room">
           <div
             id="computer-desk"

@@ -3,6 +3,7 @@
 import React, { FC, ReactElement, useRef, useEffect, useState } from "react";
 import GalleryWall from "../../components/gallerywall/GalleryWall";
 import BackButton from "../../components/BackButton";
+import "../styles/pages/gallery.css";
 
 const GalleryPage: FC = (): ReactElement => {
   const [currentScroll, setCurrentScroll] = useState<{ x: number; y: number }>({

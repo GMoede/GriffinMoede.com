@@ -1,19 +1,16 @@
 import React, { FC, ReactElement, useRef, useEffect, useState } from "react";
-// import "./GalleryWall.module.css";
 import {
   sortPaintings,
   getContainerDimensions,
   placePaintings,
   getMaxHeight,
 } from "../../functions/arrangePaintings";
+import "../../app/styles/pages/gallery.css";
 
 const GalleryWall: FC = (): ReactElement => {
   // This will contain all the references to each image element
   const imageRefs = useRef<HTMLImageElement[]>([]);
-
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const [rerender, setRerender] = useState<boolean>(false);
 
   useEffect(() => {
     // the original pictures were huge and also don't have an actual assigned width and hegiht

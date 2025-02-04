@@ -1,0 +1,234 @@
+#room-container {
+  width: 100vw;
+  height: 90vh;
+  position: relative;
+  perspective: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overflow-blocker {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#room {
+  width: 100%;
+  height: 100%;
+  /* position: absolute; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-origin: 50% 80% 600px;
+  transform-style: preserve-3d;
+}
+
+#room figure {
+  margin: 0;
+  display: block;
+  position: absolute;
+  border: 1px solid black;
+  font: 50pt "calibri";
+  text-align: center;
+}
+
+#room .n {
+  width: 40vw;
+  height: 450px;
+  transform: rotateY(0deg) translateZ(0px);
+  background-image: url("../../../assets/Wall.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+#room .e {
+  width: 1000px;
+  height: 450px;
+  transform: rotateY(-90deg) translateZ(-20vw) translateX(490px);
+  background-image: url("../../../assets/Wall.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+#room .w {
+  width: 1000px;
+  height: 450px;
+  transform: rotateY(90deg) translateZ(-20vw) translateX(-490px);
+  background-image: url("../../../assets/Wall.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  transform-style: preserve-3d;
+}
+
+#room .b {
+  width: 40vw;
+  height: 1000px;
+  transform: rotateX(90deg) translateZ(-225px) translateY(225px);
+  background-image: url("../../../assets/Carpet.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+#room .t {
+  width: 40vw;
+  height: 1000px;
+  transform: rotateX(90deg) translateZ(225px) translateY(225px);
+  background-image: url("../../../assets/Ceiling.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ceiling-light {
+  width: 20%;
+  min-width: 100px;
+  height: 20%;
+  transform: rotate(180deg);
+}
+
+.light-switch {
+  background-image: url("../../../assets/lightswitch.png");
+  background-size: cover;
+  background-color: beige;
+  width: 30px;
+  position: relative;
+  height: 40px;
+  z-index: 1;
+  left: 200px;
+  margin-left: 200px;
+  margin-top: 230px;
+  cursor: pointer;
+  transform: rotateY(180deg) rotate(180deg);
+}
+
+.light-switch.on {
+  transform: rotateY(360deg) rotate(360deg);
+}
+
+.light-switch:hover {
+  box-shadow:
+    0 0 60px 10px #fff,
+    0 0 0 1px #fff;
+}
+
+#computer-desk {
+  position: absolute;
+  width: 400px;
+  height: 200px;
+  margin-left: calc((-7.2% + 70px) * 4);
+  top: 50vh;
+  background-image: url("../../../assets/computerdesk.png");
+  /* background-color: blue; */
+  background-size: 50%;
+  background-repeat: no-repeat;
+  z-index: 4;
+  transform: translateZ(500px) rotateY(calc(17deg * 2));
+}
+
+#computer-desk:hover {
+  cursor: pointer;
+}
+
+#phone-stand {
+  position: absolute;
+  width: 150px;
+  height: 190px;
+  margin-right: calc((-8%) * 4);
+  top: 56vh;
+  background-image: url("../../../assets/phonenightstand.png");
+  /* background-color: blue; */
+  background-size: 70%;
+  background-repeat: no-repeat;
+  z-index: 4;
+  transform: translateZ(500px) rotateY(calc(-20deg * 2));
+}
+
+#phone-stand:hover {
+  cursor: pointer;
+}
+
+#guitar-main {
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  margin-left: 41%;
+  margin-top: calc(8vh * 2);
+  background-image: url("../../../assets/guitar.png");
+  /* background-color: blue; */
+  background-size: 30%;
+  background-repeat: no-repeat;
+  z-index: 4;
+  cursor: pointer;
+  transform: translateZ(680px) rotateY(calc(2.1 * -33deg));
+}
+
+#guitar:hover {
+  cursor: pointer;
+}
+
+#paintings {
+  position: absolute;
+  width: 400px;
+  height: 180px;
+  /* background-color: blue; */
+
+  left: 47%;
+  top: 12vh;
+  /* margin-top: 47%; */
+  /* margin-top: calc(8vh * 2); */
+  /* background-image: url("../../assets/paintings.png"); */
+  /* background-color: blue; */
+  /* background-size: 30%;
+  /* background-repeat: no-repeat; */
+  z-index: 4;
+  /* transform: translateZ(650px) rotateY(calc(20deg * 2)); */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+#paintings:hover {
+  cursor: pointer;
+}
+
+#painting-1 {
+  height: 120px;
+  width: 120px;
+  margin-bottom: -12px;
+  background-image: url("../../../assets/painting_1.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+#painting-2 {
+  height: 120px;
+  width: 120px;
+  margin-bottom: -10px;
+  background-image: url("../../../assets/painting_2.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+#painting-3 {
+  height: 200px;
+  width: 200px;
+  background-image: url("../../../assets/painting_3.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+#painting-4 {
+  position: relative;
+  margin-top: 48px;
+  height: 200px;
+  width: 200px;
+  background-image: url("../../../assets/painting_4.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+}

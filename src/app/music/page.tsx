@@ -2,7 +2,7 @@
 import React, { FC, ReactElement, useEffect, useState, useRef } from "react";
 import BackButton from "../../components/BackButton";
 import { BucketType } from "@aws-sdk/client-s3";
-
+import "../styles/pages/music.css";
 type headphoneState = "off" | "held" | "on";
 
 const Page: FC = (): ReactElement => {

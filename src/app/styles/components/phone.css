@@ -1,0 +1,59 @@
+.phone-and-stand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* cursor: none; */
+  position: relative;
+  height: 100%;
+}
+
+.nightstand {
+  position: relative;
+  width: 900px;
+  top: 450px;
+}
+
+.phone-held {
+  position: absolute;
+  height: 800px;
+  left: 80%;
+  top: 30%;
+}
+
+.phone-container {
+  display: flex;
+  align-items: center;
+}
+
+.phone {
+  width: 600px;
+  /* height: 500px; */
+  z-index: 2;
+  position: absolute;
+  top: 80px;
+  image-rendering: pixelated;
+}
+
+.phone-click-box {
+  width: 200px;
+  height: 180px;
+  max-height: 150px;
+  max-width: 400px;
+  background-color: rgba(0, 0, 255, 0.345);
+  position: absolute;
+  z-index: 3;
+  top: 55px;
+  left: 40%;
+}
+
+.phone-key-click-box {
+  background-color: rgba(0, 0, 255, 0.345);
+  position: absolute;
+  z-index: 3;
+  top: 55px;
+  left: 40%;
+}
+
+.phone-click-box:hover {
+  cursor: pointer;
+}

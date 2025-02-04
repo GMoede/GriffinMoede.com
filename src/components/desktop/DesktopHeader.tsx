@@ -1,4 +1,5 @@
 import React, { FC, ReactElement } from "react";
+import "../../app/styles/components/desktop.css";
 
 interface DesktopHeaderProps {
   currentTime?: string;
