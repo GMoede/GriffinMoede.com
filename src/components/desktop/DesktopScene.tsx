@@ -1,4 +1,3 @@
-import exp from "constants";
 import React, { FC, ReactElement } from "react";
 import ComputerDesktop from "./ComputerDesktop";
 import "../../app/styles/components/desktop.css";

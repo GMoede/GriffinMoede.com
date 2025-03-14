@@ -163,7 +163,7 @@ body {
   position: absolute;
   transform: rotateZ(-25deg);
   /* image-rendering: pixelated; */
-  z-index: 10;
+  z-index: 3;
 }
 
 .contact-header {

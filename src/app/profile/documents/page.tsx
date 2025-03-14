@@ -4,16 +4,27 @@ import React, { FC, ReactElement, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import DesktopHeader from "../../../components/desktop/DesktopHeader";
 import BackButton from "../../../components/BackButton";
+import "../../styles/pages/profile/documents.css";
+import { Document as PDFReader, pdfjs } from "react-pdf";
 
 const Document: FC = (): ReactElement => {
-  const params = useParams();
-  const [document, setDocument] = useState<string>("");
+  const [document, setDocument] = useState<string>(null);
   useEffect(() => {
-    const fakeDocumentFetch = `This is where you would put your resume
-    that will be fetched from the server. But for now, this is just a
-    placeholder text.`;
-    setDocument(fakeDocumentFetch);
+    const fetchResume = async () => {
+      try {
+        const response = await fetch("/api/resume");
+        const data = await response.json();
+        const resumeURL = data.resumeURL;
+        setDocument(resumeURL);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchResume();
   });
+
+  // pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+  // pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
   return (
     <div className="overflow-blocker">
@@ -25,7 +36,10 @@ const Document: FC = (): ReactElement => {
             <DesktopHeader closeup={true} />
             <div className="desktop-closeup-content">
               <div className="documents-container">
-                <div className="document-window">{document}</div>
+                <div className="document-window">
+                  <iframe className="document" src={document}></iframe>
+                  {/* {document && <PDFReader file={document} />} */}
+                </div>
               </div>
             </div>
           </div>

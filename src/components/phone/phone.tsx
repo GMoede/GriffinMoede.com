@@ -1,6 +1,5 @@
 "use client";
 
-import { type } from "os";
 import React, { FC, ReactElement, useRef, useState, useEffect } from "react";
 import "../../app/styles/components/phone.css";
 type phoneState = "hungUp" | "unhooked" | "pressing";
@@ -25,8 +24,6 @@ const Phone: FC = (): ReactElement => {
   const [dialingState, setDialingState] = useState<dialingState>(null);
   const mousePosition = useRef({ x: 0, y: 0 });
 
-  console.log("phoneState", phoneState);
-
   useEffect(() => {
     const Xposition = mousePosition.current.x;
     const Yposition = mousePosition.current.y;
@@ -34,15 +31,14 @@ const Phone: FC = (): ReactElement => {
   }, [phoneState]);
 
   const setHandPosition = (Xposition: number, Yposition: number) => {
-    const newLeft = phoneState != "hungUp" ? Xposition - 600 : Xposition - 140;
-    const newTop = phoneState != "hungUp" ? Yposition + 130 : Yposition - 140;
+    const newLeft = phoneState != "hungUp" ? Xposition - 592 : Xposition - 140;
+    const newTop = phoneState != "hungUp" ? Yposition + 125 : Yposition - 140;
 
     Hand.current.style.left = `${newLeft}px`;
     Hand.current.style.top = `${newTop}px`;
-    console.log("moved");
   };
 
-  const grabPhone = async (e: React.MouseEvent) => {
+  const grabPhone = (e: React.MouseEvent) => {
     if (phoneState == "hungUp") {
       setPhoneState("unhooked");
     } else {
@@ -59,6 +55,20 @@ const Phone: FC = (): ReactElement => {
     setHandPosition(Xposition, Yposition);
   };
 
+  const pressKeyDown = (e: React.MouseEvent) => {
+    const keyElement = e.currentTarget as HTMLDivElement;
+    const key = keyElement.dataset.key;
+    const sound = new Audio(`Phone/audio/key${key}.mp3`);
+    sound.play();
+    setPhoneState("pressing");
+    setDialingState(key as dialingState);
+  };
+
+  const keyUp = (e: React.MouseEvent) => {
+    setPhoneState("unhooked");
+    setDialingState(null);
+  };
+
   const handSource =
     phoneState == "hungUp"
       ? "/arm_reaching_pixellated.png"
@@ -73,6 +83,21 @@ const Phone: FC = (): ReactElement => {
     phoneSource = `/Phone/phone_${phoneState}.png`;
   }
 
+  const buttonOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, "star", 0, "pound"];
+
+  const buttons = buttonOptions.map((button) => {
+    return (
+      <div
+        className="phone-key-click-box"
+        id={`phone-key-${button}`}
+        key={button}
+        data-key={button}
+        onMouseDown={pressKeyDown}
+        onMouseUp={keyUp}
+      ></div>
+    );
+  });
+
   return (
     <div className="phone-and-stand" onMouseMove={moveHand}>
       <div className="contact-header">
@@ -80,10 +105,11 @@ const Phone: FC = (): ReactElement => {
         <h1>griffinmoede@gmail.com</h1>
       </div>
       <img src={handSource} alt="" ref={Hand} className={handClass} />
+      <div className="phone-keys-container">{buttons}</div>
+
       <div className="phone-container">
         <img className="phone" src={phoneSource} alt="" />
         <div className="phone-click-box" onClick={grabPhone}></div>
-        <div className="phone-buttons-container"></div>
       </div>
       <img
         className="nightstand"
