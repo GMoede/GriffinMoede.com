@@ -1,16 +1,15 @@
 "use client";
 import React, { FC, ReactElement, useEffect, useState, useRef } from "react";
 import BackButton from "../../components/BackButton";
-import { BucketType } from "@aws-sdk/client-s3";
 import "../styles/pages/music.css";
+import IpodScreen from "../../components/Ipod";
+
 type headphoneState = "off" | "held" | "on";
 
 const Page: FC = (): ReactElement => {
   const Hand = useRef<HTMLImageElement>(null);
   const [headphoneState, setHeadphoneState] = useState<headphoneState>("off");
   const mousePosition = useRef({ x: 0, y: 0 });
-  const [ipodWheelPosition, setIpodWheePosition] = useState<number>(1);
-  const [currentIpodScroll, setCurrentIpodScroll] = useState<number>(0);
 
   const setHandPosition = (Xposition: number, Yposition: number) => {
     const newLeft = headphoneState == "off" ? Xposition - 140 : Xposition - 670;
@@ -40,8 +39,17 @@ const Page: FC = (): ReactElement => {
     setHeadphoneState("held");
   };
 
-  const putOnHeadphones = (e: React.MouseEvent) => {
-    if (headphoneState == "held") setHeadphoneState("on");
+  const putOnHeadphones = async (e: React.MouseEvent) => {
+    if (headphoneState == "held") {
+      function delay(ms: number) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+
+      Hand.current.className += " grow";
+      await delay(1000);
+      Hand.current.className = "hand-reaching";
+      setHeadphoneState("on");
+    }
   };
 
   const hangUpHeadphones = (e: React.MouseEvent) => {
@@ -53,29 +61,7 @@ const Page: FC = (): ReactElement => {
     if (headphoneState == "on") setHeadphoneState("held");
   };
 
-  const spinWheel = (e: any) => {
-    const target = e.target as HTMLElement;
-    console.log("currentSCroll", currentIpodScroll);
-
-    // The lower the number, the faster it spins
-    const spinSpeed = 5;
-
-    if (target.scrollTop > currentIpodScroll + spinSpeed) {
-      if (ipodWheelPosition == 7) {
-        setIpodWheePosition(1);
-      } else {
-        setIpodWheePosition(ipodWheelPosition + 1);
-      }
-      setCurrentIpodScroll(target.scrollTop);
-    } else if (target.scrollTop < currentIpodScroll - spinSpeed) {
-      if (ipodWheelPosition == 1) {
-        setIpodWheePosition(7);
-      } else {
-        setIpodWheePosition(ipodWheelPosition - 1);
-      }
-      setCurrentIpodScroll(target.scrollTop);
-    }
-  };
+  const grow = headphoneState == "on" ? "grow" : "";
 
   const moveHand = (e: React.MouseEvent) => {
     const Xposition = e.clientX;
@@ -91,12 +77,12 @@ const Page: FC = (): ReactElement => {
         {" "}
         hook
       </div>
-      {headphoneState == "on" && (
+      {/* {headphoneState == "on" && (
         <button
           className="take-off-headphones"
           onClick={takeOffHeadphones}
         ></button>
-      )}
+      )} */}
       <div
         className="music-room"
         onMouseMove={moveHand}
@@ -110,24 +96,10 @@ const Page: FC = (): ReactElement => {
             onClick={grabHeadphones}
             src="Music/headphones-pixellated.png"
             alt=""
-            className="headphones"
+            className={`headphones`}
           />
         )}
-        {headphoneState == "on" && (
-          <div className="ipod">
-            <img
-              src={`Music/ipod_images/ipod_${ipodWheelPosition}.png`}
-              className="ipod-case"
-            />
-            <div className="ipod-case"></div>
-            <div className="ipod-screen" onScroll={spinWheel}>
-              <img src="galleryImages/galleryimage1.jpg" alt="" />
-              <img src="galleryImages/galleryimage2.jpg" alt="" />
-              <img src="galleryImages/galleryimage3.jpg" alt="" />
-              <img src="galleryImages/galleryimage4.jpg" alt="" />
-            </div>
-          </div>
-        )}
+        {headphoneState == "on" && <IpodScreen />}
       </div>
     </>
   );

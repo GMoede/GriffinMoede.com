@@ -153,11 +153,11 @@
 
 #guitar-main {
   position: absolute;
-  width: 240px;
-  height: 240px;
+  width: 140px;
+  height: 140px;
   margin-left: 41%;
   margin-top: calc(8vh * 2);
-  background-image: url("../../../assets/guitar.png");
+  background-image: url("../../../../public/Music/headphones-pixellated.png");
   /* background-color: blue; */
   background-size: 30%;
   background-repeat: no-repeat;
