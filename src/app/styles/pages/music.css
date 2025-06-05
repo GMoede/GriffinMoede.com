@@ -57,11 +57,11 @@
 
 .ipod {
   position: relative;
-  left: 30%;
+  left: 30vw;
   height: 100%;
   width: 100%;
   animation: slideInFromBottom 1.5s ease-in-out forwards;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 @keyframes slideInFromBottom {
   0% {
@@ -139,25 +139,32 @@
 .ipod-screen-2 {
   overflow: scroll;
   scrollbar-width: none;
-  width: 250px;
-  height: 198px;
+  width: 100vw;
+  height: calc(100vh + 198px);
   position: absolute;
-  top: 83px;
-  left: 100px;
-  background-color: rgba(65, 99, 223, 0);
-  display: flex;
-  flex-direction: column;
+  top: 0px;
+  right: 30vw;
+  /* background-color: rgba(65, 99, 223, 0.295); */
+  /* display: flex;
+  flex-direction: column; */
   gap: 3px;
-  flex-grow: 0;
-  flex-shrink: 0;
+  /* flex-grow: 0;
+  flex-shrink: 0; */
   z-index: 2;
+}
+.spacer {
+  width: 100%;
+  height: calc(100vh);
+  /* background-color: rgba(0, 255, 255, 0.236); */
+  /* position: relative; */
 }
 
 .fake-song {
   width: 100%;
   height: 28px;
   display: flex;
-  background-color: rgba(255, 255, 255, 0);
-  color: rgba(0, 0, 0, 0);
+  /* background-color: rgba(17, 17, 17, 0.233); */
+  color: rgba(0, 0, 0, 0.128);
   font-size: 20px;
+  /* position: relative; */
 }

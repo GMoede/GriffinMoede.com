@@ -1,5 +1,9 @@
 import aws from "aws-sdk";
-import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+import {
+  S3Client,
+  GetObjectCommand,
+  ListObjectsV2Command,
+} from "@aws-sdk/client-s3";
 import { NextRequest, NextResponse } from "next/server";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
@@ -15,42 +19,40 @@ export async function GET(req: NextRequest) {
     },
   });
 
-  const bucketName = "djergiantestbucket";
-  const getObjectParams = {
+  const bucketName = "griffinmoede.com";
+
+  const listObjectsV2Params = {
     Bucket: bucketName,
-    Key: "guitar.png",
+    Prefix: "galleryImages/finalGalleryImages/",
   };
 
-  const command = new GetObjectCommand(getObjectParams);
-  const signedUrl = await getSignedUrl(s3, command, { expiresIn: 10 });
-  console.log("signedUrl", signedUrl);
+  const listCommand = new ListObjectsV2Command(listObjectsV2Params);
+  const listResponse = await s3.send(listCommand);
+  // console.log("listResponse", listResponse);
 
-  return NextResponse.json({ url: signedUrl });
+  const allObjects = [];
+
+  if (listResponse.Contents) {
+    for (const item of listResponse.Contents) {
+      if (item.Key) {
+        // console.log("item :", item);
+        const getObjectParams = {
+          Bucket: bucketName,
+          Key: item.Key,
+        };
+
+        const command = new GetObjectCommand(getObjectParams);
+        const signedUrl = await getSignedUrl(s3, command, { expiresIn: 2000 });
+
+        if (item.Key.endsWith(".jpg") || item.Key.endsWith(".png")) {
+          allObjects.push({
+            key: item.Key,
+            url: signedUrl,
+          });
+        }
+      }
+    }
+  }
+
+  return NextResponse.json({ pictures: allObjects });
 }
-
-// export async function GET(req: NextRequest) {
-//   // Set up AWS configuration to your account
-//   aws.config.update({
-//     accessKeyId: TOM_PUBLIC_KEY,
-//     secretAccessKey: TOM_SECRET_KEY,
-//     region: "us-west-2",
-//   });
-
-//   //start an s3 instance
-//   const s3 = new aws.S3();
-
-//   //get the object from the bucket, this will be in the form of a buffer
-//   const data = await s3
-//     .getObject({
-//       Bucket: "djergiantestbucket",
-//       Key: "guitar.png",
-//     })
-//     .promise();
-
-//   //convert the buffer to a base64 string
-//   let buffer = data.Body.toString("base64");
-//   console.log("buffer", buffer);
-
-//   //return the base64 string to the client
-//   return NextResponse.json({ imgbase64: buffer });
-// }

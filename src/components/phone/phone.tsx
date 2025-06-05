@@ -57,7 +57,8 @@ const Phone: FC = (): ReactElement => {
 
   const pressKeyDown = (e: React.MouseEvent) => {
     const keyElement = e.currentTarget as HTMLDivElement;
-    const key = keyElement.dataset.key;
+    let key: string | number = keyElement.dataset.key;
+
     const sound = new Audio(`Phone/audio/key${key}.mp3`);
     sound.play();
     setPhoneState("pressing");
@@ -101,7 +102,7 @@ const Phone: FC = (): ReactElement => {
   return (
     <div className="phone-and-stand" onMouseMove={moveHand}>
       <div className="contact-header">
-        <h1>Like what you see? Give me a ring! (email)</h1>
+        <h1>Like what you see? Give me a ring!! (email)</h1>
         <h1>griffinmoede@gmail.com</h1>
       </div>
       <img src={handSource} alt="" ref={Hand} className={handClass} />
@@ -115,6 +116,7 @@ const Phone: FC = (): ReactElement => {
         className="nightstand"
         src="NightstandWithPhone/Nightstand.png"
         alt=""
+        loading="eager"
       />
 
       {phoneState != "hungUp" && (

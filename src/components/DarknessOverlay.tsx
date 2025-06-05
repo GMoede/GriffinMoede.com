@@ -1,22 +1,21 @@
 "use client";
-import React, { FC, ReactElement } from "react";
+import React, { FC, ReactElement, ReactNode } from "react";
 import { useLights } from "../contexts/LightsContext";
 
 interface Props {
-  children: ReactElement;
+  children: ReactNode;
 }
 
 const DarknessOverlay: FC<Props> = ({ children }): ReactElement => {
   const { areLightsOn } = useLights();
-
+  console.log("lights ?:  ", areLightsOn);
   return (
     <>
-      {areLightsOn && (
+      {!areLightsOn && (
         <>
           <div id="overlay-dark"></div>
         </>
       )}
-
       {children}
     </>
   );

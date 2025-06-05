@@ -1,9 +1,16 @@
 "use client";
 
-import { createContext, useContext, useState, FC, ReactElement } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  FC,
+  ReactElement,
+  ReactNode,
+} from "react";
 
 interface LightsProviderProps {
-  children: ReactElement;
+  children: ReactNode;
 }
 
 interface LightsContext {

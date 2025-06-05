@@ -1,7 +1,9 @@
 "use client";
 
-import React, { FC, ReactElement, useState } from "react";
+import React, { FC, ReactElement, useEffect } from "react";
 import Link from "next/link";
+import { useLights } from "../contexts/LightsContext";
+import { useAudio } from "../contexts/AudioContext";
 import { useRouter } from "next/navigation";
 import "../app/styles/components/room.css";
 const Room: FC = (): ReactElement => {
@@ -11,7 +13,14 @@ const Room: FC = (): ReactElement => {
     router.push(path);
   };
 
-  const [areLightsOn, setAreLightsOn] = useState(false);
+  // const [areLightsOn, setAreLightsOn] = useState(false);
+  const { areLightsOn, changeLights } = useLights();
+  const { toggleAudio } = useAudio();
+
+  const turnOnLightsAndAudio = () => {
+    changeLights();
+    toggleAudio();
+  };
 
   return (
     <div className="flex flex-row">
@@ -46,7 +55,7 @@ const Room: FC = (): ReactElement => {
             <div
               className={areLightsOn ? "light-switch on" : "light-switch"}
               onClick={() => {
-                setAreLightsOn(!areLightsOn);
+                turnOnLightsAndAudio();
               }}
             ></div>
 
