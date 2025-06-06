@@ -38,9 +38,13 @@ const GalleryWall: FC = (): ReactElement => {
           );
         }
       );
+      console.log("1");
 
       const photos = await Promise.all(photoPromises);
+
+      console.log("2");
       const sortedPaintings = sortPaintings(photos);
+      console.log("sortedPaintings", sortedPaintings);
 
       const containerDimensions = getContainerDimensions(sortedPaintings);
       console.log("containerDimensions", containerDimensions);
