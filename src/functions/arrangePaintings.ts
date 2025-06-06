@@ -10,21 +10,22 @@ interface painting {
 
 type floor = { x: number; y: number; length: number }[];
 
-export const sortPaintings = (paintings: painting[]): painting[] => {
+export const sortPaintings = (paintings: any[]): any[] => {
   return paintings.sort((a, b) => {
-    return b.height - a.height;
+    return b.props.height - a.props.height;
   });
 };
 
 export const getContainerDimensions = (
-  Paintings: painting[],
+  Paintings: any[],
   aspectRatio: number = 2 / 1,
   margin: number = 30
 ) => {
   let totalArea = 0;
 
   Paintings.forEach((painting) => {
-    totalArea += (painting.width + margin) * (painting.height + margin);
+    totalArea +=
+      (painting.props.width + margin) * (painting.props.height + margin);
   });
 
   // this is the width of a rectangle with a area equal to the total area
@@ -34,7 +35,7 @@ export const getContainerDimensions = (
 
   //giving a an extra 10% width and an extra height of the tallest painting
   const adjustedWidth = idealWidth * 1.1;
-  const adjustedHeight = idealHeight + Paintings[0].height;
+  const adjustedHeight = idealHeight + Paintings[0].props.height;
 
   return {
     width: adjustedWidth,
@@ -43,7 +44,7 @@ export const getContainerDimensions = (
 };
 
 export const placePaintings = (
-  sortedPaintings: painting[],
+  sortedPaintings: any[],
   floorLength: number,
   floor: floor = [{ x: 0, y: 0, length: floorLength }],
   startingIndex: number = 0,
@@ -58,19 +59,19 @@ export const placePaintings = (
   let newFloor: floor = [];
   let currentIndex = startingIndex;
   let currentX = reverse
-    ? floorLength - sortedPaintings[currentIndex].width
+    ? floorLength - sortedPaintings[currentIndex].props.width
     : 0;
-
+  console.log("reverse: ", reverse);
   if (reverse) {
     // iterate through paintings, assigning each an x and y value
     // but starting from the right boundary
-
+    console.log("in reverse mode");
     while (currentX >= 0) {
       let currentY;
       const currentPainting = sortedPaintings[currentIndex];
-      const currentPaintingWidth = currentPainting.width + margin;
-      const currentPaintingHeight = currentPainting.height + margin;
-
+      const currentPaintingWidth = currentPainting.props.width + margin;
+      const currentPaintingHeight = currentPainting.props.height + margin;
+      console.log("in the while loop in reverse mode");
       // find the y value for the current X value
       for (let i = 0; i < floor.length; i++) {
         const section = floor[i];
@@ -81,21 +82,24 @@ export const placePaintings = (
             // if it doesn't fit, check if it would overlap the next section
             if (section.y < floor[i + 1]?.y) {
               currentY = floor[i + 1].y;
+              console.log("first break");
               break;
             } else {
               currentY = section.y;
+              console.log("second break");
               break;
             }
           } else {
             currentY = section.y;
+            console.log("third break");
             break;
           }
         }
       }
 
       // assign x and y values to the current painting
-      currentPainting.left = currentX;
-      currentPainting.top = currentY;
+      currentPainting.props.style.left = currentX;
+      currentPainting.props.style.top = currentY;
 
       // add painting to the new floor
       const newFloorSection = {
@@ -107,20 +111,38 @@ export const placePaintings = (
       newFloor.unshift(newFloorSection);
 
       currentIndex++;
+      console.log("increasing index to: ", currentIndex);
+
       if (currentIndex >= sortedPaintings.length) {
         break;
       }
-      currentX -= sortedPaintings[currentIndex].width + margin;
+      currentX -= sortedPaintings[currentIndex].props.width + margin;
     }
   } else {
+    console.log("in normal mode");
     // interate through paintings, assigning each an x and y value
     // starting from the left boundary
-    while (currentX + sortedPaintings[currentIndex].width <= floorLength) {
+    console.log(
+      "while statement logic",
+      currentX + sortedPaintings[currentIndex].props.width <= floorLength
+    );
+    console.log("currentX: ", currentX);
+    console.log("currentIndex: ", currentIndex);
+    console.log("currentPainting: ", sortedPaintings[currentIndex]);
+    console.log(
+      "currentPainting width: ",
+      sortedPaintings[currentIndex].props.width
+    );
+    console.log("floorLength: ", floorLength);
+    while (
+      currentX + sortedPaintings[currentIndex].props.width <=
+      floorLength
+    ) {
       let currentY;
       const currentPainting = sortedPaintings[currentIndex];
-      const currentPaintingWidth = currentPainting.width + margin;
-      const currentPaintingHeight = currentPainting.height + margin;
-
+      const currentPaintingWidth = currentPainting.props.width + margin;
+      const currentPaintingHeight = currentPainting.props.height + margin;
+      console.log("in the while loop");
       // find the y value for the current X value
       for (let i = 0; i < floor.length; i++) {
         const section = floor[i];
@@ -142,9 +164,12 @@ export const placePaintings = (
           }
         }
       }
+      console.log("made it past the for loop");
       //add x and y values to the current painting
-      currentPainting.left = currentX;
-      currentPainting.top = currentY;
+      console.log("currentPainting: ", currentPainting);
+
+      currentPainting.props.style.left = currentX;
+      currentPainting.props.style.top = currentY;
 
       // add painting to the new floor
       const newFloorSection = {
@@ -157,7 +182,9 @@ export const placePaintings = (
 
       // iterate to the next painting
       currentX += currentPaintingWidth;
+
       currentIndex++;
+      console.log("increasing index to: ", currentIndex);
       if (currentIndex >= sortedPaintings.length) {
         break;
       }
@@ -168,8 +195,10 @@ export const placePaintings = (
   if (reverse) {
     // our currentX is left off outside the left boundary, so we need to
     //shift currentX back to the last placed painting
+    console.log("current Index: ", currentIndex);
+    console.log("currentPainting: ", sortedPaintings[currentIndex - 1]);
 
-    currentX += sortedPaintings[currentIndex - 1].width;
+    currentX += sortedPaintings[currentIndex - 1].props.width;
 
     //iterate through the old floor BACKWARDS, adding the partial section from wehere the last
     // painting was placed to the end of that section
@@ -214,14 +243,34 @@ export const getMaxHeight = (paintings: any[]): number => {
   let maxHeight = 0;
 
   paintings.forEach((painting) => {
-    if (painting.height + painting.left > maxHeight) {
-      maxHeight = painting.height + painting.top;
+    if (painting.props.height + painting.props.style.left > maxHeight) {
+      maxHeight = painting.props.height + painting.props.style.top;
     }
   });
 
   return maxHeight;
 };
 
+export function getImageDimensions(
+  imageUrl: string
+): Promise<{ width: number; height: number }> {
+  return new Promise((resolve, reject) => {
+    // This creates the Promise
+    const img = new Image();
+
+    img.onload = () => {
+      // This event handler is the 'resolve' trigger
+      resolve({ width: img.naturalWidth, height: img.naturalHeight });
+    };
+
+    img.onerror = (error) => {
+      // This event handler is the 'reject' trigger
+      reject(new Error(`Failed to load image from ${imageUrl}`));
+    };
+
+    img.src = imageUrl; // This starts the async loading, but doesn't return a Promise
+  });
+}
 // const testPaintings: painting[] = [
 //   { width: 100, height: 100 },
 //   { width: 200, height: 110 },

@@ -15,10 +15,10 @@ export async function GET(req: NextRequest) {
     },
   });
 
-  const bucketName = "djergiantestbucket";
+  const bucketName = "griffinmoede.com";
   const getObjectParams = {
     Bucket: bucketName,
-    Key: "GMoedeResume.pdf",
+    Key: "resumes/GriffinMoede2025Resume.pdf",
   };
 
   const command = new GetObjectCommand(getObjectParams);
