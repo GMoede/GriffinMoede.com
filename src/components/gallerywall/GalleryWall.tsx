@@ -77,5 +77,5 @@ const GalleryWall: FC = (): ReactElement => {
     </>
   );
 };
-
+export const revalidate = 10; // seconds
 export default GalleryWall;
