@@ -19,7 +19,7 @@ const GalleryWall: FC = (): ReactElement => {
     ///
 
     const fetchPhotos = async () => {
-      const response = await fetch("/api/photos");
+      const response = await fetch("/api/photos", { cache: "no-store" });
       const data = await response.json();
       console.log("Fetched photos: ", data);
       const photoPromises = data.pictures.map(
