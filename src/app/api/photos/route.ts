@@ -10,7 +10,7 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 const TOM_PUBLIC_KEY = process.env.TOM_PUBLIC_KEY;
 const TOM_SECRET_KEY = process.env.TOM_SECRET_KEY;
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest, res: NextResponse) {
   const s3 = new S3Client({
     region: "us-west-2",
     credentials: {
@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
         };
 
         const command = new GetObjectCommand(getObjectParams);
-        const signedUrl = await getSignedUrl(s3, command, { expiresIn: 2000 });
+        const signedUrl = await getSignedUrl(s3, command, { expiresIn: 30 });
 
         if (item.Key.endsWith(".jpg") || item.Key.endsWith(".png")) {
           allObjects.push({
@@ -54,5 +54,16 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({ pictures: allObjects });
+  return NextResponse.json(
+    { pictures: allObjects },
+    {
+      status: 200, // Explicitly set status code
+      headers: {
+        "Cache-Control":
+          "no-store, no-cache, must-revalidate, proxy-revalidate",
+        Pragma: "no-cache", // For HTTP/1.0 compatibility
+        Expires: "0", // For HTTP/1.0 compatibility
+      },
+    }
+  );
 }
