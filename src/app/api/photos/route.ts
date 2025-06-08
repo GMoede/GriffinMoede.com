@@ -20,6 +20,8 @@ export async function GET(req: NextRequest, res: NextResponse) {
     },
   });
 
+  console.log("s3", s3);
+
   const bucketName = "griffinmoede.com";
 
   const listObjectsV2Params = {
@@ -44,6 +46,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
         const command = new GetObjectCommand(getObjectParams);
         const signedUrl = await getSignedUrl(s3, command, { expiresIn: 30 });
+        console.log("signedUrl", signedUrl);
 
         if (item.Key.endsWith(".jpg") || item.Key.endsWith(".png")) {
           allObjects.push({
@@ -54,6 +57,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
       }
     }
   }
+  console.log("allObjects", allObjects);
 
   return NextResponse.json(
     { pictures: allObjects },
