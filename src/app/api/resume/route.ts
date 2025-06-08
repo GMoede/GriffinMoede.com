@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
   };
 
   const command = new GetObjectCommand(getObjectParams);
-  const signedUrl = await getSignedUrl(s3, command, { expiresIn: 10 });
+  const signedUrl = await getSignedUrl(s3, command, { expiresIn: 3000 });
   console.log("signedUrl", signedUrl);
 
   return NextResponse.json({ resumeURL: signedUrl });
