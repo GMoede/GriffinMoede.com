@@ -1,4 +1,5 @@
 import aws from "aws-sdk";
+
 import {
   S3Client,
   GetObjectCommand,
@@ -56,13 +57,15 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   return NextResponse.json(
     { pictures: allObjects },
+
     {
-      status: 200, // Explicitly set status code
       headers: {
+        "CDN-Cache-Control": "no-store, no-cache",
+        "Vercel-CDN-Cache-Control": "no-store, no-cache", // Prevents Vercel Edge caching
         "Cache-Control":
-          "no-store, no-cache, must-revalidate, proxy-revalidate",
-        Pragma: "no-cache", // For HTTP/1.0 compatibility
-        Expires: "0", // For HTTP/1.0 compatibility
+          "no-store, no-cache, must-revalidate, proxy-revalidate", // Prevents client and other CDN caching
+        Pragma: "no-cache",
+        Expires: "0",
       },
     }
   );
