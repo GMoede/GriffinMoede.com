@@ -45,7 +45,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
         };
 
         const command = new GetObjectCommand(getObjectParams);
-        const signedUrl = await getSignedUrl(s3, command, { expiresIn: 3000 });
+        const signedUrl = await getSignedUrl(s3, command, { expiresIn: 90 });
         console.log("signedUrl", signedUrl);
 
         if (item.Key.endsWith(".jpg") || item.Key.endsWith(".png")) {
