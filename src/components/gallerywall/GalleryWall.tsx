@@ -1,3 +1,5 @@
+"use client";
+
 import React, { FC, ReactElement, useRef, useEffect, useState } from "react";
 import {
   sortPaintings,
