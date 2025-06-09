@@ -1,5 +1,5 @@
 import aws from "aws-sdk";
-
+export const dynamic = "force-dynamic";
 import {
   S3Client,
   GetObjectCommand,

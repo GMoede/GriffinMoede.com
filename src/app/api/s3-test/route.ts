@@ -1,4 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
+export const dynamic = "force-dynamic";
 import {
   S3Client,
   GetObjectCommand,
