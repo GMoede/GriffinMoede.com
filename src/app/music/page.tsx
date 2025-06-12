@@ -97,14 +97,7 @@ const Page: FC = (): ReactElement => {
         onClick={putOnHeadphones}
       >
         <BackButton />
-        <button
-          className="border-black border-solid border-2"
-          onClick={() => {
-            getPhoto();
-          }}
-        >
-          get a photo
-        </button>
+
         <img src={handSource} alt="" ref={Hand} className={"hand-reaching"} />
 
         {headphoneState == "off" && (

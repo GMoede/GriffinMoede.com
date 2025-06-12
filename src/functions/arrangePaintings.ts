@@ -49,7 +49,7 @@ export const placePaintings = (
   floor: floor = [{ x: 0, y: 0, length: floorLength }],
   startingIndex: number = 0,
   reverse: boolean = false,
-  margin: number = 40
+  margin: number = 75
 ) => {
   // exit condition. all paintings have been placed
   if (startingIndex >= sortedPaintings.length) {
