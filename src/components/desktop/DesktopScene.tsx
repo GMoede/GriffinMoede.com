@@ -7,8 +7,9 @@ const DesktopScene: FC = (): ReactElement => {
     <div className="desktop-container">
       <img className="desk-lamp" src="Desk/BankerLamp.png" alt="" />
 
-      <div className="monitor-container ">
+      <div className="monitor-container">
         <div className="monitor">
+          <img src="/Desk/monitor.png" alt="" className="monitor-image" />
           <ComputerDesktop />
         </div>
       </div>

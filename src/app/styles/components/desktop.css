@@ -17,7 +17,7 @@
 }
 
 .monitor {
-  background-image: url("../../../../public/Desk/monitor.png");
+  /* background-image: url("Desk/monitor.png"); */
   background-size: contain;
   background-repeat: no-repeat;
   /* background-color: purple; */
@@ -34,6 +34,15 @@
   align-items: center;
 
   z-index: 2;
+}
+
+.monitor-image {
+  position: absolute;
+  top: -23px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
 
 .monitor-closeup {
@@ -61,7 +70,7 @@
 
 .keyboard-and-mouse {
   position: absolute;
-  top: 630px;
+  top: 648px;
   left: calc(55% - 300px);
   display: flex;
   justify-content: center;
@@ -158,7 +167,7 @@
   position: relative;
   top: -9.3%;
   width: 71%;
-  height: 52.8%;
+  height: 55.8%;
   background-color: rgb(174, 161, 218);
   overflow: hidden;
 }

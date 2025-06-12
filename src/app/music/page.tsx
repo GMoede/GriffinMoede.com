@@ -71,6 +71,14 @@ const Page: FC = (): ReactElement => {
 
     setHandPosition(Xposition, Yposition);
   };
+
+  const getPhoto = async () => {
+    const response = await fetch("/api/s3-test", { cache: "no-store" });
+    const data = await response.json();
+    console.log("Fetched photos: ", data);
+    console.log(data.url);
+    return data;
+  };
   return (
     <>
       <div className="hook" onClick={hangUpHeadphones}>
@@ -89,6 +97,7 @@ const Page: FC = (): ReactElement => {
         onClick={putOnHeadphones}
       >
         <BackButton />
+
         <img src={handSource} alt="" ref={Hand} className={"hand-reaching"} />
 
         {headphoneState == "off" && (
