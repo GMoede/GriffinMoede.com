@@ -2,7 +2,7 @@
   height: 600px;
   width: 200px;
   /* background-color: blue; */
-  background-image: url("../../../assets/guitar.png");
+  background-image: url("../../../assets/guitar.webp");
   background-size: 100%;
   background-repeat: no-repeat;
 }
@@ -16,7 +16,7 @@
   height: 100vh;
   display: flex;
   flex-direction: row;
-  background-image: url("../../../assets/Wall.jpg");
+  background-image: url("../../../assets/Wall.webp");
   background-size: cover;
   flex-grow: 0;
   flex-shrink: 0;

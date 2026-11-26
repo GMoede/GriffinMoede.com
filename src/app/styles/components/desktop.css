@@ -17,7 +17,7 @@
 }
 
 .monitor {
-  /* background-image: url("Desk/monitor.png"); */
+  /* background-image: url("Desk/monitor.webp"); */
   background-size: contain;
   background-repeat: no-repeat;
   /* background-color: purple; */
@@ -46,7 +46,7 @@
 }
 
 .monitor-closeup {
-  background-image: url("../../../../public/Desk/monitor.png");
+  background-image: url("../../../../public/Desk/monitor.webp");
   background-size: contain;
   background-repeat: no-repeat;
   position: relative;
@@ -120,7 +120,7 @@
 }
 
 .desk {
-  background-image: url("../../../../public/Desk/desk.png");
+  background-image: url("../../../../public/Desk/desk.webp");
   background-size: fill;
   position: absolute;
   top: 0px;
@@ -132,7 +132,7 @@
     rotateX(55deg);
 }
 .desk-closeup {
-  /* background-image: url("../../../public/Desk/desk.png"); */
+  /* background-image: url("../../../public/Desk/desk.webp"); */
   background-size: fill;
   position: absolute;
   top: 0px;
@@ -156,7 +156,7 @@
 .profile-background {
   width: 100%;
   height: 100vh;
-  background-image: url("../../../assets/Wall.jpg");
+  background-image: url("../../../assets/Wall.webp");
   background-size: fill;
   overflow: hidden;
   z-index: 1;
@@ -247,7 +247,7 @@
 }
 
 .documents-page {
-  background-image: url("../../../assets/Wall.jpg");
+  background-image: url("../../../assets/Wall.webp");
   display: flex;
   align-items: center;
   justify-content: center;

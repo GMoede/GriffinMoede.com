@@ -59,7 +59,7 @@ const Phone: FC = (): ReactElement => {
     const keyElement = e.currentTarget as HTMLDivElement;
     let key: string | number = keyElement.dataset.key;
 
-    const sound = new Audio(`Phone/audio/key${key}.mp3`);
+    const sound = new Audio(`/Phone/audio/key${key}.mp3`);
     sound.play();
     setPhoneState("pressing");
     setDialingState(key as dialingState);
@@ -114,7 +114,7 @@ const Phone: FC = (): ReactElement => {
       </div>
       <img
         className="nightstand"
-        src="NightstandWithPhone/Nightstand.png"
+        src="/NightstandWithPhone/Nightstand.webp"
         alt=""
         loading="eager"
       />

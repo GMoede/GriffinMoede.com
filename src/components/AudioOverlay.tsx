@@ -7,7 +7,7 @@ const AudioOverlay: FC<{ children: ReactNode }> = ({
   return (
     <div className="audio-overlay">
       <audio
-        src="theme_music.mp3"
+        src="/theme_music.mp3"
         autoPlay
         loop
         style={{ display: "none" }}

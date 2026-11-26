@@ -5,13 +5,13 @@ const PreloadAssets: FC = (): ReactElement => {
     <>
       <link
         rel="preload"
-        href="NightstandWithPhone/Nightstand.png"
+        href="/NightstandWithPhone/Nightstand.webp"
         as="image"
       />
-      <link rel="preload" href="Desk/monitor.png" as="image" />
-      <link rel="preload" href="Desk/keyboard.png" as="image" />
-      <link rel="preload" href="Desk/mouse.png" as="image" />
-      <link rel="preload" href="Desk/Bankerlamp.png" as="image" />
+      <link rel="preload" href="/Desk/monitor.webp" as="image" />
+      <link rel="preload" href="/Desk/keyboard.webp" as="image" />
+      <link rel="preload" href="/Desk/mouse.webp" as="image" />
+      <link rel="preload" href="/Desk/BankerLamp.webp" as="image" />
     </>
   );
 };

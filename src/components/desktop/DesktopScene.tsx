@@ -5,18 +5,18 @@ import "../../app/styles/components/desktop.css";
 const DesktopScene: FC = (): ReactElement => {
   return (
     <div className="desktop-container">
-      <img className="desk-lamp" src="Desk/BankerLamp.png" alt="" />
+      <img className="desk-lamp" src="/Desk/BankerLamp.webp" alt="" />
 
       <div className="monitor-container">
         <div className="monitor">
-          <img src="/Desk/monitor.png" alt="" className="monitor-image" />
+          <img src="/Desk/monitor.webp" alt="" className="monitor-image" />
           <ComputerDesktop />
         </div>
       </div>
 
       <div className="keyboard-and-mouse">
-        <img className="keyboard" src="Desk/keyboard.png" alt="" />
-        <img className="mouse" src="Desk/mouse.png" alt="" />
+        <img className="keyboard" src="/Desk/keyboard.webp" alt="" />
+        <img className="mouse" src="/Desk/mouse.webp" alt="" />
       </div>
 
       <div className="desk"></div>

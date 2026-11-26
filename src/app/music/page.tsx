@@ -27,9 +27,9 @@ const Page: FC = (): ReactElement => {
 
   let handSource;
   if (headphoneState == "off") {
-    handSource = "arm_reaching_pixellated.png";
+    handSource = "/arm_reaching_pixellated.png";
   } else if (headphoneState == "held") {
-    handSource = "Music/handsholdingheadphones-pixellated.png";
+    handSource = "/Music/handsholdingheadphones-pixellated.png";
   } else if (headphoneState == "on") {
     handSource = "";
   }
@@ -72,13 +72,6 @@ const Page: FC = (): ReactElement => {
     setHandPosition(Xposition, Yposition);
   };
 
-  const getPhoto = async () => {
-    const response = await fetch("/api/s3-test", { cache: "no-store" });
-    const data = await response.json();
-    console.log("Fetched photos: ", data);
-    console.log(data.url);
-    return data;
-  };
   return (
     <>
       <div className="hook" onClick={hangUpHeadphones}>
@@ -103,7 +96,7 @@ const Page: FC = (): ReactElement => {
         {headphoneState == "off" && (
           <img
             onClick={grabHeadphones}
-            src="Music/headphones-pixellated.png"
+            src="/Music/headphones-pixellated.png"
             alt=""
             className={`headphones`}
           />

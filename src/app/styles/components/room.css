@@ -39,7 +39,7 @@
   width: 40vw;
   height: 450px;
   transform: rotateY(0deg) translateZ(0px);
-  background-image: url("../../../assets/Wall.jpg");
+  background-image: url("../../../assets/Wall.webp");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -48,7 +48,7 @@
   width: 1000px;
   height: 450px;
   transform: rotateY(-90deg) translateZ(-20vw) translateX(490px);
-  background-image: url("../../../assets/Wall.jpg");
+  background-image: url("../../../assets/Wall.webp");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -57,7 +57,7 @@
   width: 1000px;
   height: 450px;
   transform: rotateY(90deg) translateZ(-20vw) translateX(-490px);
-  background-image: url("../../../assets/Wall.jpg");
+  background-image: url("../../../assets/Wall.webp");
   background-size: cover;
   background-repeat: no-repeat;
   transform-style: preserve-3d;
@@ -67,7 +67,7 @@
   width: 40vw;
   height: 1000px;
   transform: rotateX(90deg) translateZ(-225px) translateY(225px);
-  background-image: url("../../../assets/Carpet.jpg");
+  background-image: url("../../../assets/Carpet.webp");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -75,7 +75,7 @@
   width: 40vw;
   height: 1000px;
   transform: rotateX(90deg) translateZ(225px) translateY(225px);
-  background-image: url("../../../assets/Ceiling.jpg");
+  background-image: url("../../../assets/Ceiling.webp");
   background-size: cover;
   background-repeat: no-repeat;
   display: flex;
@@ -121,7 +121,7 @@
   height: 200px;
   margin-left: calc((-7.2% + 70px) * 4);
   top: 50vh;
-  background-image: url("../../../assets/computerdesk.png");
+  background-image: url("../../../assets/computerdesk.webp");
   /* background-color: blue; */
   background-size: 50%;
   background-repeat: no-repeat;
@@ -139,7 +139,7 @@
   height: 190px;
   margin-right: calc((-8%) * 4);
   top: 56vh;
-  background-image: url("../../../assets/phonenightstand.png");
+  background-image: url("../../../assets/phonenightstand.webp");
   /* background-color: blue; */
   background-size: 70%;
   background-repeat: no-repeat;
@@ -201,7 +201,7 @@
   height: 120px;
   width: 120px;
   margin-bottom: -12px;
-  background-image: url("../../../assets/painting_1.png");
+  background-image: url("../../../assets/painting_1.webp");
   background-size: 100%;
   background-repeat: no-repeat;
 }
@@ -210,7 +210,7 @@
   height: 120px;
   width: 120px;
   margin-bottom: -10px;
-  background-image: url("../../../assets/painting_2.png");
+  background-image: url("../../../assets/painting_2.webp");
   background-size: 100%;
   background-repeat: no-repeat;
 }
@@ -218,7 +218,7 @@
 #painting-3 {
   height: 200px;
   width: 200px;
-  background-image: url("../../../assets/painting_3.png");
+  background-image: url("../../../assets/painting_3.webp");
   background-size: 100%;
   background-repeat: no-repeat;
 }
@@ -228,7 +228,7 @@
   margin-top: 48px;
   height: 200px;
   width: 200px;
-  background-image: url("../../../assets/painting_4.png");
+  background-image: url("../../../assets/painting_4.webp");
   background-size: 100%;
   background-repeat: no-repeat;
 }

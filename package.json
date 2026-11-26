@@ -8,17 +8,15 @@
     "dev": "next dev",
     "start": "next start",
     "build": "next build",
-    "lint": "next lint"
+    "lint": "next lint",
+    "gallery": "node scripts/build-gallery.mjs"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.731.1",
-    "@aws-sdk/s3-request-presigner": "^3.731.1",
     "@react-three/drei": "^9.114.0",
     "@react-three/fiber": "^8.17.8",
     "autoprefixer": "^10.4.20",
-    "aws-sdk": "^2.1692.0",
     "i": "^0.3.7",
     "next": "^14.2.12",
     "npm": "^11.0.0",
@@ -39,6 +37,7 @@
     "globals": "^15.9.0",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.6",
+    "sharp": "^0.35.5",
     "ts-node": "^10.9.2",
     "typescript-eslint": "^8.6.0"
   }

@@ -44,7 +44,7 @@ const AudioProvider: FC<AudioProviderProps> = ({ children }): ReactElement => {
   return (
     <AudioContext.Provider value={{ toggleAudio }}>
       <audio
-        src="theme_music.mp3"
+        src="/theme_music.mp3"
         loop
         style={{ display: "none" }}
         onPlay={() => console.log("Audio started playing")}

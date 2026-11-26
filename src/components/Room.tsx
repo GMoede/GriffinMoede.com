@@ -73,7 +73,7 @@ const Room: FC = (): ReactElement => {
           </figure>
           <figure className="b"></figure>
           <figure className="t">
-            <img className="ceiling-light" src="/MainRoom/CielingLamp.png" />
+            <img className="ceiling-light" src="/MainRoom/CielingLamp.webp" />
           </figure>
         </div>
       </section>
