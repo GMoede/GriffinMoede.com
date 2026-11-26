@@ -137,7 +137,8 @@
   position: absolute;
   width: 150px;
   height: 190px;
-  margin-right: calc((-8%) * 4);
+  /* Keep the stand clear of the east wall's plane, which would clip it in 3D */
+  margin-right: calc((-8%) * 3);
   top: 56vh;
   background-image: url("../../../assets/phonenightstand.webp");
   /* background-color: blue; */
