@@ -1,7 +1,6 @@
 "use client";
 import React, { FC, ReactElement, useState, useEffect, useRef } from "react";
 import "../app/styles/pages/music.css";
-import { useAspect } from "@react-three/drei";
 
 interface songListBoundaries {
   top: number;
