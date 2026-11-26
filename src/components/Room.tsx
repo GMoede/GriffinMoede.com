@@ -17,9 +17,12 @@ const Room: FC = (): ReactElement => {
   const { areLightsOn, changeLights } = useLights();
   const { toggleAudio } = useAudio();
 
+  // Music is disabled for now; restore toggleAudio() here to bring it back.
+  const MUSIC_ENABLED = false;
+
   const turnOnLightsAndAudio = () => {
     changeLights();
-    toggleAudio();
+    if (MUSIC_ENABLED) toggleAudio();
   };
 
   return (
