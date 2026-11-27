@@ -51,80 +51,24 @@
   margin-left: 330px;
 }
 
+/* One click box per key, sized and placed to cover the whole key in the
+   phone art (black outline included). The art is drawn at 3x, so in art
+   pixels the keys are 18 wide with 4 between columns, and rows start every
+   10 (the bottom row is 12 tall), from (88, 58). */
 .phone-keys-container {
   position: absolute;
-  /* bottom: 360px; */
-  margin-left: 10px;
-  width: 150px;
-  height: 140px;
-  top: 251px;
+  margin-left: 14px;
+  top: 254px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(4, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(3, 54px);
+  grid-template-rows: 30px 30px 30px 36px;
+  column-gap: 12px;
   z-index: 4;
 }
 
 .phone-key-click-box {
   /* background-color: rgba(0, 0, 255, 0.345); */
   position: relative;
-}
-
-.phone-key-click-box:hover {
-  /* cursor: pointer; */
-}
-
-#phone-key-1 {
-  left: -8px;
-}
-
-#phone-key-2 {
-}
-
-#phone-key-3 {
-  left: 10px;
-}
-
-#phone-key-4 {
-  left: -12px;
-}
-
-#phone-key-5 {
-  top: -3px;
-}
-
-#phone-key-6 {
-  left: 15px;
-}
-
-#phone-key-7 {
-  left: -13px;
-  top: -8px;
-}
-
-#phone-key-8 {
-  top: -8px;
-  left: 0px;
-}
-
-#phone-key-9 {
-  top: -8px;
-  left: 15px;
-}
-
-#phone-key-star {
-  top: -12px;
-  left: -20px;
-}
-
-#phone-key-0 {
-  top: -17px;
-  left: 2px;
-}
-
-#phone-key-pound {
-  top: -16px;
-  left: 20px;
 }
 
 /* The hand stands in for the cursor on the phone page, Back button included. */

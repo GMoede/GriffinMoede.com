@@ -14,6 +14,7 @@ export const RESPONSE_WORDS = [
   "Costco Hotdog",
   "Nugget",
   "Am",
+  "Was",
   "For",
   "To",
   "Job",
