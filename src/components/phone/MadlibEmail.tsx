@@ -63,7 +63,7 @@ const MadlibEmail: FC<Props> = ({ onDone }): ReactElement => {
     return (
       <div className="madlib-email madlib-sent">
         <h2>Sent!</h2>
-        <p>In case of emergency, he can also be reached through extreme focus.</p>
+        <p>In case of emergency, Griffin can also be reached through extreme focus.</p>
         <button type="button" className="madlib-primary" onClick={onDone}>
           Back to the room
         </button>
