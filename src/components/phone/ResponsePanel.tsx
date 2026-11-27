@@ -15,6 +15,8 @@ export const RESPONSE_WORDS = [
   "Nugget",
   "Am",
   "Was",
+  "Is",
+  "That",
   "For",
   "To",
   "Job",

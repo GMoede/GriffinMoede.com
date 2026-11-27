@@ -3,3 +3,7 @@ node_modules
 .next/
 out/
 .DS_Store
+
+# Messages saved by the phone page during local development
+.data/
+.env*.local

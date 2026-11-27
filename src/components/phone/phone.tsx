@@ -9,12 +9,15 @@ import React, {
   useLayoutEffect,
 } from "react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import "../../app/styles/components/phone.css";
 import { getLastPointer } from "../../functions/lastPointer";
 import { playThroughPhone, PhoneVoice } from "./phoneAudio";
 // three.js is only downloaded once someone dials the secret number.
 const ModelViewer = dynamic(() => import("./ModelViewer"), { ssr: false });
 const ResponsePanel = dynamic(() => import("./ResponsePanel"), { ssr: false });
+const BusyPrompt = dynamic(() => import("./BusyPrompt"), { ssr: false });
+const MadlibEmail = dynamic(() => import("./MadlibEmail"), { ssr: false });
 
 // The number printed on the phone. Dialing it fades the screen to black and
 // shows the 3D model.
@@ -30,8 +33,12 @@ const CALL_AUDIO = ["/Phone/audio/call/this-is-griffin.m4a"];
 const RINGTONE = "/Phone/audio/call/ringtone.m4a";
 // What he says after each of the visitor's replies, in order: the first line
 // after the first reply, and so on. Clean recordings; the telephone effect is
-// added when they play.
-const REPLIES = ["/Phone/audio/call/ok-so-whats-up.m4a"];
+// added when they play. After the last one he lowers the phone and hangs up,
+// the call fades to black, and the visitor is offered the email form.
+const REPLIES = [
+  "/Phone/audio/call/ok-so-whats-up.m4a",
+  "/Phone/audio/call/i-gotta-go.m4a",
+];
 
 type phoneState = "hungUp" | "unhooked" | "pressing";
 type dialingState =
@@ -81,14 +88,21 @@ const Phone: FC = (): ReactElement => {
   const [answered, setAnswered] = useState(false);
   // How many replies the visitor has sent, and the line he's saying back.
   const [responses, setResponses] = useState(0);
-  const [griffinSays, setGriffinSays] = useState<{ src: string; id: number } | null>(
-    null
-  );
+  const [griffinSays, setGriffinSays] = useState<{
+    src: string;
+    id: number;
+    last: boolean;
+  } | null>(null);
   const onResponded = () => {
     const n = responses + 1;
     setResponses(n);
-    if (REPLIES[n - 1]) setGriffinSays({ src: REPLIES[n - 1], id: n });
+    if (REPLIES[n - 1])
+      setGriffinSays({ src: REPLIES[n - 1], id: n, last: n == REPLIES.length });
   };
+  const router = useRouter();
+  // After he hangs up: the call fades out, then "super busy" asks about the
+  // email form, then the form itself.
+  const [afterCall, setAfterCall] = useState<null | "fading" | "busy" | "email">(null);
 
   const ringtone = useRef<PhoneVoice | null>(null);
   const stopRinging = () => {
@@ -330,31 +344,44 @@ const Phone: FC = (): ReactElement => {
         <div className="secret-overlay">
           {secretState == "model" && (
             <>
-              <div className={`secret-stage${answered ? " answered" : ""}`}>
-                <ModelViewer
-                  key={replayCount}
-                  src="/Phone/model/griffin.glb"
-                  voiceSrcs={CALL_AUDIO}
-                  onAnswer={() => {
-                    stopRinging();
-                    setAnswered(true);
-                  }}
-                  say={griffinSays}
-                />
-              </div>
-              {answered && <ResponsePanel key={replayCount} onResponded={onResponded} />}
-              <button
-                className="secret-replay absolute right-5 top-5 rounded bg-gray-800 p-2 text-white"
-                onClick={() => {
-                  startRinging();
-                  setAnswered(false);
-                  setResponses(0);
-                  setGriffinSays(null);
-                  setReplayCount((n) => n + 1);
+              <div
+                className={`secret-call${afterCall ? " ended" : ""}`}
+                onTransitionEnd={(e) => {
+                  if (e.target == e.currentTarget && afterCall == "fading")
+                    setAfterCall("busy");
                 }}
               >
-                Replay
-              </button>
+                <div className={`secret-stage${answered ? " answered" : ""}`}>
+                  <ModelViewer
+                    key={replayCount}
+                    src="/Phone/model/griffin.glb"
+                    voiceSrcs={CALL_AUDIO}
+                    onAnswer={() => {
+                      stopRinging();
+                      setAnswered(true);
+                    }}
+                    say={griffinSays}
+                    onHangUp={() => setAfterCall("fading")}
+                  />
+                </div>
+                {answered && <ResponsePanel key={replayCount} onResponded={onResponded} />}
+              </div>
+              {afterCall == "busy" && <BusyPrompt onYes={() => setAfterCall("email")} />}
+              {afterCall == "email" && <MadlibEmail onDone={() => router.push("/")} />}
+              {!afterCall && (
+                <button
+                  className="secret-replay absolute right-5 top-5 rounded bg-gray-800 p-2 text-white"
+                  onClick={() => {
+                    startRinging();
+                    setAnswered(false);
+                    setResponses(0);
+                    setGriffinSays(null);
+                    setReplayCount((n) => n + 1);
+                  }}
+                >
+                  Replay
+                </button>
+              )}
             </>
           )}
         </div>

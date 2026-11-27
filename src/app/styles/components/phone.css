@@ -233,3 +233,222 @@
 .response-respond:not(:disabled):hover {
   background: rgb(21 128 61);
 }
+
+/* ---- After the call -------------------------------------------------------- */
+
+/* Holds the 3D view and reply panel; fades to black once he hangs up. */
+.secret-call {
+  position: absolute;
+  inset: 0;
+  transition: opacity 1.5s ease-in;
+}
+
+.secret-call.ended {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* "Griffin is super busy right now..." */
+.busy-prompt {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  animation: secret-fade-in 0.8s ease-out;
+}
+
+.busy-card {
+  max-width: 560px;
+  padding: 36px 40px;
+  border: 1px solid rgb(75 85 99);
+  border-radius: 10px;
+  background: rgb(17 24 39);
+  color: white;
+  font-size: 24px;
+  text-align: center;
+}
+
+.busy-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.contact-page .busy-actions button {
+  min-width: 120px;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s, transform 0.1s;
+}
+
+.busy-yes {
+  background: rgb(22 101 52);
+  font-weight: 600;
+}
+
+.busy-yes:hover,
+.busy-yes.pressed {
+  background: rgb(21 128 61);
+}
+
+.busy-yes.pressed {
+  transform: scale(0.95);
+}
+
+.busy-no {
+  background: rgb(55 65 81);
+}
+
+.busy-no:hover {
+  background: rgb(75 85 99);
+}
+
+/* While the drawn cursor takes over, hide the real one and ignore clicks. */
+.contact-page .busy-prompt.hijacked,
+.contact-page .busy-prompt.hijacked * {
+  cursor: none;
+}
+
+.busy-prompt.hijacked .busy-card {
+  pointer-events: none;
+}
+
+.fake-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+  pointer-events: none;
+  filter: drop-shadow(1px 2px 1px rgb(0 0 0 / 0.4));
+}
+
+.fake-cursor svg {
+  transform-origin: 0 0;
+  transition: transform 0.1s;
+}
+
+.fake-cursor.pressed svg {
+  transform: scale(0.85);
+}
+
+/* The special email form: a letter with blanks to fill in. */
+.madlib-email {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  padding: 80px 24px 48px;
+  color: white;
+  font-size: 18px;
+  cursor: default;
+  animation: secret-fade-in 0.8s ease-out;
+}
+
+.madlib-email > * {
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.madlib-email h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.madlib-hint {
+  color: rgb(156 163 175);
+  margin-bottom: 20px;
+}
+
+.madlib-letter {
+  padding: 28px 32px;
+  border: 1px solid rgb(75 85 99);
+  border-radius: 8px;
+  background: rgb(17 24 39);
+  white-space: pre-wrap;
+  line-height: 2.2;
+}
+
+.madlib-blank {
+  margin: 0 2px;
+  padding: 0 6px;
+  border: none;
+  border-bottom: 2px solid rgb(250 204 21);
+  border-radius: 3px 3px 0 0;
+  background: rgb(250 204 21 / 0.08);
+  color: rgb(254 240 138);
+  font: inherit;
+  line-height: 1.5;
+}
+
+.madlib-blank::placeholder {
+  color: rgb(161 161 170);
+  font-style: italic;
+}
+
+.madlib-blank:focus {
+  outline: none;
+  background: rgb(250 204 21 / 0.18);
+}
+
+.contact-page .madlib-email input {
+  cursor: text;
+}
+
+.contact-page .madlib-email select {
+  cursor: pointer;
+}
+
+.madlib-blank option {
+  background: rgb(17 24 39);
+  color: white;
+}
+
+/* Off-screen box only bots fill in. */
+.madlib-trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+}
+
+.madlib-error {
+  margin-top: 16px;
+  color: rgb(248 113 113);
+}
+
+.madlib-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.contact-page .madlib-email .madlib-primary {
+  min-width: 140px;
+  padding: 10px 20px;
+  border-radius: 6px;
+  background: rgb(22 101 52);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.contact-page .madlib-email .madlib-primary:hover:not(:disabled) {
+  background: rgb(21 128 61);
+}
+
+.contact-page .madlib-email .madlib-primary:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.madlib-sent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+}

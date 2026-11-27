@@ -18,8 +18,14 @@ const IDLE_BEFORE_ANSWER = 1.2;
 const PHONE_APPEARS_AT = 24 / 24;
 const BUTTON_PRESSED_AT = 52 / 24;
 const PHONE_AT_EAR = 82 / 24;
-// Played (without the telephone effect) as he presses the answer button.
+// Played (without the telephone effect) as he presses the answer button, and
+// again when he presses it to hang up.
 const BUTTON_BEEP = "/Phone/audio/answer-beep.mp3";
+// To hang up, the answer animation plays backwards from his ear to the button
+// press, this many times faster than it played forwards.
+const HANG_UP_SPEED = 1.2;
+// How long he holds the hang-up press before onHangUp runs, in seconds.
+const HANG_UP_HOLD = 0.8;
 // Name of the shape key in the .glb that opens the mouth overlay.
 const MOUTH_SHAPE = "MouthOpen";
 // Voice loudness below this leaves the mouth shut, so breaths and hiss don't
@@ -34,8 +40,11 @@ type Props = {
   // Called the moment he presses the answer button.
   onAnswer?: () => void;
   // A line for him to say right now (through the telephone effect, with his
-  // mouth moving). Give each new line a new id.
-  say?: { src: string; id: number } | null;
+  // mouth moving). Give each new line a new id. If it's the last line, he
+  // lowers the phone and hangs up once he's done saying it.
+  say?: { src: string; id: number; last?: boolean } | null;
+  // Called once he has pressed the button to hang up.
+  onHangUp?: () => void;
 };
 
 // Fills its parent with a drag-to-orbit view of the model, which pulls a cell
@@ -46,13 +55,16 @@ const ModelViewer: FC<Props> = ({
   voiceSrcs = [],
   onAnswer,
   say,
+  onHangUp,
 }): ReactElement => {
-  // Kept in a ref so a new callback doesn't restart the whole scene.
+  // Kept in refs so a new callback doesn't restart the whole scene.
   const onAnswerRef = useRef(onAnswer);
   onAnswerRef.current = onAnswer;
+  const onHangUpRef = useRef(onHangUp);
+  onHangUpRef.current = onHangUp;
   const container = useRef<HTMLDivElement>(null);
   // Set up by the scene below; plays one line through the phone.
-  const sayRef = useRef<((src: string) => void) | null>(null);
+  const sayRef = useRef<((src: string, last?: boolean) => void) | null>(null);
 
   useEffect(() => {
     const host = container.current;
@@ -91,8 +103,12 @@ const ModelViewer: FC<Props> = ({
     let talking = false;
     // Every mesh part with the mouth shape key, with that key's index.
     const mouths: { mesh: THREE.Mesh; index: number }[] = [];
+    // "lowering" while the phone comes down from his ear, "done" once he has
+    // pressed the button.
+    let hangUp: null | "lowering" | "done" = null;
     let disposed = false;
     let startTimer: ReturnType<typeof setTimeout> | undefined;
+    let hangUpTimer: ReturnType<typeof setTimeout> | undefined;
 
     new GLTFLoader().load(src, (gltf) => {
       if (disposed) return;
@@ -145,10 +161,24 @@ const ModelViewer: FC<Props> = ({
       }, IDLE_BEFORE_ANSWER * 1000);
     });
 
-    sayRef.current = (line) => {
-      if (disposed) return;
+    // Run the answer animation backwards, from his ear down to the button.
+    const startHangUp = () => {
+      if (disposed || hangUp || !answerAction) return;
+      hangUp = "lowering";
+      answerAction.paused = false;
+      answerAction.timeScale = -HANG_UP_SPEED;
+      answerAction.time = Math.min(answerAction.time, PHONE_AT_EAR);
+    };
+
+    sayRef.current = (line, last) => {
+      if (disposed || hangUp) return;
       voice?.stop();
-      voice = playThroughPhone(line, { onEnded: () => (voice = null) });
+      voice = playThroughPhone(line, {
+        onEnded: () => {
+          voice = null;
+          if (last) startHangUp();
+        },
+      });
     };
 
     // Plays the voice clips one after another.
@@ -178,6 +208,14 @@ const ModelViewer: FC<Props> = ({
           talking = true;
           playFrom(0);
         }
+        // Stop on the button press, beep, and hold it there a moment.
+        if (hangUp == "lowering" && t <= BUTTON_PRESSED_AT) {
+          hangUp = "done";
+          answerAction.time = BUTTON_PRESSED_AT;
+          answerAction.paused = true;
+          new Audio(BUTTON_BEEP).play().catch(() => {});
+          hangUpTimer = setTimeout(() => onHangUpRef.current?.(), HANG_UP_HOLD * 1000);
+        }
       }
 
       // Open the mouth overlay with the voice: open quickly on loud bits,
@@ -200,6 +238,7 @@ const ModelViewer: FC<Props> = ({
     return () => {
       disposed = true;
       clearTimeout(startTimer);
+      clearTimeout(hangUpTimer);
       voice?.stop();
       window.removeEventListener("resize", onResize);
       renderer.setAnimationLoop(null);
@@ -210,7 +249,7 @@ const ModelViewer: FC<Props> = ({
   }, [src, voiceSrcs.join("|")]);
 
   useEffect(() => {
-    if (say) sayRef.current?.(say.src);
+    if (say) sayRef.current?.(say.src, say.last);
   }, [say?.id]);
 
   return <div ref={container} className="model-viewer" />;
