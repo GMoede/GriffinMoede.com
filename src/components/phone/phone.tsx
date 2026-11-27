@@ -26,6 +26,18 @@ type dialingState =
   | "star"
   | null;
 
+// Images the page swaps in once you pick up the phone or press a key. They're
+// loaded when the page opens so they're ready to draw the moment they're
+// needed, instead of leaving a blank frame while they download.
+const LATER_IMAGES = [
+  "/arm_pointing_pixellated.png",
+  "/arm_holding_pixellated.png",
+  "/Phone/phone_unhooked.png",
+  ...[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "pound", "star"].map(
+    (key) => `/Phone/phone_pressing_${key}.png`
+  ),
+];
+
 const Phone: FC = (): ReactElement => {
   // A zero-size box that sits on the cursor; the arm hangs off it, so rotating
   // this box pivots the arm around the cursor.
@@ -51,6 +63,17 @@ const Phone: FC = (): ReactElement => {
   const PRESS_SMOOTHING = 0.04;
   // The press tilt currently applied; eases toward PRESS_TILT or 0.
   const pressTilt = useRef(0);
+
+  // Holds the preloaded images so the browser keeps them decoded in memory.
+  const laterImages = useRef<HTMLImageElement[]>([]);
+  useEffect(() => {
+    laterImages.current = LATER_IMAGES.map((src) => {
+      const img = new Image();
+      img.src = src;
+      img.decode().catch(() => {});
+      return img;
+    });
+  }, []);
 
   // Coming from the room, the cursor is already somewhere on screen: start the
   // arm there, before the first paint, so it neither shows up in the corner
@@ -207,10 +230,6 @@ const Phone: FC = (): ReactElement => {
 
   return (
     <div className="phone-and-stand" onMouseMove={moveHand}>
-      <div className="contact-header">
-        <h1>Like what you see? Give me a ring!! (email)</h1>
-        <h1>griffinmoede@gmail.com</h1>
-      </div>
       <div ref={Hand} className="hand-pivot">
         <img src={handSource} alt="" className={handClass} style={handOffset} />
       </div>
