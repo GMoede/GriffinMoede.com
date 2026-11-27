@@ -4,6 +4,7 @@ import React, { FC, ReactElement, useEffect, useRef } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { playThroughPhone, PhoneVoice } from "./phoneAudio";
 
 // Animation names baked into the .glb.
 const IDLE_ANIMATION = "Idle_CXB";
@@ -11,21 +12,36 @@ const ANSWER_ANIMATION = "AnswerPhone";
 // How long he stands idle before reaching for the phone, in seconds.
 const IDLE_BEFORE_ANSWER = 1.2;
 // Moments in the answer animation (24fps in Blender): the hand is deepest in
-// the pocket at frame 24, where it grabs the phone, and the answer button is
-// pressed at frame 52. Keep in sync with scripts/build-answer-animation.py.
+// the pocket at frame 24, where it grabs the phone, the answer button is
+// pressed at frame 52, and the phone reaches his ear at frame 82, when the
+// voice starts. Keep in sync with scripts/build-answer-animation.py.
 const PHONE_APPEARS_AT = 24 / 24;
 const BUTTON_PRESSED_AT = 52 / 24;
+const PHONE_AT_EAR = 82 / 24;
+// Played (without the telephone effect) as he presses the answer button.
+const BUTTON_BEEP = "/Phone/audio/answer-beep.mp3";
+// Name of the shape key in the .glb that opens the mouth overlay.
+const MOUTH_SHAPE = "MouthOpen";
+// Voice loudness below this leaves the mouth shut, so breaths and hiss don't
+// move it.
+const MOUTH_THRESHOLD = 0.12;
 
 type Props = {
   src: string;
-  // Played once the phone is at his ear.
-  voiceSrc?: string;
+  // Played one after another once the phone is at his ear, each run through
+  // the telephone effect.
+  voiceSrcs?: string[];
+  // Called the moment he presses the answer button.
+  onAnswer?: () => void;
 };
 
 // Fills its parent with a drag-to-orbit view of the model, which pulls a cell
 // phone out of its pocket, answers it, holds it to its ear, then plays the
 // voice recording.
-const ModelViewer: FC<Props> = ({ src, voiceSrc }): ReactElement => {
+const ModelViewer: FC<Props> = ({ src, voiceSrcs = [], onAnswer }): ReactElement => {
+  // Kept in a ref so a new callback doesn't restart the whole scene.
+  const onAnswerRef = useRef(onAnswer);
+  onAnswerRef.current = onAnswer;
   const container = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -59,7 +75,12 @@ const ModelViewer: FC<Props> = ({ src, voiceSrc }): ReactElement => {
     let answerAction: THREE.AnimationAction | null = null;
     let phone: THREE.Object3D | undefined;
     let answerButton: THREE.Object3D | undefined;
-    let voice: HTMLAudioElement | null = null;
+    let voice: PhoneVoice | null = null;
+    let mouthOpen = 0;
+    let beeped = false;
+    let talking = false;
+    // Every mesh part with the mouth shape key, with that key's index.
+    const mouths: { mesh: THREE.Mesh; index: number }[] = [];
     let disposed = false;
     let startTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -88,6 +109,12 @@ const ModelViewer: FC<Props> = ({ src, voiceSrc }): ReactElement => {
       answerButton = model.getObjectByName("AnswerButton");
       if (phone) phone.visible = false;
 
+      model.traverse((o) => {
+        const mesh = o as THREE.Mesh;
+        const index = mesh.morphTargetDictionary?.[MOUTH_SHAPE];
+        if (index != null && mesh.morphTargetInfluences) mouths.push({ mesh, index });
+      });
+
       mixer = new THREE.AnimationMixer(model);
       const idleClip = THREE.AnimationClip.findByName(gltf.animations, IDLE_ANIMATION);
       const answerClip = THREE.AnimationClip.findByName(
@@ -106,13 +133,18 @@ const ModelViewer: FC<Props> = ({ src, voiceSrc }): ReactElement => {
         answerAction.reset().play();
         if (idle) answerAction.crossFadeFrom(idle, 0.4, false);
       }, IDLE_BEFORE_ANSWER * 1000);
-
-      mixer.addEventListener("finished", (e) => {
-        if (e.action != answerAction || !voiceSrc) return;
-        voice = new Audio(voiceSrc);
-        voice.play().catch(() => {});
-      });
     });
+
+    // Plays the voice clips one after another.
+    const playFrom = (i: number) => {
+      if (disposed || i >= voiceSrcs.length) return;
+      voice = playThroughPhone(voiceSrcs[i], {
+        onEnded: () => {
+          voice = null;
+          playFrom(i + 1);
+        },
+      });
+    };
 
     const clock = new THREE.Clock();
     renderer.setAnimationLoop(() => {
@@ -121,7 +153,23 @@ const ModelViewer: FC<Props> = ({ src, voiceSrc }): ReactElement => {
         const t = answerAction.time;
         if (phone) phone.visible = t >= PHONE_APPEARS_AT;
         if (answerButton) answerButton.visible = t < BUTTON_PRESSED_AT;
+        if (t >= BUTTON_PRESSED_AT && !beeped) {
+          beeped = true;
+          onAnswerRef.current?.();
+          new Audio(BUTTON_BEEP).play().catch(() => {});
+        }
+        if (t >= PHONE_AT_EAR && !talking) {
+          talking = true;
+          playFrom(0);
+        }
       }
+
+      // Open the mouth overlay with the voice: open quickly on loud bits,
+      // close a little slower, and stay shut between words.
+      const loud = voice ? voice.level() : 0;
+      const target = loud > MOUTH_THRESHOLD ? Math.min((loud - MOUTH_THRESHOLD) * 3, 1) : 0;
+      mouthOpen += (target - mouthOpen) * (target > mouthOpen ? 0.6 : 0.35);
+      for (const { mesh, index } of mouths) mesh.morphTargetInfluences![index] = mouthOpen;
       controls.update();
       renderer.render(scene, camera);
     });
@@ -136,14 +184,14 @@ const ModelViewer: FC<Props> = ({ src, voiceSrc }): ReactElement => {
     return () => {
       disposed = true;
       clearTimeout(startTimer);
-      voice?.pause();
+      voice?.stop();
       window.removeEventListener("resize", onResize);
       renderer.setAnimationLoop(null);
       controls.dispose();
       renderer.dispose();
       host.removeChild(renderer.domElement);
     };
-  }, [src, voiceSrc]);
+  }, [src, voiceSrcs.join("|")]);
 
   return <div ref={container} className="model-viewer" />;
 };

@@ -343,10 +343,127 @@ for f in (82, END):
 
 ad.action = act
 if act.slots:
+    # Name the slot like the rig's other actions ("Legacy Slot"), so picking a
+    # different action in Blender's Action Editor keeps the rig animating
+    # instead of leaving it with no slot assigned.
+    act.slots[0].name_display = "Legacy Slot"
     ad.action_slot = act.slots[0]
+print("SLOTS", {a.name: [sl.identifier for sl in a.slots] for a in bpy.data.actions})
 scene.frame_start, scene.frame_end = 0, END
 
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(OUT_DIR, "griffin_answer.blend"), copy=True)
+
+# ---- mouth -----------------------------------------------------------------
+# A dark mouth opening laid over the mouth painted on his face texture. It's
+# fixed to the head bone and has a "MouthOpen" shape key: at 0 it's a flat
+# line along the upper lip (invisible), at 1 it opens down to the lower lip.
+# The site drives that key from the loudness of the voice recordings.
+
+# Where the painted mouth is in Tex_GriffHead.png (256x256 px). The face is
+# mirrored: the middle of his face is the face island's left edge, x = 13-14.
+TEX = 256
+MOUTH_UV = {
+    "upper": (14.5, 183),  # upper lip, middle of the face
+    "lower": (14.5, 198),  # lower lip, middle of the face
+    "corner": (49, 181),   # corner of the mouth
+}
+
+body = bpy.data.objects["Head_Griff"]
+head_slot = [i for i, sl in enumerate(body.material_slots)
+             if sl.material and sl.material.name == "Mat_GriffHead"][0]
+scene.frame_set(0)
+dg = bpy.context.evaluated_depsgraph_get()
+posed = body.evaluated_get(dg).to_mesh()
+posed.calc_loop_triangles()
+uvs = posed.uv_layers.active.data
+to_world = body.matrix_world
+
+def on_face(px, py):
+    """Every spot on the posed head where the texture pixel (px, py) lands,
+    as (world position, world normal). Mirrored halves give two hits."""
+    p = Vector((px / TEX, 1 - py / TEX))
+    hits = []
+    for tri in posed.loop_triangles:
+        if tri.material_index != head_slot:
+            continue
+        a, b, c = (uvs[i].uv for i in tri.loops)
+        d = (b.y - c.y) * (a.x - c.x) + (c.x - b.x) * (a.y - c.y)
+        if abs(d) < 1e-12:
+            continue
+        w1 = ((b.y - c.y) * (p.x - c.x) + (c.x - b.x) * (p.y - c.y)) / d
+        w2 = ((c.y - a.y) * (p.x - c.x) + (a.x - c.x) * (p.y - c.y)) / d
+        w3 = 1 - w1 - w2
+        if min(w1, w2, w3) < -1e-6:
+            continue
+        va, vb, vc = (posed.vertices[i].co for i in tri.vertices)
+        pos = to_world @ (va * w1 + vb * w2 + vc * w3)
+        normal = (to_world.to_3x3() @ tri.normal).normalized()
+        hits.append((pos, normal))
+    return hits
+
+def front_most(hits):
+    return min(hits, key=lambda h: h[0].y)   # he faces -Y
+
+upper_hits = on_face(*MOUTH_UV["upper"])
+upper, _ = front_most(upper_hits)
+# Each half of the low-poly face is one big tilted triangle here, so average
+# the mirrored pair to get a normal pointing straight out of the face.
+normal = sum((h[1] for h in upper_hits), Vector()).normalized()
+lower, _ = front_most(on_face(*MOUTH_UV["lower"]))
+corners = on_face(*MOUTH_UV["corner"])
+left = max(corners, key=lambda h: h[0].x)[0]
+right = min(corners, key=lambda h: h[0].x)[0]
+print("MOUTH upper", tuple(round(v, 3) for v in upper), "lower", tuple(round(v, 3) for v in lower),
+      "left", tuple(round(v, 3) for v in left), "right", tuple(round(v, 3) for v in right))
+
+# A frame at the middle of the upper lip: X across the mouth, Z out of the
+# face, Y up.
+z_axis = normal
+x_axis = (left - right)
+x_axis = (x_axis - z_axis * x_axis.dot(z_axis)).normalized()
+y_axis = z_axis.cross(x_axis)
+frame = Matrix((x_axis, y_axis, z_axis)).transposed().to_4x4()
+frame.translation = upper
+local = lambda v: frame.inverted() @ v
+
+half = (local(left).x - local(right).x) / 2
+corner_l = local(left)
+depth = -local(lower).y             # upper lip down to lower lip
+corner_up = corner_l.y               # corners sit a bit higher than the middle
+corner_back = corner_l.z             # and further back around the face
+LIFT = 0.004                         # just in front of the skin, never inside it
+
+N = 12
+top, bottom = [], []
+for i in range(N + 1):
+    t = -1 + 2 * i / N               # -1 .. 1 across the mouth
+    y = corner_up * t * t
+    z = corner_back * t * t + LIFT
+    top.append(Vector((t * half, y, z)))
+    bottom.append(Vector((t * half, y - depth * math.sqrt(max(0.0, 1 - t * t)), z)))
+
+mesh = bpy.data.meshes.new("MouthOverlay")
+mesh.from_pydata([*top, *top], [], [(i, i + 1, N + 2 + i, N + 1 + i) for i in range(N)])
+mesh.materials.append(mat("MouthInside", (0.06, 0.015, 0.015)))
+overlay = bpy.data.objects.new("MouthOverlay", mesh)
+scene.collection.objects.link(overlay)
+overlay.shape_key_add(name="Basis")
+opened = overlay.shape_key_add(name="MouthOpen")
+for i, v in enumerate(bottom):
+    opened.data[N + 1 + i].co = v
+opened.value = float(os.environ.get("MOUTH", "0"))
+
+# Fix it to the head bone. A bone child hangs off the bone's tail, so work out
+# its local transform from the posed head bone rather than assigning
+# matrix_world (which lands scaled and shifted here).
+head_bone = pbs["spine.006"]
+overlay.parent = rig
+overlay.parent_type = "BONE"
+overlay.parent_bone = "spine.006"
+overlay.matrix_parent_inverse = Matrix.Identity(4)
+bone_world = rig.matrix_world @ head_bone.matrix @ Matrix.Translation((0, head_bone.length, 0))
+overlay.matrix_basis = bone_world.inverted() @ frame
+upd()
 
 if RENDER:
     scene.render.engine = "BLENDER_WORKBENCH"
@@ -362,7 +479,7 @@ if RENDER:
     target = Vector((-0.1, 0, float(os.environ.get("TARGET_Z", "1.35"))))
     k = float(os.environ.get("VIEW_SCALE", "1"))
     target.x = float(os.environ.get("TARGET_X", "-0.1"))
-    views = {"front": Vector((-1.0, -2.6, 0.15)) * k + target, "side": Vector((-2.8, -0.2, 0.15)) * k + target, "back": Vector((-1.6, 2.4, 0.25)) * k + target}
+    views = {"straight": Vector((0, -2.8, 0.1)) * k + target, "front": Vector((-1.0, -2.6, 0.15)) * k + target, "side": Vector((-2.8, -0.2, 0.15)) * k + target, "back": Vector((-1.6, 2.4, 0.25)) * k + target}
     for f in [int(x) for x in os.environ.get("FRAMES", "0,14,24,38,50,56,80").split(",")]:
         for vname, pos in views.items():
             cam.location = pos

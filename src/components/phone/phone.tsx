@@ -11,6 +11,7 @@ import React, {
 import dynamic from "next/dynamic";
 import "../../app/styles/components/phone.css";
 import { getLastPointer } from "../../functions/lastPointer";
+import { playThroughPhone, PhoneVoice } from "./phoneAudio";
 // three.js is only downloaded once someone dials the secret number.
 const ModelViewer = dynamic(() => import("./ModelViewer"), { ssr: false });
 
@@ -20,6 +21,12 @@ const SECRET_NUMBER = "5039544333";
 // How long the screen takes to fade to black, in ms. Keep in sync with
 // .secret-overlay in phone.css.
 const FADE_MS = 1500;
+// Recordings played in order once he has the phone to his ear. Each one is run
+// through the telephone effect in phoneAudio.ts, so add clean recordings here.
+const CALL_AUDIO = ["/Phone/audio/call/this-is-griffin.m4a"];
+// His ringtone: fades in with the black screen, through the same telephone
+// effect, and stops when he presses answer.
+const RINGTONE = "/Phone/audio/call/ringtone.m4a";
 
 type phoneState = "hungUp" | "unhooked" | "pressing";
 type dialingState =
@@ -64,6 +71,18 @@ const Phone: FC = (): ReactElement => {
   // Bumped by the Replay button; a new key remounts the viewer, which starts
   // the animation (and the voice recording) over from the beginning.
   const [replayCount, setReplayCount] = useState(0);
+
+  const ringtone = useRef<PhoneVoice | null>(null);
+  const stopRinging = () => {
+    ringtone.current?.stop();
+    ringtone.current = null;
+  };
+  const startRinging = () => {
+    stopRinging();
+    ringtone.current = playThroughPhone(RINGTONE, { fadeInMs: FADE_MS, loop: true });
+  };
+  // Don't leave it ringing after navigating away.
+  useEffect(() => stopRinging, []);
   const mousePosition = useRef({ x: 0, y: 0 });
   // Where the hand currently is; it eases toward mousePosition every frame.
   const handPosition = useRef({ x: 0, y: 0 });
@@ -217,6 +236,7 @@ const Phone: FC = (): ReactElement => {
     if (dialed.current == SECRET_NUMBER && !secretState) {
       dialed.current = "";
       setSecretState("fading");
+      startRinging();
     }
   };
 
@@ -295,11 +315,15 @@ const Phone: FC = (): ReactElement => {
               <ModelViewer
                 key={replayCount}
                 src="/Phone/model/griffin.glb"
-                voiceSrc="/Phone/audio/voicemail.mp3"
+                voiceSrcs={CALL_AUDIO}
+                onAnswer={stopRinging}
               />
               <button
                 className="secret-replay absolute right-5 top-5 rounded bg-gray-800 p-2 text-white"
-                onClick={() => setReplayCount((n) => n + 1)}
+                onClick={() => {
+                  startRinging();
+                  setReplayCount((n) => n + 1);
+                }}
               >
                 Replay
               </button>
