@@ -1,16 +1,12 @@
 // The fill-in-the-blanks email offered after Griffin hangs up. Every
 // [Something] becomes a blank for the visitor to fill in, labelled
-// "Something". The [Name] after the closing "From," at the end is a dropdown
-// of SENDER_NAMES instead, with a "Custom" choice for typing their own.
-//
-// PLACEHOLDER: replace this with the real draft.
+// "Something". The [Name] signing it off at the very end is a dropdown of
+// SENDER_NAMES instead, with a "Custom" choice for typing their own.
 export const EMAIL_TEMPLATE = `Dear Griffin,
 
-I tried to call you today, but you were too [Adjective] to talk. I wanted to tell you about my [Noun], which is [Adjective] and smells like [Food].
+I was the one who just called and I wanted to continue our fun conversation. You seem like a [Adjective] person. I am interested in your [Noun] and your collection of antique faux fruit. I think we might have [Noun] in our future. I wanted to see if you could [Verb]. In a platonic way, I find you very attractive. I would not invite you over to dinner if I was cooking [Food]. I hope we are now on clear terms.
 
-Please call me back before [Day of the week], or I will [Verb] your [Noun] into the sea.
-
-From,
+With humble gratitude,
 [Name]`;
 
 export const SENDER_NAMES = ["Joe", "Steve", "Frank", "Marty"];
