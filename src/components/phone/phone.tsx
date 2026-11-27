@@ -28,6 +28,10 @@ const CALL_AUDIO = ["/Phone/audio/call/this-is-griffin.m4a"];
 // His ringtone: fades in with the black screen, through the same telephone
 // effect, and stops when he presses answer.
 const RINGTONE = "/Phone/audio/call/ringtone.m4a";
+// What he says after each of the visitor's replies, in order: the first line
+// after the first reply, and so on. Clean recordings; the telephone effect is
+// added when they play.
+const REPLIES = ["/Phone/audio/call/ok-so-whats-up.m4a"];
 
 type phoneState = "hungUp" | "unhooked" | "pressing";
 type dialingState =
@@ -75,6 +79,16 @@ const Phone: FC = (): ReactElement => {
   // Once he presses answer, the model slides left and the reply panel opens
   // on the right.
   const [answered, setAnswered] = useState(false);
+  // How many replies the visitor has sent, and the line he's saying back.
+  const [responses, setResponses] = useState(0);
+  const [griffinSays, setGriffinSays] = useState<{ src: string; id: number } | null>(
+    null
+  );
+  const onResponded = () => {
+    const n = responses + 1;
+    setResponses(n);
+    if (REPLIES[n - 1]) setGriffinSays({ src: REPLIES[n - 1], id: n });
+  };
 
   const ringtone = useRef<PhoneVoice | null>(null);
   const stopRinging = () => {
@@ -325,14 +339,17 @@ const Phone: FC = (): ReactElement => {
                     stopRinging();
                     setAnswered(true);
                   }}
+                  say={griffinSays}
                 />
               </div>
-              {answered && <ResponsePanel key={replayCount} />}
+              {answered && <ResponsePanel key={replayCount} onResponded={onResponded} />}
               <button
                 className="secret-replay absolute right-5 top-5 rounded bg-gray-800 p-2 text-white"
                 onClick={() => {
                   startRinging();
                   setAnswered(false);
+                  setResponses(0);
+                  setGriffinSays(null);
                   setReplayCount((n) => n + 1);
                 }}
               >

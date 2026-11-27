@@ -33,16 +33,26 @@ type Props = {
   voiceSrcs?: string[];
   // Called the moment he presses the answer button.
   onAnswer?: () => void;
+  // A line for him to say right now (through the telephone effect, with his
+  // mouth moving). Give each new line a new id.
+  say?: { src: string; id: number } | null;
 };
 
 // Fills its parent with a drag-to-orbit view of the model, which pulls a cell
 // phone out of its pocket, answers it, holds it to its ear, then plays the
 // voice recording.
-const ModelViewer: FC<Props> = ({ src, voiceSrcs = [], onAnswer }): ReactElement => {
+const ModelViewer: FC<Props> = ({
+  src,
+  voiceSrcs = [],
+  onAnswer,
+  say,
+}): ReactElement => {
   // Kept in a ref so a new callback doesn't restart the whole scene.
   const onAnswerRef = useRef(onAnswer);
   onAnswerRef.current = onAnswer;
   const container = useRef<HTMLDivElement>(null);
+  // Set up by the scene below; plays one line through the phone.
+  const sayRef = useRef<((src: string) => void) | null>(null);
 
   useEffect(() => {
     const host = container.current;
@@ -135,6 +145,12 @@ const ModelViewer: FC<Props> = ({ src, voiceSrcs = [], onAnswer }): ReactElement
       }, IDLE_BEFORE_ANSWER * 1000);
     });
 
+    sayRef.current = (line) => {
+      if (disposed) return;
+      voice?.stop();
+      voice = playThroughPhone(line, { onEnded: () => (voice = null) });
+    };
+
     // Plays the voice clips one after another.
     const playFrom = (i: number) => {
       if (disposed || i >= voiceSrcs.length) return;
@@ -192,6 +208,10 @@ const ModelViewer: FC<Props> = ({ src, voiceSrcs = [], onAnswer }): ReactElement
       host.removeChild(renderer.domElement);
     };
   }, [src, voiceSrcs.join("|")]);
+
+  useEffect(() => {
+    if (say) sayRef.current?.(say.src);
+  }, [say?.id]);
 
   return <div ref={container} className="model-viewer" />;
 };

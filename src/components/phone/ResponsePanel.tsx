@@ -54,7 +54,12 @@ type SpeakPromise = Promise<true> & { abort: (reason: unknown) => void };
 
 // The right half of the screen once Griffin answers: click words to build a
 // sentence, then Respond reads it aloud in SAM's robot voice.
-const ResponsePanel: FC = (): ReactElement => {
+type Props = {
+  // Called each time SAM finishes reading a reply aloud.
+  onResponded?: () => void;
+};
+
+const ResponsePanel: FC<Props> = ({ onResponded }): ReactElement => {
   const [words, setWords] = useState(() => shuffled(RESPONSE_WORDS));
   const [chosen, setChosen] = useState<string[]>([]);
   const [speaking, setSpeaking] = useState(false);
@@ -71,6 +76,9 @@ const ResponsePanel: FC = (): ReactElement => {
       const { default: SamJs } = await import("sam-js");
       speech.current = new SamJs(SAM_VOICE).speak(joinWords(chosen)) as SpeakPromise;
       await speech.current;
+      // Sent: empty the box for the next reply.
+      setChosen([]);
+      onResponded?.();
     } catch {
       // Aborted or the browser blocked audio; nothing to do.
     } finally {
