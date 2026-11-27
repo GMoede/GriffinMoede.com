@@ -147,6 +147,20 @@ body {
   justify-content: center;
 }
 
+/* Sits exactly on the cursor; rotating it tilts the arm around the cursor. */
+.hand-pivot {
+  position: absolute;
+  width: 0;
+  height: 0;
+  transform-origin: 0 0;
+  z-index: 3;
+}
+
+/* Tailwind caps images at their container's width, which is 0 here. */
+.hand-pivot img {
+  max-width: none;
+}
+
 .hand-reaching {
   /* width: 60vw; */
   height: 900px;

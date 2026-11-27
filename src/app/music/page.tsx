@@ -15,6 +15,7 @@ const Page: FC = (): ReactElement => {
     const newLeft = headphoneState == "off" ? Xposition - 140 : Xposition - 670;
     const newTop = headphoneState == "off" ? Yposition - 140 : Yposition - 140;
 
+    if (!Hand.current) return;
     Hand.current.style.left = `${newLeft}px`;
     Hand.current.style.top = `${newTop}px`;
   };
@@ -31,7 +32,7 @@ const Page: FC = (): ReactElement => {
   } else if (headphoneState == "held") {
     handSource = "/Music/handsholdingheadphones-pixellated.png";
   } else if (headphoneState == "on") {
-    handSource = "";
+    handSource = undefined;
   }
 
   const grabHeadphones = (e: React.MouseEvent) => {
@@ -45,8 +46,11 @@ const Page: FC = (): ReactElement => {
         return new Promise((resolve) => setTimeout(resolve, ms));
       }
 
+      if (!Hand.current) return;
       Hand.current.className += " grow";
       await delay(1000);
+      // The page may have been left (or reloaded) during the animation.
+      if (!Hand.current) return;
       Hand.current.className = "hand-reaching";
       setHeadphoneState("on");
     }
@@ -85,7 +89,7 @@ const Page: FC = (): ReactElement => {
         ></button>
       )} */}
       <div
-        className="music-room"
+        className={`music-room ${headphoneState == "on" ? "show-cursor" : ""}`}
         onMouseMove={moveHand}
         onClick={putOnHeadphones}
       >

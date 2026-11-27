@@ -21,6 +21,13 @@
   flex-grow: 0;
   flex-shrink: 0;
   overflow: hidden;
+  /* The arm stands in for the mouse, like on the phone page. */
+  cursor: none;
+}
+
+/* With the headphones on there is no arm on screen, so show the real mouse. */
+.music-room.show-cursor {
+  cursor: auto;
 }
 
 .headphones {
@@ -43,6 +50,7 @@
   position: absolute;
   top: 5%;
   left: 10%;
+  cursor: none;
 }
 
 .take-off-headphones {

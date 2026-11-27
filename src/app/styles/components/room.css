@@ -26,6 +26,20 @@
   transform-style: preserve-3d;
 }
 
+#room-front {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+#room-front > * {
+  pointer-events: auto;
+}
+
 #room figure {
   margin: 0;
   display: block;
@@ -81,13 +95,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transform-style: preserve-3d;
 }
 
+/* The lamp drawing is a side view, so stand it upright, hanging down from
+   its top edge, instead of lying flat against the ceiling. */
 .ceiling-light {
-  width: 20%;
-  min-width: 100px;
-  height: 20%;
-  transform: rotate(180deg);
+  width: 10%;
+  min-width: 50px;
+  height: auto;
+  transform-origin: 50% 0%;
+  transform: rotateX(110deg) rotate(180deg);
 }
 
 .light-switch {
@@ -137,8 +155,7 @@
   position: absolute;
   width: 150px;
   height: 190px;
-  /* Keep the stand clear of the east wall's plane, which would clip it in 3D */
-  margin-right: calc((-8%) * 3);
+  margin-right: calc((-8%) * 4);
   top: 56vh;
   background-image: url("../../../assets/phonenightstand.webp");
   /* background-color: blue; */

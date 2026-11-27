@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, ReactElement, useEffect } from "react";
+import React, { FC, ReactElement, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useLights } from "../contexts/LightsContext";
 import { useAudio } from "../contexts/AudioContext";
@@ -20,9 +20,21 @@ const Room: FC = (): ReactElement => {
   // Music is disabled for now; restore toggleAudio() here to bring it back.
   const MUSIC_ENABLED = false;
 
+  const switchSound = useRef<HTMLAudioElement | null>(null);
+
   const turnOnLightsAndAudio = () => {
+    switchSound.current ??= new Audio("/MainRoom/light-switch.mp3");
+    switchSound.current.currentTime = 0;
+    switchSound.current.play().catch(() => {});
     changeLights();
     if (MUSIC_ENABLED) toggleAudio();
+  };
+
+  // Keeps playing after the page switches to /contact, since it isn't tied to
+  // anything on this page.
+  const openPhone = () => {
+    new Audio("/MainRoom/phone-stand.m4a").play().catch(() => {});
+    Navigate("contact");
   };
 
   return (
@@ -34,12 +46,6 @@ const Room: FC = (): ReactElement => {
             id="computer-desk"
             onClick={(e) => {
               Navigate("profile");
-            }}
-          ></div>
-          <div
-            id="phone-stand"
-            onClick={(e) => {
-              Navigate("contact");
             }}
           ></div>
           <div
@@ -78,6 +84,14 @@ const Room: FC = (): ReactElement => {
           <figure className="t">
             <img className="ceiling-light" src="/MainRoom/CielingLamp.webp" />
           </figure>
+        </div>
+        {/* Same perspective as #room, but a separate 3D scene, so the walls
+            and floor can't slice through the furniture placed here. */}
+        <div id="room-front">
+          <div
+            id="phone-stand"
+            onClick={openPhone}
+          ></div>
         </div>
       </section>
       {/* <div className="wall flex-grow-0 flex-shrink-0"></div> */}
