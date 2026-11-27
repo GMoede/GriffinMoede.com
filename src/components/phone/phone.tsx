@@ -1,7 +1,15 @@
 "use client";
 
-import React, { FC, ReactElement, useRef, useState, useEffect } from "react";
+import React, {
+  FC,
+  ReactElement,
+  useRef,
+  useState,
+  useEffect,
+  useLayoutEffect,
+} from "react";
 import "../../app/styles/components/phone.css";
+import { getLastPointer } from "../../functions/lastPointer";
 type phoneState = "hungUp" | "unhooked" | "pressing";
 type dialingState =
   | 0
@@ -43,6 +51,18 @@ const Phone: FC = (): ReactElement => {
   const PRESS_SMOOTHING = 0.04;
   // The press tilt currently applied; eases toward PRESS_TILT or 0.
   const pressTilt = useRef(0);
+
+  // Coming from the room, the cursor is already somewhere on screen: start the
+  // arm there, before the first paint, so it neither shows up in the corner
+  // nor jumps on the first mouse move.
+  useLayoutEffect(() => {
+    const pointer = getLastPointer();
+    if (!pointer) return;
+    hasMouseMoved.current = true;
+    mousePosition.current = { ...pointer };
+    handPosition.current = { ...pointer };
+    setHandPosition(pointer.x, pointer.y);
+  }, []);
 
   useEffect(() => {
     let frame: number;

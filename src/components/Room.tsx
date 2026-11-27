@@ -6,6 +6,9 @@ import { useLights } from "../contexts/LightsContext";
 import { useAudio } from "../contexts/AudioContext";
 import { useRouter } from "next/navigation";
 import "../app/styles/components/room.css";
+// Imported for its side effect: starts tracking the cursor so the phone page
+// can put the arm where the cursor was when the phone stand was clicked.
+import "../functions/lastPointer";
 
 // Everything the phone page (/contact) shows on its first frame.
 const PHONE_PAGE_IMAGES = [
