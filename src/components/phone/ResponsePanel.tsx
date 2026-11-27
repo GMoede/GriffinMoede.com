@@ -2,25 +2,49 @@
 
 import React, { FC, ReactElement, useEffect, useRef, useState } from "react";
 
-// The words the visitor can string together into a reply.
-// PLACEHOLDERS: replace these with the real 15 words.
+// The words the visitor can string together into a reply. They're shuffled
+// into a new order when the panel opens and again after every word picked.
 export const RESPONSE_WORDS = [
-  "Hey",
-  "Griffin",
-  "it's",
-  "me",
+  "Fart",
+  "Love",
   "I",
-  "want",
-  "to",
-  "hire",
-  "you",
-  "for",
-  "a",
-  "job",
-  "call",
-  "back",
-  "please",
+  "A",
+  "Like",
+  "Want",
+  "Costco Hotdog",
+  "Nugget",
+  "Am",
+  "For",
+  "To",
+  "Job",
+  "Synergy",
+  "Cut-throat",
+  "Farty",
+  "Cheese",
+  "Muffin",
+  "!",
+  "?",
+  "Sometimes I just wish",
+  "Hello",
+  "Do you understand me?",
 ];
+
+// Punctuation sticks to the word before it instead of getting its own space.
+const PUNCTUATION = new Set(["!", "?", ".", ","]);
+const joinWords = (words: string[]) =>
+  words.reduce(
+    (text, word) => (PUNCTUATION.has(word) || !text ? text + word : `${text} ${word}`),
+    ""
+  );
+
+const shuffled = <T,>(items: T[]) => {
+  const out = [...items];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+};
 
 // SAM's voice settings (0-255). Speed: lower is faster. Pitch: lower is
 // higher. Mouth and throat shape the tone.
@@ -31,6 +55,7 @@ type SpeakPromise = Promise<true> & { abort: (reason: unknown) => void };
 // The right half of the screen once Griffin answers: click words to build a
 // sentence, then Respond reads it aloud in SAM's robot voice.
 const ResponsePanel: FC = (): ReactElement => {
+  const [words, setWords] = useState(() => shuffled(RESPONSE_WORDS));
   const [chosen, setChosen] = useState<string[]>([]);
   const [speaking, setSpeaking] = useState(false);
   const speech = useRef<SpeakPromise | null>(null);
@@ -44,7 +69,7 @@ const ResponsePanel: FC = (): ReactElement => {
     try {
       // Loaded only when first needed.
       const { default: SamJs } = await import("sam-js");
-      speech.current = new SamJs(SAM_VOICE).speak(chosen.join(" ")) as SpeakPromise;
+      speech.current = new SamJs(SAM_VOICE).speak(joinWords(chosen)) as SpeakPromise;
       await speech.current;
     } catch {
       // Aborted or the browser blocked audio; nothing to do.
@@ -76,11 +101,14 @@ const ResponsePanel: FC = (): ReactElement => {
       </div>
 
       <div className="response-words">
-        {RESPONSE_WORDS.map((word, i) => (
+        {words.map((word, i) => (
           <button
             key={i}
             className="response-word"
-            onClick={() => setChosen((c) => [...c, word])}
+            onClick={() => {
+              setChosen((c) => [...c, word]);
+              setWords(shuffled(RESPONSE_WORDS));
+            }}
           >
             {word}
           </button>

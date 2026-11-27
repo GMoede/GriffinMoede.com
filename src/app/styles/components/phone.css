@@ -228,10 +228,17 @@
   align-self: center;
 }
 
+/* A word bank: each button is as wide as its word or phrase, flowing onto
+   as many lines as needed. */
 .response-words {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
+}
+
+.contact-page .response-panel .response-word {
+  white-space: nowrap;
+  padding: 8px 16px;
 }
 
 .contact-page .response-panel button {
