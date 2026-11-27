@@ -19,6 +19,7 @@
     "postcss": "^8.4.47",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
+    "sam-js": "^0.3.1",
     "tailwindcss": "^3.4.12",
     "three": "^0.187.0",
     "typescript": "^5.6.2"

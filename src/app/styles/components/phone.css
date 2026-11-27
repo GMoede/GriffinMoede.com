@@ -172,3 +172,113 @@
 .contact-page .secret-replay {
   cursor: pointer;
 }
+
+/* Holds the 3D view. Once he answers it slides left so he stands in the
+   left half, leaving the right half for the reply panel. */
+.secret-stage {
+  position: absolute;
+  inset: 0;
+  transition: transform 1.2s ease-in-out;
+}
+
+.secret-stage.answered {
+  transform: translateX(-25%);
+}
+
+/* The reply panel on the right half. It fades in as the model finishes
+   sliding over. */
+.response-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  padding: 80px 48px 48px;
+  color: white;
+  cursor: default;
+  opacity: 0;
+  animation: secret-fade-in 0.8s ease-out 0.9s forwards;
+}
+
+.response-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.response-sentence {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 8px;
+  /* Room for two rows of words, so the buttons below don't jump as the
+     sentence wraps. */
+  min-height: 100px;
+  padding: 12px;
+  border: 1px solid rgb(75 85 99);
+  border-radius: 6px;
+  background: rgb(17 24 39 / 0.8);
+}
+
+.response-hint {
+  color: rgb(156 163 175);
+  align-self: center;
+}
+
+.response-words {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.contact-page .response-panel button {
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 10px 12px;
+  transition: background-color 0.15s;
+}
+
+.contact-page .response-panel button:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+
+.response-word {
+  background: rgb(31 41 55);
+}
+
+.response-word:hover {
+  background: rgb(55 65 81);
+}
+
+.contact-page .response-panel .response-chosen {
+  padding: 4px 10px;
+  background: rgb(55 65 81);
+}
+
+.response-chosen:hover {
+  background: rgb(127 29 29);
+}
+
+.response-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.response-secondary {
+  background: rgb(31 41 55);
+}
+
+.response-respond {
+  background: rgb(22 101 52);
+  font-weight: 600;
+  min-width: 120px;
+}
+
+.response-respond:not(:disabled):hover {
+  background: rgb(21 128 61);
+}

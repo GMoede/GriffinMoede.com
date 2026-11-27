@@ -14,6 +14,7 @@ import { getLastPointer } from "../../functions/lastPointer";
 import { playThroughPhone, PhoneVoice } from "./phoneAudio";
 // three.js is only downloaded once someone dials the secret number.
 const ModelViewer = dynamic(() => import("./ModelViewer"), { ssr: false });
+const ResponsePanel = dynamic(() => import("./ResponsePanel"), { ssr: false });
 
 // The number printed on the phone. Dialing it fades the screen to black and
 // shows the 3D model.
@@ -71,6 +72,9 @@ const Phone: FC = (): ReactElement => {
   // Bumped by the Replay button; a new key remounts the viewer, which starts
   // the animation (and the voice recording) over from the beginning.
   const [replayCount, setReplayCount] = useState(0);
+  // Once he presses answer, the model slides left and the reply panel opens
+  // on the right.
+  const [answered, setAnswered] = useState(false);
 
   const ringtone = useRef<PhoneVoice | null>(null);
   const stopRinging = () => {
@@ -312,16 +316,23 @@ const Phone: FC = (): ReactElement => {
         <div className="secret-overlay">
           {secretState == "model" && (
             <>
-              <ModelViewer
-                key={replayCount}
-                src="/Phone/model/griffin.glb"
-                voiceSrcs={CALL_AUDIO}
-                onAnswer={stopRinging}
-              />
+              <div className={`secret-stage${answered ? " answered" : ""}`}>
+                <ModelViewer
+                  key={replayCount}
+                  src="/Phone/model/griffin.glb"
+                  voiceSrcs={CALL_AUDIO}
+                  onAnswer={() => {
+                    stopRinging();
+                    setAnswered(true);
+                  }}
+                />
+              </div>
+              {answered && <ResponsePanel key={replayCount} />}
               <button
                 className="secret-replay absolute right-5 top-5 rounded bg-gray-800 p-2 text-white"
                 onClick={() => {
                   startRinging();
+                  setAnswered(false);
                   setReplayCount((n) => n + 1);
                 }}
               >
