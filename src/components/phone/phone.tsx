@@ -160,7 +160,14 @@ const Phone: FC = (): ReactElement => {
     }
   };
 
-  const moveHand = (e: React.MouseEvent) => {
+  // Listens on the whole window, not just the phone area, so the hand keeps
+  // following the cursor over the Back button too.
+  useEffect(() => {
+    window.addEventListener("mousemove", moveHand);
+    return () => window.removeEventListener("mousemove", moveHand);
+  }, []);
+
+  const moveHand = (e: MouseEvent) => {
     const Xposition = e.clientX;
     const Yposition = e.clientY;
     mousePosition.current.x = Xposition;
@@ -229,7 +236,7 @@ const Phone: FC = (): ReactElement => {
   });
 
   return (
-    <div className="phone-and-stand" onMouseMove={moveHand}>
+    <div className="phone-and-stand">
       <div ref={Hand} className="hand-pivot">
         <img src={handSource} alt="" className={handClass} style={handOffset} />
       </div>

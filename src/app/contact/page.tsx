@@ -4,7 +4,7 @@ import BackButton from "../../components/BackButton";
 
 const Page: FC = (): ReactElement => {
   return (
-    <div className="profile-background">
+    <div className="profile-background contact-page">
       <BackButton />
       <div>
         <Phone />

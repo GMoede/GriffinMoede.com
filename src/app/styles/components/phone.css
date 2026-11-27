@@ -126,3 +126,9 @@
   top: -16px;
   left: 20px;
 }
+
+/* The hand stands in for the cursor on the phone page, Back button included. */
+.contact-page,
+.contact-page button {
+  cursor: none;
+}

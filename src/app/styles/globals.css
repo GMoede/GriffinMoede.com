@@ -153,7 +153,10 @@ body {
   width: 0;
   height: 0;
   transform-origin: 0 0;
-  z-index: 3;
+  /* Above the Back button (z-10), but clicks pass through to what's under
+     the cursor: the Back button, the phone or its keys. */
+  z-index: 20;
+  pointer-events: none;
 }
 
 /* Tailwind caps images at their container's width, which is 0 here. */
