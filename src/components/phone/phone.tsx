@@ -205,6 +205,7 @@ const Phone: FC = (): ReactElement => {
         src="/NightstandWithPhone/Nightstand.webp"
         alt=""
         loading="eager"
+        decoding="sync"
       />
 
       {phoneState != "hungUp" && (

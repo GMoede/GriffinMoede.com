@@ -6,6 +6,14 @@ import { useLights } from "../contexts/LightsContext";
 import { useAudio } from "../contexts/AudioContext";
 import { useRouter } from "next/navigation";
 import "../app/styles/components/room.css";
+
+// Everything the phone page (/contact) shows on its first frame.
+const PHONE_PAGE_IMAGES = [
+  "/NightstandWithPhone/Nightstand.webp",
+  "/Phone/phone_hungUp.png",
+  "/arm_reaching_pixellated.png",
+];
+
 const Room: FC = (): ReactElement => {
   const router = useRouter();
 
@@ -30,10 +38,35 @@ const Room: FC = (): ReactElement => {
     if (MUSIC_ENABLED) toggleAudio();
   };
 
+  // Resolves once the phone page's images are downloaded and decoded.
+  const phoneAssetsReady = useRef<Promise<unknown> | null>(null);
+  // Holds the decoded images so the browser keeps them in memory.
+  const phoneImages = useRef<HTMLImageElement[]>([]);
+
+  // Warm up the phone page while the visitor is still in the room, so opening
+  // it doesn't flash an empty screen while the nightstand photo decodes.
+  useEffect(() => {
+    router.prefetch("/contact");
+    phoneImages.current = PHONE_PAGE_IMAGES.map((src) => {
+      const img = new Image();
+      img.src = src;
+      return img;
+    });
+    phoneAssetsReady.current = Promise.all(
+      phoneImages.current.map((img) => img.decode().catch(() => {}))
+    );
+  }, [router]);
+
   // Keeps playing after the page switches to /contact, since it isn't tied to
   // anything on this page.
-  const openPhone = () => {
+  const openPhone = async () => {
     new Audio("/MainRoom/phone-stand.m4a").play().catch(() => {});
+    // If the images are still loading (a very fast click), wait for them, but
+    // never hold the click up for more than a moment.
+    await Promise.race([
+      phoneAssetsReady.current,
+      new Promise((resolve) => setTimeout(resolve, 800)),
+    ]);
     Navigate("contact");
   };
 
