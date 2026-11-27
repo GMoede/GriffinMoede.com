@@ -8,8 +8,19 @@ import React, {
   useEffect,
   useLayoutEffect,
 } from "react";
+import dynamic from "next/dynamic";
 import "../../app/styles/components/phone.css";
 import { getLastPointer } from "../../functions/lastPointer";
+// three.js is only downloaded once someone dials the secret number.
+const ModelViewer = dynamic(() => import("./ModelViewer"), { ssr: false });
+
+// The number printed on the phone. Dialing it fades the screen to black and
+// shows the 3D model.
+const SECRET_NUMBER = "5039544333";
+// How long the screen takes to fade to black, in ms. Keep in sync with
+// .secret-overlay in phone.css.
+const FADE_MS = 1500;
+
 type phoneState = "hungUp" | "unhooked" | "pressing";
 type dialingState =
   | 0
@@ -44,6 +55,15 @@ const Phone: FC = (): ReactElement => {
   const Hand = useRef<HTMLDivElement>(null);
   const [phoneState, setPhoneState] = useState<phoneState>("hungUp");
   const [dialingState, setDialingState] = useState<dialingState>(null);
+  // Keys pressed since the phone was last picked up.
+  const dialed = useRef("");
+  // "fading" while the screen goes black, "model" once the model is shown.
+  const [secretState, setSecretState] = useState<null | "fading" | "model">(
+    null
+  );
+  // Bumped by the Replay button; a new key remounts the viewer, which starts
+  // the animation (and the voice recording) over from the beginning.
+  const [replayCount, setReplayCount] = useState(0);
   const mousePosition = useRef({ x: 0, y: 0 });
   // Where the hand currently is; it eases toward mousePosition every frame.
   const handPosition = useRef({ x: 0, y: 0 });
@@ -153,6 +173,7 @@ const Phone: FC = (): ReactElement => {
         loop: true,
       });
       dialTone.current.play().catch(() => {});
+      dialed.current = "";
       setPhoneState("unhooked");
     } else {
       stopDialTone();
@@ -191,7 +212,20 @@ const Phone: FC = (): ReactElement => {
     sound.play();
     setPhoneState("pressing");
     setDialingState(key as dialingState);
+
+    dialed.current = (dialed.current + key).slice(-SECRET_NUMBER.length);
+    if (dialed.current == SECRET_NUMBER && !secretState) {
+      dialed.current = "";
+      setSecretState("fading");
+    }
   };
+
+  // Once the screen is fully black, bring in the model.
+  useEffect(() => {
+    if (secretState != "fading") return;
+    const timer = setTimeout(() => setSecretState("model"), FADE_MS);
+    return () => clearTimeout(timer);
+  }, [secretState]);
 
   const keyUp = () => {
     setPhoneState("unhooked");
@@ -253,6 +287,26 @@ const Phone: FC = (): ReactElement => {
         loading="eager"
         decoding="sync"
       />
+
+      {secretState && (
+        <div className="secret-overlay">
+          {secretState == "model" && (
+            <>
+              <ModelViewer
+                key={replayCount}
+                src="/Phone/model/griffin.glb"
+                voiceSrc="/Phone/audio/voicemail.mp3"
+              />
+              <button
+                className="secret-replay absolute right-5 top-5 rounded bg-gray-800 p-2 text-white"
+                onClick={() => setReplayCount((n) => n + 1)}
+              >
+                Replay
+              </button>
+            </>
+          )}
+        </div>
+      )}
 
       {phoneState != "hungUp" && (
         <img src="/arm_holding_pixellated.png" className="phone-held"></img>

@@ -132,3 +132,43 @@
 .contact-page button {
   cursor: none;
 }
+
+/* Covers the page after dialing the number on the phone. */
+.secret-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: black;
+  cursor: grab;
+  animation: secret-fade-in 1.5s ease-in forwards;
+}
+
+.secret-overlay:active {
+  cursor: grabbing;
+}
+
+@keyframes secret-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.model-viewer {
+  width: 100%;
+  height: 100%;
+  animation: secret-fade-in 1s ease-out;
+}
+
+/* Once the black screen is up, keep the Back button on top of it, with a
+   normal cursor since the drawn hand is hidden. */
+.contact-page:has(.secret-overlay) > button {
+  z-index: 1001;
+  cursor: pointer;
+}
+
+.contact-page .secret-replay {
+  cursor: pointer;
+}
